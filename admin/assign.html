@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Assign · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a class="active" href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Monitor</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="rates.html"><span>Rates</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Assign collector</h1>
+            <a class="link" href="inbox.html">← Back to inbox</a>
+          </div>
+          <div class="admin-content">
+            <div class="Card">
+              <h3 style="margin:0 0 8px;">Old fridge</h3>
+              <p class="muted" style="margin:0;">Rina Sharma · Sector 2 · Photos · Expected ₹500 (indication)</p>
+            </div>
+            <h3 style="margin:0;font-size:14px;">Active / available collectors</h3>
+            <div class="stack" id="collectorList">
+              <label class="Card CardRow" style="cursor:pointer;align-items:center;">
+                <input type="radio" name="c" checked />
+                <div class="CardThumb" style="border-radius:999px;width:44px;height:44px;font-size:16px;">K</div>
+                <div class="CardBody">
+                  <h3>Karim</h3>
+                  <p>Active · 2 jobs today</p>
+                </div>
+                <span class="Chip Chip-done">Available</span>
+              </label>
+              <label class="Card CardRow" style="cursor:pointer;align-items:center;">
+                <input type="radio" name="c" />
+                <div class="CardThumb" style="border-radius:999px;width:44px;height:44px;font-size:16px;">S</div>
+                <div class="CardBody">
+                  <h3>Suman</h3>
+                  <p>Active · 1 job today</p>
+                </div>
+                <span class="Chip Chip-done">Available</span>
+              </label>
+            </div>
+            <a class="Btn Btn-primary" href="monitor.html" style="align-self:flex-start;">Confirm assign</a>
+          </div>
+          <div class="admin-foot">Only active collectors are listed · Add staff from Users</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    try {
+      var staff = JSON.parse(localStorage.getItem("gk_admin_staff") || "null");
+      if (staff && staff.length) {
+        var list = document.getElementById("collectorList");
+        list.innerHTML = "";
+        staff.forEach(function (s, i) {
+          var initial = (s.name || "?").charAt(0).toUpperCase();
+          var label = document.createElement("label");
+          label.className = "Card CardRow";
+          label.style.cssText = "cursor:pointer;align-items:center;";
+          label.innerHTML =
+            '<input type="radio" name="c"' + (i === 0 ? " checked" : "") + " />" +
+            '<div class="CardThumb" style="border-radius:999px;width:44px;height:44px;font-size:16px;">' +
+            initial +
+            "</div>" +
+            '<div class="CardBody"><h3>' +
+            s.name +
+            "</h3><p>Active · " +
+            (s.jobs || 0) +
+            " jobs today</p></div>" +
+            '<span class="Chip Chip-done">Available</span>';
+          list.appendChild(label);
+        });
+      }
+    } catch (e) {}
+  </script>
+</body>
+</html>

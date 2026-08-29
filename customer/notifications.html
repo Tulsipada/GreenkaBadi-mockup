@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Notifications - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <a class="HeaderBack" href="javascript:history.back()" aria-label="Back">&lsaquo;</a>
+            <div style="min-width:0;">
+              <h1 class="HeaderTitle">Notifications</h1>
+              <span class="HeaderSub">Status and payment alerts</span>
+            </div>
+          </div>
+          <div class="Header-right">
+            <button class="HeaderIcon" type="button" title="Mark all read" aria-label="Mark all read" style="font-size:12px;font-weight:800;">✓</button>
+          </div>
+        </header>
+        <div class="ScreenScroll pad-tab stack">
+          <div class="NotifList">
+            <a class="NotifItem unread" href="detail.html?order=c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14&status=enroute">
+              <div class="NotifIcon blue">🚚</div>
+              <div class="NotifBody">
+                <strong>Collector on the way</strong>
+                <p>Order #c4e2a91b · Karim is coming for Old fridge.</p>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+                <span class="NotifMeta">2m</span>
+                <span class="NotifDot" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="NotifItem unread" href="chat.html?order=c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14&from=detail">
+              <div class="NotifIcon" style="background:#f3eefc;border-color:transparent;">💬</div>
+              <div class="NotifBody">
+                <strong>New message</strong>
+                <p>Karim: "I'll call at the gate."</p>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+                <span class="NotifMeta">18m</span>
+                <span class="NotifDot" aria-hidden="true"></span>
+              </div>
+            </a>
+            <a class="NotifItem" href="transaction.html?order=a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47">
+              <div class="NotifIcon amber">Rs</div>
+              <div class="NotifBody">
+                <strong>Payment recorded</strong>
+                <p>Order #a3f1c8e2 · Paid Rs. 420 cash.</p>
+              </div>
+              <span class="NotifMeta">Yesterday</span>
+            </a>
+          </div>
+        </div>
+        <nav class="Footer">
+          <a href="home.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5"/><path d="M6 9.5V21h12V9.5"/><path d="M10 21v-6h4v6"/></svg></span><span data-i18n="tab.home">Home</span></a>
+          <a href="history.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span data-i18n="tab.history">History</span></a>
+          <div class="fab-wrap"><a class="fab" href="post.html" title="Post">+</a></div>
+          <a href="messages.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg></span><span data-i18n="tab.messages">Messages</span></a>
+          <a href="profile.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19.5c1.6-3.2 4-4.75 6.5-4.75s4.9 1.55 6.5 4.75"/></svg></span><span data-i18n="tab.profile">Profile</span></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/i18n.js"></script>
+</body>
+</html>

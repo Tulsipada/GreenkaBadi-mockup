@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Chat - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="MessageHeader">
+          <a class="HeaderBack" id="backLink" href="messages.html">&lsaquo;</a>
+          <div class="avatar">K</div>
+          <div class="meta">
+            <strong>Karim</strong>
+            <span id="chatSub">Old fridge · #c4e2a91b · On the way</span>
+          </div>
+          <a class="HeaderIcon" id="detailLink" href="detail.html" title="Order detail">ⓘ</a>
+        </header>
+        <div class="ChatThread" id="thread">
+          <div class="Bubble them">Hi Rina, I'm on the way. Should be there in 20-25 min.</div>
+          <div class="Bubble me">Please call at the gate - blue building.</div>
+          <div class="Bubble them">Got it. Cash payment OK?</div>
+          <div class="Bubble me">Yes, cash is fine.</div>
+        </div>
+        <div class="Composer" id="composer">
+          <input type="text" id="msgInput" placeholder="Message..." />
+          <button type="button" id="sendBtn" aria-label="Send">➤</button>
+          <div class="ChatClosedBanner" id="closedBanner" hidden>
+            Chat closed · Pickup completed.<br />You can no longer message this collector.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/ids.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var order = params.get("order") || "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14";
+    var from = params.get("from");
+    var status = (params.get("status") || "").toLowerCase();
+    var completedOrders = {
+      "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47": true
+    };
+    var isClosed = status === "completed" || !!completedOrders[order];
+
+    var titles = {
+      "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14": "Old fridge",
+      "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45": "LED TV 32\"",
+      "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47": "Metal scrap bag"
+    };
+    var title = titles[order] || "Pickup";
+    var statusLabel = isClosed ? "Completed" : "On the way";
+
+    document.getElementById("chatSub").innerHTML =
+      title +
+      ' · <span class="OrderId OrderId-sm" style="display:inline-flex;vertical-align:middle;">' +
+      GK_IDS.short(order) +
+      "</span> · " +
+      statusLabel;
+    document.getElementById("detailLink").href =
+      "detail.html?order=" +
+      encodeURIComponent(order) +
+      (isClosed ? "&status=completed" : "");
+    document.getElementById("backLink").href =
+      from === "detail"
+        ? "detail.html?order=" +
+          encodeURIComponent(order) +
+          (isClosed ? "&status=completed" : "")
+        : "messages.html";
+
+    if (isClosed) {
+      var composer = document.getElementById("composer");
+      composer.classList.add("is-closed");
+      document.getElementById("msgInput").disabled = true;
+      document.getElementById("sendBtn").disabled = true;
+      document.getElementById("closedBanner").hidden = false;
+    }
+  </script>
+</body>
+</html>

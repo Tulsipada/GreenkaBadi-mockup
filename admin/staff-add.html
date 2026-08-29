@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Add staff · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Monitor</span></a>
+            <a class="active" href="users.html"><span>Users</span></a>
+            <a href="rates.html"><span>Rates</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Add staff</h1>
+            <a class="link" href="users.html">← Back to users</a>
+          </div>
+          <div class="admin-content" style="max-width:480px;">
+            <p class="muted" style="margin:0 0 8px;">Create a collector login. Staff signs in with phone/login and this password.</p>
+            <form class="stack" id="staffForm" autocomplete="off">
+              <div class="Field">
+                <label for="name">Full name</label>
+                <input id="name" name="name" type="text" required placeholder="e.g. Rahul" />
+              </div>
+              <div class="Field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" required placeholder="10-digit mobile" />
+              </div>
+              <div class="Field">
+                <label for="login">Login ID</label>
+                <input id="login" name="login" type="text" required placeholder="e.g. rahul" />
+              </div>
+              <div class="Field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required minlength="6" placeholder="Min 6 characters" />
+              </div>
+              <div class="Field">
+                <label for="confirm">Confirm password</label>
+                <input id="confirm" name="confirm" type="password" required minlength="6" placeholder="Repeat password" />
+              </div>
+              <p class="mismatch" id="err" hidden></p>
+              <p class="muted" id="ok" hidden style="color:var(--gk-green-700);font-weight:600;"></p>
+              <button class="Btn Btn-primary" type="submit" style="align-self:flex-start;">Create staff account</button>
+            </form>
+          </div>
+          <div class="admin-foot">Password is set by admin · Staff can change later in app</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var form = document.getElementById("staffForm");
+    var err = document.getElementById("err");
+    var ok = document.getElementById("ok");
+
+    function defaultStaff() {
+      return [
+        { name: "Karim", phone: "91XXXX1001", login: "karim", jobs: 2, status: "Active", passwordSet: true },
+        { name: "Suman", phone: "91XXXX1002", login: "suman", jobs: 1, status: "Active", passwordSet: true }
+      ];
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      err.hidden = true;
+      ok.hidden = true;
+      var name = document.getElementById("name").value.trim();
+      var phone = document.getElementById("phone").value.trim();
+      var login = document.getElementById("login").value.trim().toLowerCase();
+      var password = document.getElementById("password").value;
+      var confirm = document.getElementById("confirm").value;
+
+      if (password !== confirm) {
+        err.textContent = "Passwords do not match.";
+        err.hidden = false;
+        return;
+      }
+      if (password.length < 6) {
+        err.textContent = "Password must be at least 6 characters.";
+        err.hidden = false;
+        return;
+      }
+
+      var list = [];
+      try {
+        list = JSON.parse(localStorage.getItem("gk_admin_staff") || "null") || defaultStaff();
+      } catch (ex) {
+        list = defaultStaff();
+      }
+      if (list.some(function (s) { return (s.login || "").toLowerCase() === login; })) {
+        err.textContent = "Login ID already exists.";
+        err.hidden = false;
+        return;
+      }
+
+      list.push({
+        name: name,
+        phone: phone,
+        login: login,
+        jobs: 0,
+        status: "Active",
+        passwordSet: true,
+        /* mock only — not for production */
+        password: password
+      });
+      try {
+        localStorage.setItem("gk_admin_staff", JSON.stringify(list));
+      } catch (ex2) {}
+
+      ok.textContent = "Staff “" + name + "” created. Opening users list…";
+      ok.hidden = false;
+      setTimeout(function () {
+        location.href = "users.html";
+      }, 700);
+    });
+  </script>
+</body>
+</html>

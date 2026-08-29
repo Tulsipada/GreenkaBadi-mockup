@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff - Job detail - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <style>
+    .job-detail-page .Screen {
+      position: relative;
+      overflow: hidden;
+    }
+    .job-detail-page .Header { z-index: 20; }
+    .job-scroll {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 56px;
+      bottom: 88px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 14px 16px 20px;
+      box-sizing: border-box;
+    }
+    .job-scroll::-webkit-scrollbar { width: 5px; }
+    .job-scroll::-webkit-scrollbar-thumb {
+      background: rgba(27, 107, 74, 0.35);
+      border-radius: 8px;
+    }
+
+    .JobHero {
+      width: 100%;
+      height: 140px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      background: linear-gradient(160deg, #e7f5ee 0%, #e8eef8 100%);
+      border: 1px solid rgba(27, 107, 74, 0.06);
+      margin-bottom: 12px;
+    }
+
+    .JobInfoSheet {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(27, 107, 74, 0.06);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .JobInfoBlock strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--gk-muted);
+      margin-bottom: 6px;
+    }
+    .JobInfoBlock p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gk-text);
+      line-height: 1.4;
+    }
+
+    .AddrMapRow {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .AddrMapRow .grow { min-width: 0; }
+    .AddrMapBtn {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(27, 107, 74, 0.1);
+      color: var(--gk-green-700);
+      text-decoration: none;
+    }
+    .AddrMapBtn:active { background: rgba(27, 107, 74, 0.18); transform: scale(0.96); }
+    .AddrMapBtn svg { width: 22px; height: 22px; display: block; }
+
+    .JobDoneNote {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(27, 107, 74, 0.06);
+      text-align: center;
+      font-size: 12px;
+      color: var(--gk-muted);
+      font-weight: 600;
+    }
+
+    .JobActionBar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 25;
+      padding: 12px 16px 18px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(27, 107, 74, 0.06);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .JobActionBar .primary {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      border-radius: 16px;
+      background: var(--gk-green-700);
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      border: none;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .JobActionBar .primary:active {
+      transform: scale(0.985);
+      background: var(--gk-green-900);
+    }
+    .JobActionBar .primary.is-muted {
+      background: rgba(27, 107, 74, 0.1);
+      color: var(--gk-green-700);
+    }
+    .JobMsgBtn {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(27, 107, 74, 0.08);
+      color: var(--gk-green-700);
+      text-decoration: none;
+      border: none;
+    }
+    .JobMsgBtn:active { background: rgba(27, 107, 74, 0.16); transform: scale(0.96); }
+    .JobMsgBtn svg { width: 22px; height: 22px; display: block; }
+    .JobMsgBtn[hidden],
+    .JobActionBar .primary[hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame job-detail-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <a class="HeaderBack" href="jobs.html" aria-label="Back">&lsaquo;</a>
+            <div style="min-width:0;">
+              <h1 class="HeaderTitle" id="jobTitle">Old fridge</h1>
+              <span class="HeaderSub" id="jobSub">Rina · 98XXXXXXXX</span>
+            </div>
+          </div>
+          <div class="Header-right">
+            <span class="Chip Chip-assigned" id="statusChip">Assigned</span>
+          </div>
+        </header>
+
+        <div class="job-scroll" id="jobScroll">
+          <div class="JobHero" id="jobThumb" aria-hidden="true">🧊</div>
+          <div class="JobInfoSheet">
+            <div class="JobInfoBlock AddrMapRow">
+              <div class="grow">
+                <strong>Address</strong>
+                <p id="jobAddr">Sector 2, Salt Lake · Blue building · Call at gate</p>
+              </div>
+              <a class="AddrMapBtn" id="mapLink" href="#" target="_blank" rel="noopener" title="Open in Maps" aria-label="Open address in Maps">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </a>
+            </div>
+            <div class="JobInfoBlock">
+              <strong>Approx</strong>
+              <p id="jobApprox">40 kg · Expected Rs. 500 (indication only)</p>
+            </div>
+          </div>
+          <p class="JobDoneNote" id="doneNote" hidden>Pickup completed · Chat and phone contact are closed.</p>
+          <div class="amount-box" id="payPreview" hidden style="margin:0 16px 8px;">
+            <div class="label">Paid to customer</div>
+            <div class="amt" id="payAmt">Rs. 420</div>
+            <div class="hint">Open full transaction below</div>
+          </div>
+        </div>
+
+        <div class="JobActionBar">
+          <a class="JobMsgBtn" id="msgBtn" href="chat.html" title="Message customer" aria-label="Message customer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg>
+          </a>
+          <a class="primary" id="primaryBtn" href="#">Mark On the way</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/ids.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var order = params.get("order") || "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14";
+    var status = (params.get("status") || "").toLowerCase();
+    var catalog = {
+      "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14": {
+        title: "Old fridge",
+        thumb: "🧊",
+        customer: "Rina",
+        phone: "98XXXXXXXX",
+        addr: "Sector 2, Salt Lake · Blue building · Call at gate",
+        mapQuery: "Sector 2, Salt Lake, Kolkata, West Bengal",
+        approx: "40 kg · Expected Rs. 500 (indication only)",
+        status: "assigned"
+      },
+      "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47": {
+        title: "Metal scrap bag",
+        thumb: "🔩",
+        customer: "Amit",
+        phone: "97XXXXXXXX",
+        addr: "Champasari · Gate 2",
+        mapQuery: "Champasari, Siliguri, West Bengal",
+        approx: "Verified 28 kg · Paid Rs. 420",
+        status: "completed"
+      }
+    };
+    var item = catalog[order] || catalog["c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14"];
+    if (status) item = Object.assign({}, item, { status: status });
+    var isDone = item.status === "completed";
+    var isEnroute = item.status === "enroute";
+
+    var chipMap = {
+      assigned: { cls: "Chip-assigned", label: "Assigned" },
+      enroute: { cls: "Chip-enroute", label: "On the way" },
+      completed: { cls: "Chip-done", label: "Completed" }
+    };
+    var chip = chipMap[item.status] || chipMap.assigned;
+
+    document.getElementById("jobTitle").textContent = item.title;
+    document.getElementById("jobThumb").textContent = item.thumb;
+    document.getElementById("jobAddr").textContent = item.addr;
+    document.getElementById("jobApprox").textContent = item.approx;
+    document.getElementById("jobSub").textContent = isDone
+      ? item.customer + " · Contact hidden"
+      : item.customer + " · " + item.phone;
+    var statusChip = document.getElementById("statusChip");
+    statusChip.className = "Chip " + chip.cls;
+    statusChip.textContent = chip.label;
+
+    document.getElementById("mapLink").href =
+      "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent(item.mapQuery || item.addr);
+
+    var msgBtn = document.getElementById("msgBtn");
+    var primaryBtn = document.getElementById("primaryBtn");
+    var doneNote = document.getElementById("doneNote");
+
+    if (isDone) {
+      msgBtn.hidden = true;
+      doneNote.hidden = false;
+      doneNote.textContent =
+        "Pickup completed · Chat closed. Transaction saved for you and customer.";
+      var payPreview = document.getElementById("payPreview");
+      var payAmt = document.getElementById("payAmt");
+      payPreview.hidden = false;
+      var paid = 420;
+      try {
+        var rec = JSON.parse(localStorage.getItem("gk_receipt_" + order) || "null")
+          || JSON.parse(localStorage.getItem("gk_staff_receipt_" + order) || "null");
+        if (rec && rec.amountPaid != null) paid = rec.amountPaid;
+        else if (/Rs\.\s*(\d+)/i.test(item.approx || "")) {
+          paid = parseInt(RegExp.$1, 10) || paid;
+        }
+      } catch (e) {}
+      if (order.indexOf("6d2e") === 0) paid = 180;
+      payAmt.textContent = "Rs. " + paid;
+      primaryBtn.textContent = "View transaction";
+      primaryBtn.href =
+        "receipt.html?order=" + encodeURIComponent(order);
+      primaryBtn.classList.remove("is-muted");
+    } else {
+      msgBtn.hidden = false;
+      msgBtn.href =
+        "chat.html?order=" + encodeURIComponent(order) + "&from=detail";
+      doneNote.hidden = true;
+      primaryBtn.classList.remove("is-muted");
+      if (isEnroute) {
+        primaryBtn.textContent = "Complete pickup";
+        primaryBtn.href =
+          "transaction.html?order=" + encodeURIComponent(order);
+      } else {
+        primaryBtn.textContent = "Mark On the way";
+        primaryBtn.href =
+          "job-detail.html?order=" +
+          encodeURIComponent(order) +
+          "&status=enroute";
+      }
+    }
+
+    function layout() {
+      var header = document.querySelector(".job-detail-page .Header");
+      var bar = document.querySelector(".JobActionBar");
+      var scroll = document.getElementById("jobScroll");
+      if (!header || !bar || !scroll) return;
+      scroll.style.top = header.offsetHeight + "px";
+      scroll.style.bottom = bar.offsetHeight + "px";
+    }
+    layout();
+    window.addEventListener("resize", layout);
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff - My Jobs - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <div style="min-width:0;">
+              <h1 class="HeaderTitle">My jobs</h1>
+              <span class="HeaderSub">Karim · Collector</span>
+            </div>
+          </div>
+          <div class="Header-right">
+            <a class="HeaderIcon" href="notifications.html" title="Notifications" aria-label="Notifications">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 7 3 7 3 7H3s3 0 3-7"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+              <span class="badge">2</span>
+            </a>
+          </div>
+        </header>
+        <div class="ScreenScroll pad-tab">
+          <div class="feed-toolbar">
+            <div class="SegControl" id="tabs" role="tablist">
+              <button class="seg active" type="button" data-tab="active" role="tab" aria-selected="true">Active</button>
+              <button class="seg" type="button" data-tab="done" role="tab" aria-selected="false">Done</button>
+            </div>
+            <label class="SearchField SearchField-soft">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input type="search" id="search" placeholder="Search customer, area, item…" autocomplete="off" />
+            </label>
+          </div>
+          <div class="JobFeed" id="list"></div>
+          <p class="ListEmptyHint" id="empty" hidden>No jobs match.</p>
+        </div>
+        <nav class="Footer">
+          <a class="active" href="jobs.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg></span><span data-i18n="tab.jobs">Jobs</span></a>
+          <a href="messages.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg></span><span data-i18n="tab.messages">Messages</span></a>
+          <a href="profile.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19.5c1.6-3.2 4-4.75 6.5-4.75s4.9 1.55 6.5 4.75"/></svg></span><span data-i18n="tab.profile">Profile</span></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/i18n.js"></script>
+  <script>
+    var jobs = [
+      {
+        tab: "active",
+        order: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
+        status: "assigned",
+        chipLabel: "Assigned",
+        title: "Old fridge",
+        meta: "Rina · Sector 2, Salt Lake",
+        q: "old fridge rina salt lake assigned"
+      },
+      {
+        tab: "active",
+        order: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
+        status: "enroute",
+        chipLabel: "On the way",
+        title: "LED TV 32\"",
+        meta: "Amit · Champasari",
+        q: "led tv amit champasari on the way"
+      },
+      {
+        tab: "done",
+        order: "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47",
+        status: "completed",
+        chipLabel: "Completed",
+        title: "Metal scrap bag",
+        meta: "Paid to customer · Rs. 420",
+        q: "metal scrap amit completed paid receipt transaction"
+      },
+      {
+        tab: "done",
+        order: "6d2e4b91-0c5a-4f38-b7e1-88a2c4d5f013",
+        status: "completed",
+        chipLabel: "Completed",
+        title: "Paper cartons",
+        meta: "Paid to customer · Rs. 180",
+        q: "paper cartons priya completed paid receipt transaction"
+      }
+    ];
+
+    var tab = "active";
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+    var search = document.getElementById("search");
+    var chevron =
+      '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
+
+    function shortId(id) {
+      return "#" + String(id).replace(/-/g, "").slice(0, 8);
+    }
+
+    function render() {
+      var q = (search.value || "").trim().toLowerCase();
+      list.innerHTML = "";
+      var shown = 0;
+      jobs.forEach(function (j) {
+        if (j.tab !== tab) return;
+        if (q && j.q.indexOf(q) < 0 && j.title.toLowerCase().indexOf(q) < 0 && j.meta.toLowerCase().indexOf(q) < 0) return;
+        shown++;
+        var a = document.createElement("a");
+        a.className = "JobRow";
+        a.href =
+          j.tab === "done"
+            ? "receipt.html?order=" + encodeURIComponent(j.order)
+            : "job-detail.html?order=" +
+              encodeURIComponent(j.order) +
+              "&status=" +
+              encodeURIComponent(j.status);
+        a.innerHTML =
+          '<div class="JobMain">' +
+          '<div class="JobKicker">' +
+          '<span class="JobStatus is-' + j.status + '">' + j.chipLabel + "</span>" +
+          '<span class="JobOid">' + shortId(j.order) + "</span>" +
+          "</div>" +
+          "<h3>" + j.title + "</h3>" +
+          "<p>" + j.meta + "</p>" +
+          "</div>" +
+          chevron;
+        list.appendChild(a);
+      });
+      empty.hidden = shown > 0;
+      empty.textContent = q
+        ? "No jobs match your search."
+        : tab === "active"
+          ? "No active jobs."
+          : "No completed jobs yet.";
+    }
+
+    document.querySelectorAll("#tabs .seg").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll("#tabs .seg").forEach(function (b) {
+          b.classList.remove("active");
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+        tab = btn.getAttribute("data-tab");
+        search.placeholder =
+          tab === "active"
+            ? "Search customer, area, item…"
+            : "Search completed jobs…";
+        render();
+      });
+    });
+    search.addEventListener("input", render);
+
+    var startTab = new URLSearchParams(location.search).get("tab");
+    if (startTab === "done") {
+      var doneBtn = document.querySelector('#tabs .seg[data-tab="done"]');
+      if (doneBtn) doneBtn.click();
+      else render();
+    } else {
+      render();
+    }
+  </script>
+</body>
+</html>

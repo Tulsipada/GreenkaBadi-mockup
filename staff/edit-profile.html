@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff - Edit profile - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <style>
+    .avatar-edit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0 4px;
+    }
+    .avatar-ring {
+      position: relative;
+      width: 104px;
+      height: 104px;
+    }
+    .avatar-preview {
+      width: 104px;
+      height: 104px;
+      border-radius: 999px;
+      background: linear-gradient(145deg, #e8f6ef, #dbeafe);
+      border: 3px solid #fff;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--gk-green-700);
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+    .avatar-cam {
+      position: absolute;
+      right: 2px;
+      bottom: 2px;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 2px solid #fff;
+      background: var(--gk-green-700);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+    }
+    .avatar-cam svg { width: 18px; height: 18px; }
+    .photo-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .photo-actions .Btn {
+      min-height: 36px;
+      padding: 0 14px;
+      font-size: 12px;
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="profile.html" aria-label="Back">&lsaquo;</a>
+          <h1 class="HeaderTitle">Edit profile</h1>
+        </header>
+        <div class="ScreenScroll stack">
+          <div class="avatar-edit">
+            <div class="avatar-ring">
+              <div class="avatar-preview" id="avatarPreview">K</div>
+              <button type="button" class="avatar-cam" id="camBtn" aria-label="Edit photo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </button>
+            </div>
+            <div class="photo-actions">
+              <button type="button" class="Btn Btn-secondary" id="galleryBtn">Upload photo</button>
+              <button type="button" class="Btn Btn-ghost" id="removeBtn">Remove</button>
+            </div>
+            <p class="muted" style="margin:0;font-size:12px;text-align:center;">Camera or gallery · JPG / PNG</p>
+            <input type="file" id="photoInput" accept="image/*" capture="environment" hidden />
+          </div>
+
+          <div class="Field">
+            <label for="name">Full name</label>
+            <input id="name" type="text" value="Karim" autocomplete="name" />
+          </div>
+          <div class="Field">
+            <label for="phone">Phone</label>
+            <input id="phone" type="tel" value="98XXXXXXXX" autocomplete="tel" />
+          </div>
+          <div class="Field">
+            <label for="role">Role</label>
+            <input id="role" type="text" value="Collector" readonly />
+          </div>
+
+          <button type="button" class="Btn Btn-primary Btn-block" id="saveBtn">Save changes</button>
+          <a class="Btn Btn-ghost Btn-block" href="profile.html">Cancel</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var preview = document.getElementById("avatarPreview");
+    var input = document.getElementById("photoInput");
+    var photoData = null;
+
+    function setPhoto(dataUrl) {
+      photoData = dataUrl;
+      if (dataUrl) {
+        preview.textContent = "";
+        preview.style.backgroundImage = "url(" + dataUrl + ")";
+      } else {
+        preview.style.backgroundImage = "";
+        var n = (document.getElementById("name").value || "K").trim();
+        preview.textContent = n.charAt(0).toUpperCase() || "K";
+      }
+    }
+
+    function pickPhoto() {
+      input.value = "";
+      input.click();
+    }
+
+    document.getElementById("camBtn").onclick = pickPhoto;
+    document.getElementById("galleryBtn").onclick = pickPhoto;
+    document.getElementById("removeBtn").onclick = function () { setPhoto(null); };
+
+    input.addEventListener("change", function () {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () { setPhoto(reader.result); };
+      reader.readAsDataURL(file);
+    });
+
+    try {
+      var saved = JSON.parse(localStorage.getItem("gk_staff_profile") || "null");
+      if (saved) {
+        if (saved.name) document.getElementById("name").value = saved.name;
+        if (saved.phone) document.getElementById("phone").value = saved.phone;
+        if (saved.role) document.getElementById("role").value = saved.role;
+        if (saved.photo) setPhoto(saved.photo);
+        else setPhoto(null);
+      }
+    } catch (e) {}
+
+    document.getElementById("saveBtn").onclick = function () {
+      var data = {
+        name: document.getElementById("name").value.trim() || "Karim",
+        phone: document.getElementById("phone").value.trim(),
+        role: document.getElementById("role").value.trim() || "Collector",
+        status: "Active",
+        photo: photoData
+      };
+      try { localStorage.setItem("gk_staff_profile", JSON.stringify(data)); } catch (e) {}
+      location.href = "profile.html";
+    };
+  </script>
+</body>
+</html>

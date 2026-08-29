@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Pickup address - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="post.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Pickup address</h1>
+            <span class="HeaderSub">Step 2 of 2 - Auto ZIP and state</span>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="AddrChoice">
+            <button class="Btn Btn-ghost" type="button" id="btnLocate">Current location</button>
+            <a class="Btn Btn-secondary" href="addresses.html?from=post">Saved addresses</a>
+          </div>
+
+          <p class="muted" id="sourceHint">Choose current location or a saved address. ZIP and state fill automatically.</p>
+
+          <div class="AddrPick" id="savedQuick">
+            <button type="button" class="Card selected" data-line="Flat 4B, Blue building, Sector 2, Salt Lake" data-zip="700091" data-state="West Bengal" data-label="Home">
+              <div class="CardRow" style="align-items:center;">
+                <div class="CardThumb" style="width:40px;height:40px;font-size:16px;border-radius:10px;">H</div>
+                <div class="CardBody">
+                  <h3>Home</h3>
+                  <p>Sector 2, Salt Lake - 700091</p>
+                </div>
+                <span class="Chip Chip-done">Default</span>
+              </div>
+            </button>
+            <button type="button" class="Card" data-line="Shop 12, Milanmore, Champasari, Siliguri" data-zip="734003" data-state="West Bengal" data-label="Shop">
+              <div class="CardRow" style="align-items:center;">
+                <div class="CardThumb" style="width:40px;height:40px;font-size:16px;border-radius:10px;">S</div>
+                <div class="CardBody">
+                  <h3>Shop</h3>
+                  <p>Champasari, Siliguri - 734003</p>
+                </div>
+              </div>
+            </button>
+          </div>
+
+          <div class="Field">
+            <label>Pickup address</label>
+            <textarea id="addrLine" placeholder="House / landmark / area">Flat 4B, Blue building, Sector 2, Salt Lake</textarea>
+          </div>
+          <div class="FieldRow">
+            <div class="Field auto">
+              <label>ZIP / PIN</label>
+              <input id="addrZip" type="text" readonly value="700091" />
+            </div>
+            <div class="Field auto">
+              <label>State</label>
+              <input id="addrState" type="text" readonly value="West Bengal" />
+            </div>
+          </div>
+          <div class="Field">
+            <label>Instructions</label>
+            <textarea placeholder="Call at gate, etc."></textarea>
+          </div>
+          <p class="muted">ZIP and state are set from GPS or your saved address - not typed manually.</p>
+          <a class="Btn Btn-primary Btn-block" href="detail.html" id="submitBtn">Submit request</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/ids.js"></script>
+  <script>
+    function fill(line, zip, state, source) {
+      document.getElementById("addrLine").value = line;
+      document.getElementById("addrZip").value = zip;
+      document.getElementById("addrState").value = state;
+      document.getElementById("sourceHint").textContent = source;
+    }
+    document.getElementById("btnLocate").addEventListener("click", function () {
+      document.querySelectorAll("#savedQuick .Card").forEach(function (c) { c.classList.remove("selected"); });
+      fill(
+        "Near CK-124, Salt Lake Sector II, Bidhannagar",
+        "700091",
+        "West Bengal",
+        "Filled from current location - ZIP and state automatic."
+      );
+    });
+    document.querySelectorAll("#savedQuick .Card").forEach(function (card) {
+      card.addEventListener("click", function () {
+        document.querySelectorAll("#savedQuick .Card").forEach(function (c) { c.classList.remove("selected"); });
+        card.classList.add("selected");
+        fill(
+          card.getAttribute("data-line"),
+          card.getAttribute("data-zip"),
+          card.getAttribute("data-state"),
+          "Using saved address - " + card.getAttribute("data-label") + " - ZIP and state automatic."
+        );
+      });
+    });
+    document.getElementById("submitBtn").addEventListener("click", function (e) {
+      e.preventDefault();
+      var pickup = GK_IDS.add({
+        title: "New scrap pickup",
+        status: "Waiting",
+        amount: "-",
+        chip: "waiting"
+      });
+      location.href = "detail.html?order=" + encodeURIComponent(pickup.orderId);
+    });
+  </script>
+</body>
+</html>

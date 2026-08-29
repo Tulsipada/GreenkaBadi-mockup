@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Add address - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="addresses.html" id="backLink" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Add address</h1>
+            <span class="HeaderSub">ZIP and state from location</span>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <button class="Btn Btn-ghost Btn-block" type="button" id="btnLocate" style="margin-bottom:12px;">Use current location</button>
+
+          <div class="Field">
+            <label>Label</label>
+            <input type="text" placeholder="Home, Shop, Office..." id="label" />
+          </div>
+          <div class="Field">
+            <label>Address line</label>
+            <textarea id="addrLine" placeholder="House / landmark / area"></textarea>
+          </div>
+          <div class="FieldRow">
+            <div class="Field auto">
+              <label>ZIP / PIN</label>
+              <input id="addrZip" type="text" readonly placeholder="Auto" />
+            </div>
+            <div class="Field auto">
+              <label>State</label>
+              <input id="addrState" type="text" readonly placeholder="Auto" />
+            </div>
+          </div>
+          <p class="muted" id="hint">Tap current location - ZIP and state fill automatically. You can still edit the address line.</p>
+          <a class="Btn Btn-primary Btn-block" href="addresses.html" id="saveLink">Save address</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var params = new URLSearchParams(location.search);
+    if (params.get("from") === "post") {
+      document.getElementById("backLink").href = "addresses.html?from=post";
+      document.getElementById("saveLink").href = "post-address.html";
+    }
+    document.getElementById("btnLocate").addEventListener("click", function () {
+      document.getElementById("addrLine").value = "Near CK-124, Salt Lake Sector II, Bidhannagar";
+      document.getElementById("addrZip").value = "700091";
+      document.getElementById("addrState").value = "West Bengal";
+      document.getElementById("hint").textContent = "Location detected - ZIP 700091 - West Bengal (automatic).";
+      if (!document.getElementById("label").value) document.getElementById("label").value = "Current";
+    });
+  </script>
+</body>
+</html>

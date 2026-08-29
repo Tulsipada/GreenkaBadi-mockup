@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff - Profile - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame profile-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <h1 class="HeaderTitle" data-i18n="tab.profile">Profile</h1>
+          </div>
+          <div class="Header-right">
+            <a class="HeaderIcon" href="notifications.html" title="Notifications" aria-label="Notifications">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 7 3 7 3 7H3s3 0 3-7"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+              <span class="badge">2</span>
+            </a>
+          </div>
+        </header>
+
+        <div class="profile-main" id="profileScroll">
+          <div class="ProfileHero">
+            <div class="ProfileHeroAvatar" id="profileAvatar">K</div>
+            <h2 id="profileName">Karim</h2>
+            <p id="profileMeta">Collector · Active</p>
+            <div class="ProfileHeroActions">
+              <a href="edit-profile.html" title="Edit profile">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                Edit
+              </a>
+              <a class="icon-only" href="settings.html" title="Settings" aria-label="Settings">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9c.3.6.9 1 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <p class="ProfileSection">Account</p>
+          <div class="ProfileSheet">
+            <a class="ProfileLink" href="jobs.html?tab=done">
+              <span class="ProfileLinkIco" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg></span>
+              <span class="label">Job history</span>
+              <span class="chev">›</span>
+            </a>
+            <a class="ProfileLink" href="jobs.html?tab=done">
+              <span class="ProfileLinkIco" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="18" cy="17" r="2.5"/></svg></span>
+              <span class="label">My transactions</span>
+              <span class="chev">›</span>
+            </a>
+            <a class="ProfileLink" href="change-password.html">
+              <span class="ProfileLinkIco" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+              <span class="label">Change password</span>
+              <span class="chev">›</span>
+            </a>
+          </div>
+
+          <p class="ProfileSection">Support</p>
+          <div class="ProfileSheet">
+            <a class="ProfileLink" href="help.html">
+              <span class="ProfileLinkIco" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><path d="M12 17h.01"/></svg></span>
+              <span class="label">Help &amp; FAQ</span>
+              <span class="chev">›</span>
+            </a>
+            <a class="ProfileLink" href="contact.html">
+              <span class="ProfileLinkIco" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L7.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg></span>
+              <span class="label">Contact us</span>
+              <span class="chev">›</span>
+            </a>
+          </div>
+
+          <p class="ProfileSection">Legal</p>
+          <div class="ProfileSheet">
+            <a class="ProfileLink" href="privacy.html">
+              <span class="ProfileLinkIco" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+              <span class="label">Privacy policy</span>
+              <span class="chev">›</span>
+            </a>
+            <a class="ProfileLink" href="terms.html">
+              <span class="ProfileLinkIco" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h6"/></svg></span>
+              <span class="label">Terms of service</span>
+              <span class="chev">›</span>
+            </a>
+          </div>
+
+          <a class="ProfileLogout" href="login.html" data-i18n="profile.logout">Log out</a>
+          <p class="profile-ver">Green Kabadi Staff · v1.0 mockup</p>
+        </div>
+
+        <nav class="Footer">
+          <a href="jobs.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg></span><span data-i18n="tab.jobs">Jobs</span></a>
+          <a href="messages.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg></span><span data-i18n="tab.messages">Messages</span></a>
+          <a class="active" href="profile.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19.5c1.6-3.2 4-4.75 6.5-4.75s4.9 1.55 6.5 4.75"/></svg></span><span data-i18n="tab.profile">Profile</span></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/i18n.js"></script>
+  <script>
+    try {
+      var p = JSON.parse(localStorage.getItem("gk_staff_profile") || "null");
+      if (p) {
+        if (p.name) document.getElementById("profileName").textContent = p.name;
+        var meta = [];
+        if (p.role) meta.push(p.role);
+        else meta.push("Collector");
+        if (p.phone) meta.push(p.phone);
+        else if (p.status) meta.push(p.status);
+        if (meta.length) document.getElementById("profileMeta").textContent = meta.join(" · ");
+        if (p.photo) {
+          var av = document.getElementById("profileAvatar");
+          av.textContent = "";
+          av.style.backgroundImage = "url(" + p.photo + ")";
+        }
+      }
+    } catch (e) {}
+
+    function layoutProfile() {
+      var screen = document.querySelector(".profile-page .Screen");
+      var header = screen && screen.querySelector(".Header");
+      var footer = screen && screen.querySelector(".Footer");
+      var main = document.getElementById("profileScroll");
+      if (!screen || !header || !footer || !main) return;
+      main.style.top = header.offsetHeight + "px";
+      main.style.bottom = footer.offsetHeight + "px";
+    }
+    layoutProfile();
+    window.addEventListener("resize", layoutProfile);
+  </script>
+</body>
+</html>

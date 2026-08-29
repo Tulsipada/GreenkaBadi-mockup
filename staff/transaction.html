@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff - Complete pickup - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <a class="HeaderBack" id="backLink" href="job-detail.html" aria-label="Back">&lsaquo;</a>
+            <div style="min-width:0;">
+              <h1 class="HeaderTitle">Complete pickup</h1>
+              <span class="HeaderSub">Verify · Pay · Receipt</span>
+            </div>
+          </div>
+        </header>
+        <div class="ScreenScroll stack">
+          <div class="OrderIdBar" id="orderBar">
+            <div class="OrderIdBar-meta">
+              <span class="lbl">Order ID</span>
+              <span class="full" data-order-full>c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14</span>
+            </div>
+            <button type="button" class="OrderIdCopy" data-order-copy>Copy</button>
+          </div>
+
+          <div class="Card">
+            <strong style="font-size:13px;">1 · Verify weight</strong>
+            <div class="Field" style="margin:10px 0 0;">
+              <label for="weight">Verified weight (kg)</label>
+              <input id="weight" type="number" min="0" step="0.1" value="28" />
+            </div>
+          </div>
+
+          <div class="Card">
+            <strong style="font-size:13px;">2 · Apply rate</strong>
+            <div class="Field" style="margin:10px 0 0;">
+              <label for="rate">Category rate</label>
+              <select id="rate">
+                <option value="15" data-label="Metal">Metal — Rs. 15 / kg</option>
+                <option value="8" data-label="Electronics">Electronics — Rs. 8 / kg</option>
+                <option value="6" data-label="Paper">Paper — Rs. 6 / kg</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="amount-box">
+            <div class="label">Pay to customer</div>
+            <div class="amt" id="finalAmt">Rs. 420</div>
+            <div class="hint" id="finalHint">28 kg × Rs. 15</div>
+          </div>
+
+          <div class="Card">
+            <strong style="font-size:13px;">3 · Payment</strong>
+            <div class="Field" style="margin:10px 0 0;">
+              <label for="mode">Payment mode</label>
+              <select id="mode">
+                <option>Cash</option>
+                <option>Offline / other</option>
+              </select>
+            </div>
+            <div class="Field">
+              <label for="paid">Amount paid to customer</label>
+              <input id="paid" type="number" min="0" step="1" value="420" />
+            </div>
+          </div>
+
+          <button type="button" class="Btn Btn-primary Btn-block" id="completeBtn">Complete &amp; generate receipt</button>
+          <p class="muted center">Customer sees the same paid amount in their Payment screen. Receipt opens next.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/ids.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var order = params.get("order") || "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14";
+    GK_IDS.bindBar(document.getElementById("orderBar"), order);
+    document.getElementById("backLink").href =
+      "job-detail.html?order=" + encodeURIComponent(order) + "&status=enroute";
+
+    var weightEl = document.getElementById("weight");
+    var rateEl = document.getElementById("rate");
+    var paidEl = document.getElementById("paid");
+    var finalAmt = document.getElementById("finalAmt");
+    var finalHint = document.getElementById("finalHint");
+
+    function recalc() {
+      var w = parseFloat(weightEl.value) || 0;
+      var r = parseFloat(rateEl.value) || 0;
+      var total = Math.round(w * r);
+      finalAmt.textContent = "Rs. " + total;
+      finalHint.textContent = w + " kg × Rs. " + r;
+      paidEl.value = total;
+    }
+    weightEl.addEventListener("input", recalc);
+    rateEl.addEventListener("change", recalc);
+    recalc();
+
+    document.getElementById("completeBtn").onclick = function () {
+      var rateOpt = rateEl.options[rateEl.selectedIndex];
+      var receipt = {
+        orderId: order,
+        customer: order.indexOf("a3f1") === 0 ? "Amit" : "Rina Sharma",
+        material: rateOpt.getAttribute("data-label") || "Scrap",
+        weight: parseFloat(weightEl.value) || 0,
+        rate: parseFloat(rateEl.value) || 0,
+        finalAmount: Math.round((parseFloat(weightEl.value) || 0) * (parseFloat(rateEl.value) || 0)),
+        amountPaid: parseFloat(paidEl.value) || 0,
+        mode: document.getElementById("mode").value,
+        collector: "Karim",
+        paidAt: new Date().toLocaleString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "numeric",
+          minute: "2-digit"
+        })
+      };
+      try {
+        var payload = JSON.stringify(receipt);
+        localStorage.setItem("gk_receipt_" + order, payload);
+        localStorage.setItem("gk_staff_receipt_" + order, payload);
+        var map = {};
+        try { map = JSON.parse(localStorage.getItem("gk_staff_completed") || "{}"); } catch (e) {}
+        map[order] = true;
+        localStorage.setItem("gk_staff_completed", JSON.stringify(map));
+        var pickups = [];
+        try { pickups = JSON.parse(localStorage.getItem("gk_pickups") || "[]"); } catch (e2) {}
+        var found = false;
+        pickups = pickups.map(function (p) {
+          if (p.orderId === order) {
+            found = true;
+            return Object.assign({}, p, {
+              status: "Completed",
+              chip: "done",
+              amount: "Rs. " + receipt.amountPaid,
+              date: new Date().toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+              })
+            });
+          }
+          return p;
+        });
+        if (!found) {
+          pickups.unshift({
+            orderId: order,
+            title: receipt.material || "Pickup",
+            status: "Completed",
+            chip: "done",
+            amount: "Rs. " + receipt.amountPaid,
+            date: new Date().toLocaleDateString("en-IN", {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            })
+          });
+        }
+        localStorage.setItem("gk_pickups", JSON.stringify(pickups));
+      } catch (e) {}
+      location.href =
+        "receipt.html?order=" + encodeURIComponent(order) + "&new=1";
+    };
+  </script>
+</body>
+</html>

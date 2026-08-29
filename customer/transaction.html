@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Payment - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <style>
+    @media print {
+      body { background: #fff !important; }
+      .phone-stage { padding: 0 !important; background: #fff !important; }
+      .phone-frame {
+        width: 100% !important;
+        max-width: none !important;
+        height: auto !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      .phone-notch,
+      .HeaderBack,
+      .no-print { display: none !important; }
+      .Screen { height: auto !important; }
+      .ScreenScroll { overflow: visible !important; padding: 0 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <a class="HeaderBack" id="backLink" href="history.html" aria-label="Back">&lsaquo;</a>
+            <div style="min-width:0;">
+              <h1 class="HeaderTitle">Payment</h1>
+              <span class="HeaderSub">What staff paid you</span>
+            </div>
+          </div>
+          <div class="Header-right">
+            <span class="Chip Chip-done">Paid</span>
+          </div>
+        </header>
+        <div class="ScreenScroll stack" id="receipt">
+          <div class="OrderIdBar" id="orderBar">
+            <div class="OrderIdBar-meta">
+              <span class="lbl">Order ID</span>
+              <span class="full" data-order-full>a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47</span>
+            </div>
+            <button type="button" class="OrderIdCopy no-print" data-order-copy>Copy</button>
+          </div>
+
+          <div class="amount-box">
+            <div class="label">Paid to you</div>
+            <div class="amt" id="paidAmt">Rs. 420</div>
+            <div class="hint" id="paidHint">Cash · 24 Aug 2026, 4:18 PM</div>
+          </div>
+
+          <div class="Card">
+            <div class="row" style="justify-content:space-between;"><span class="muted">Material</span><strong id="rMaterial">Metal scrap</strong></div>
+            <div class="row" style="justify-content:space-between;"><span class="muted">Verified weight</span><strong id="rWeight">28 kg</strong></div>
+            <div class="row" style="justify-content:space-between;"><span class="muted">Rate</span><strong id="rRate">Rs. 15 / kg</strong></div>
+            <div class="row" style="justify-content:space-between;"><span class="muted">Final amount</span><strong id="rFinal">Rs. 420</strong></div>
+            <div class="row" style="justify-content:space-between;"><span class="muted">Paid to you</span><strong id="rPaid">Rs. 420</strong></div>
+            <div class="row" style="justify-content:space-between;"><span class="muted">Collector</span><strong id="rCollector">Karim</strong></div>
+          </div>
+
+          <button type="button" class="Btn Btn-primary Btn-block no-print" id="printBtn">Print receipt</button>
+          <a class="Btn Btn-ghost Btn-block no-print" id="detailLink" href="detail.html">View pickup</a>
+          <p class="muted center no-print">Same payment staff recorded after pickup. Open anytime from History.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/ids.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var order = params.get("order") || "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47";
+    GK_IDS.bindBar(document.getElementById("orderBar"), order);
+
+    var defaults = {
+      "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47": {
+        material: "Metal scrap",
+        weight: 28,
+        rate: 15,
+        finalAmount: 420,
+        amountPaid: 420,
+        mode: "Cash",
+        collector: "Karim",
+        paidAt: "24 Aug 2026, 4:18 PM"
+      },
+      "6d2e4b91-0c5a-4f38-b7e1-88a2c4d5f013": {
+        material: "Paper cartons",
+        weight: 30,
+        rate: 6,
+        finalAmount: 180,
+        amountPaid: 180,
+        mode: "Cash",
+        collector: "Karim",
+        paidAt: "20 Aug 2026, 11:05 AM"
+      },
+      "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14": {
+        material: "Electronics",
+        weight: 40,
+        rate: 8,
+        finalAmount: 320,
+        amountPaid: 320,
+        mode: "Cash",
+        collector: "Karim",
+        paidAt: "29 Aug 2026, 7:20 PM"
+      }
+    };
+
+    var receipt = defaults[order] || defaults["a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47"];
+    try {
+      var shared = JSON.parse(localStorage.getItem("gk_receipt_" + order) || "null");
+      if (shared) receipt = Object.assign({}, receipt, shared);
+    } catch (e) {}
+
+    function rs(n) { return "Rs. " + n; }
+    document.getElementById("paidAmt").textContent = rs(receipt.amountPaid);
+    document.getElementById("paidHint").textContent =
+      (receipt.mode || "Cash") + " · " + (receipt.paidAt || "");
+    document.getElementById("rMaterial").textContent = receipt.material || "—";
+    document.getElementById("rWeight").textContent = (receipt.weight || 0) + " kg";
+    document.getElementById("rRate").textContent = rs(receipt.rate) + " / kg";
+    document.getElementById("rFinal").textContent = rs(receipt.finalAmount);
+    document.getElementById("rPaid").textContent = rs(receipt.amountPaid);
+    document.getElementById("rCollector").textContent = receipt.collector || "Karim";
+
+    document.getElementById("backLink").href =
+      "detail.html?order=" + encodeURIComponent(order) + "&status=completed";
+    document.getElementById("detailLink").href =
+      "detail.html?order=" + encodeURIComponent(order) + "&status=completed";
+
+    document.getElementById("printBtn").onclick = function () {
+      window.print();
+    };
+    if (params.get("print") === "1") {
+      setTimeout(function () { window.print(); }, 300);
+    }
+  </script>
+</body>
+</html>

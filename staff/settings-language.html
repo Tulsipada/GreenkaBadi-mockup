@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff — Language · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <a class="HeaderBack" href="settings.html" aria-label="Back">&lsaquo;</a>
+            <h1 class="HeaderTitle" data-i18n="settings.language">Language</h1>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="LangList">
+            <button type="button" class="LangCard" data-lang="en"><span class="flag">EN</span><span><strong>English</strong><span>Continue in English</span></span></button>
+            <button type="button" class="LangCard" data-lang="hi"><span class="flag">हिं</span><span><strong>हिन्दी</strong><span>हिन्दी में जारी रखें</span></span></button>
+            <button type="button" class="LangCard" data-lang="bn"><span class="flag">বাং</span><span><strong>বাংলা</strong><span>বাংলায় চালিয়ে যান</span></span></button>
+          </div>
+          <a class="Btn Btn-primary Btn-block" href="settings.html" style="margin-top:12px;">Save</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/i18n.js"></script>
+  <script>
+    function sync() {
+      var cur = GK_I18N.getLang();
+      document.querySelectorAll(".LangCard").forEach(function (b) {
+        b.classList.toggle("selected", b.getAttribute("data-lang") === cur);
+      });
+    }
+    document.querySelectorAll(".LangCard").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        GK_I18N.setLang(btn.getAttribute("data-lang"));
+        sync();
+      });
+    });
+    sync();
+  </script>
+</body>
+</html>

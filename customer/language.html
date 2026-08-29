@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Language - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="splash.html" aria-label="Back">&lsaquo;</a>
+          <h1 class="HeaderTitle" data-i18n="lang.title">Choose your language</h1>
+        </header>
+        <div class="ScreenScroll">
+          <p class="muted" data-i18n="lang.sub">You can change this later in Settings.</p>
+          <div class="LangList" id="langList">
+            <button type="button" class="LangCard selected" data-lang="en">
+              <span class="flag">EN</span>
+              <span><strong>English</strong><span>Continue in English</span></span>
+            </button>
+            <button type="button" class="LangCard" data-lang="hi">
+              <span class="flag">HI</span>
+              <span><strong>Hindi</strong><span>Continue in Hindi</span></span>
+            </button>
+            <button type="button" class="LangCard" data-lang="bn">
+              <span class="flag">BN</span>
+              <span><strong>Bengali</strong><span>Continue in Bengali</span></span>
+            </button>
+          </div>
+          <a class="Btn Btn-primary Btn-block" href="signup.html" style="margin-top:12px;" data-i18n="lang.continue">Continue</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/i18n.js"></script>
+  <script>
+    document.querySelectorAll(".LangCard").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll(".LangCard").forEach(function (b) { b.classList.remove("selected"); });
+        btn.classList.add("selected");
+        GK_I18N.setLang(btn.getAttribute("data-lang"));
+      });
+    });
+    var current = GK_I18N.getLang();
+    document.querySelectorAll(".LangCard").forEach(function (b) {
+      b.classList.toggle("selected", b.getAttribute("data-lang") === current);
+    });
+  </script>
+</body>
+</html>

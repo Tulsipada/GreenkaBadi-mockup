@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff - Chat - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="MessageHeader">
+          <a class="HeaderBack" id="backLink" href="messages.html">&lsaquo;</a>
+          <div class="avatar">R</div>
+          <div class="meta">
+            <strong id="peerName">Rina Sharma</strong>
+            <span id="chatSub">Old fridge · #c4e2a91b · On the way</span>
+          </div>
+          <a class="HeaderIcon" id="detailLink" href="job-detail.html" title="Job detail">ⓘ</a>
+        </header>
+        <div class="ChatThread" id="thread">
+          <div class="Bubble me">Hi Rina, I'm on the way. Should be there in 20-25 min.</div>
+          <div class="Bubble them">Please call at the gate - blue building.</div>
+          <div class="Bubble me">Got it. Cash payment OK?</div>
+          <div class="Bubble them">Yes, cash is fine.</div>
+        </div>
+        <div class="Composer" id="composer">
+          <input type="text" id="msgInput" placeholder="Message..." />
+          <button type="button" id="sendBtn" aria-label="Send">➤</button>
+          <div class="ChatClosedBanner" id="closedBanner" hidden>
+            Chat closed · Pickup completed.<br />You can no longer message this customer.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/ids.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var order = params.get("order") || "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14";
+    var from = params.get("from");
+    var status = (params.get("status") || "").toLowerCase();
+    var catalog = {
+      "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14": {
+        name: "Rina Sharma",
+        title: "Old fridge",
+        status: "enroute"
+      },
+      "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47": {
+        name: "Amit",
+        title: "Metal scrap bag",
+        status: "completed"
+      }
+    };
+    var item = catalog[order] || catalog["c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14"];
+    if (status) item = Object.assign({}, item, { status: status });
+    var isClosed = item.status === "completed";
+
+    document.getElementById("peerName").textContent = item.name;
+    document.querySelector(".MessageHeader .avatar").textContent = item.name.charAt(0);
+    document.getElementById("chatSub").innerHTML =
+      item.title +
+      ' · <span class="OrderId OrderId-sm" style="display:inline-flex;vertical-align:middle;">' +
+      GK_IDS.short(order) +
+      "</span> · " +
+      (isClosed ? "Completed" : item.status === "assigned" ? "Assigned" : "On the way");
+    document.getElementById("detailLink").href =
+      "job-detail.html?order=" +
+      encodeURIComponent(order) +
+      (isClosed ? "&status=completed" : "");
+    document.getElementById("backLink").href =
+      from === "detail"
+        ? "job-detail.html?order=" +
+          encodeURIComponent(order) +
+          (isClosed ? "&status=completed" : "")
+        : "messages.html";
+
+    if (isClosed) {
+      var composer = document.getElementById("composer");
+      composer.classList.add("is-closed");
+      document.getElementById("msgInput").disabled = true;
+      document.getElementById("sendBtn").disabled = true;
+      document.getElementById("closedBanner").hidden = false;
+    }
+  </script>
+</body>
+</html>

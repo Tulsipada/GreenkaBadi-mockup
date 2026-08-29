@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - History - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <h1 class="HeaderTitle" data-i18n="tab.history">History</h1>
+          </div>
+          <div class="Header-right">
+            <a class="HeaderIcon" href="notifications.html" title="Notifications" aria-label="Notifications">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 7 3 7 3 7H3s3 0 3-7"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+              <span class="badge">3</span>
+            </a>
+          </div>
+        </header>
+        <div class="ScreenScroll pad-tab">
+          <label class="SearchField SearchField-soft">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" id="search" placeholder="Search history, order ID…" autocomplete="off" />
+          </label>
+          <div class="JobFeed" id="list"></div>
+          <p class="ListEmptyHint" id="empty" hidden>No pickups match.</p>
+        </div>
+        <nav class="Footer">
+          <a href="home.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5"/><path d="M6 9.5V21h12V9.5"/><path d="M10 21v-6h4v6"/></svg></span><span data-i18n="tab.home">Home</span></a>
+          <a class="active" href="history.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span data-i18n="tab.history">History</span></a>
+          <div class="fab-wrap"><a class="fab" href="post.html" title="Post">+</a></div>
+          <a href="messages.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg></span><span data-i18n="tab.messages">Messages</span></a>
+          <a href="profile.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19.5c1.6-3.2 4-4.75 6.5-4.75s4.9 1.55 6.5 4.75"/></svg></span><span data-i18n="tab.profile">Profile</span></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/i18n.js"></script>
+  <script src="../shared/ids.js"></script>
+  <script>
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+    var search = document.getElementById("search");
+    var items = GK_IDS.list().filter(function (p) {
+      return p.chip === "done" || p.chip === "cancel" || /complet|cancel/i.test(p.status || "");
+    });
+    try { localStorage.setItem("gk_pickups", JSON.stringify(GK_IDS.list())); } catch (e) {}
+    var chevron =
+      '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
+
+    function statusClass(p) {
+      if (p.chip === "done") return "completed";
+      if (p.chip === "cancel") return "cancel";
+      return p.chip || "completed";
+    }
+
+    function render() {
+      var q = (search.value || "").trim().toLowerCase();
+      list.innerHTML = "";
+      var shown = 0;
+      items.forEach(function (p) {
+        var hay =
+          (p.title || "") +
+          " " +
+          (p.status || "") +
+          " " +
+          (p.amount || "") +
+          " " +
+          (p.date || "") +
+          " " +
+          (p.orderId || "");
+        if (q && hay.toLowerCase().indexOf(q) < 0) return;
+        shown++;
+        var st = statusClass(p);
+        var statusKey = p.chip === "cancel" ? "cancelled" : "completed";
+        var a = document.createElement("a");
+        a.className = "JobRow";
+        a.href =
+          p.chip === "done"
+            ? "transaction.html?order=" + encodeURIComponent(p.orderId)
+            : "detail.html?order=" +
+              encodeURIComponent(p.orderId) +
+              "&status=" +
+              encodeURIComponent(statusKey);
+        var amountLine =
+          p.chip === "done" && p.amount && p.amount !== "-"
+            ? "Paid to you · " + p.amount
+            : p.amount;
+        a.innerHTML =
+          '<div class="JobMain">' +
+          '<div class="JobKicker">' +
+          '<span class="JobStatus is-' + st + '">' + p.status + "</span>" +
+          '<span class="JobOid">' + GK_IDS.short(p.orderId) + "</span>" +
+          "</div>" +
+          "<h3>" + p.title + "</h3>" +
+          "<p>" + p.date + " · " + amountLine + "</p>" +
+          "</div>" +
+          chevron;
+        list.appendChild(a);
+      });
+      empty.hidden = shown > 0;
+      if (!items.length) {
+        empty.hidden = false;
+        empty.innerHTML =
+          'No history yet.<br /><a class="Btn Btn-primary" href="post.html" style="margin-top:12px;display:inline-flex;">Post scrap</a>';
+        return;
+      }
+      empty.textContent = q
+        ? "No pickups match your search."
+        : "No completed pickups yet.";
+    }
+
+    search.addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>

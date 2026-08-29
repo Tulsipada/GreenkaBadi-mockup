@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Delete account - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="javascript:history.back()" aria-label="Back">&lsaquo;</a>
+          <h1 class="HeaderTitle">Delete account</h1>
+        </header>
+        <div class="ScreenScroll stack">
+          <div class="Card" style="border-color:rgba(192,57,43,0.25);background:#fff8f7;">
+            <strong style="color:var(--gk-danger);">This cannot be undone</strong>
+            <p class="muted" style="margin:8px 0 0;">Deleting your account removes your profile, addresses, and pickup history from Green Kabadi. Active pickups should be completed or cancelled first.</p>
+          </div>
+
+          <div class="Card">
+            <strong>You will lose</strong>
+            <p class="muted" style="margin:8px 0 0;">Saved addresses, chat history with collectors, and payment receipts in the app.</p>
+          </div>
+
+          <div class="Field">
+            <label for="confirm">Type DELETE to confirm</label>
+            <input id="confirm" type="text" placeholder="DELETE" autocomplete="off" />
+          </div>
+
+          <p id="error" class="muted" style="margin:0;font-size:12px;color:var(--gk-danger);display:none;">Please type DELETE to continue.</p>
+
+          <button type="button" class="Btn Btn-danger Btn-block" id="deleteBtn">Delete my account</button>
+          <a class="Btn Btn-ghost Btn-block" href="javascript:history.back()">Keep my account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("deleteBtn").onclick = function () {
+      var v = (document.getElementById("confirm").value || "").trim();
+      var err = document.getElementById("error");
+      if (v !== "DELETE") {
+        err.style.display = "block";
+        return;
+      }
+      err.style.display = "none";
+      try {
+        localStorage.removeItem("gk_profile");
+        localStorage.removeItem("gk_pickups");
+      } catch (e) {}
+      location.href = "splash.html";
+    };
+  </script>
+</body>
+</html>

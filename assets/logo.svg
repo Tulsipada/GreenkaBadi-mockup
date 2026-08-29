@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="GreenकBadi">
+  <rect width="128" height="128" rx="28" fill="#1B6B4A"/>
+  <circle cx="64" cy="52" r="28" fill="#E6F4EC"/>
+  <path d="M64 28c-12 10-18 20-18 32 0 12 8 22 18 28 10-6 18-16 18-28 0-12-6-22-18-32z" fill="#218A5C"/>
+  <path d="M64 40v36M52 52h24" stroke="#E6F4EC" stroke-width="5" stroke-linecap="round"/>
+  <text x="64" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="700" fill="#FFFFFF">GreenकBadi</text>
+</svg>

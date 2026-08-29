@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GreenकBadi · UI Mockup Gallery</title>
+  <link rel="stylesheet" href="shared/tokens.css" />
+  <link rel="stylesheet" href="shared/components.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: var(--gk-font);
+      background:
+        radial-gradient(ellipse at top left, #cfe9dc 0%, transparent 45%),
+        radial-gradient(ellipse at top right, #dce8f7 0%, transparent 40%),
+        var(--gk-bg);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 64px; }
+    .hero { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; animation: gk-fade-up 0.45s var(--gk-ease-out) both; }
+    .hero img { width: 140px; height: auto; max-height: 140px; background: transparent; border-radius: 0; padding: 0; box-shadow: none; object-fit: contain; }
+    .hero h1 { margin: 0; font-size: 26px; font-weight: 800; color: var(--gk-green-700); letter-spacing: -0.03em; }
+    .hero p { margin: 6px 0 0; color: var(--gk-muted); max-width: 580px; line-height: 1.5; font-size: 14px; }
+    .group { margin-bottom: 28px; }
+    .group h2 { margin: 0 0 12px; font-size: 15px; font-weight: 800; color: var(--gk-green-900); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .group h2 span { font-size: 11px; background: var(--gk-green-100); color: var(--gk-green-700); padding: 3px 8px; border-radius: 999px; }
+    .grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .card-link {
+      flex: 1 1 180px; max-width: 220px; background: linear-gradient(180deg,#fff,#f7faf8);
+      border: 1px solid rgba(27,107,74,0.1); border-radius: 16px; padding: 14px; text-decoration: none; color: inherit;
+      box-shadow: var(--gk-shadow); transition: transform 0.25s var(--gk-ease), box-shadow 0.25s ease;
+    }
+    .card-link:hover { transform: translateY(-4px); box-shadow: var(--gk-shadow-hover); }
+    .card-link strong { display: block; font-size: 13px; margin-bottom: 4px; }
+    .card-link small { color: var(--gk-muted); font-size: 11px; line-height: 1.35; }
+    .notes { background: #fff; border-radius: 16px; padding: 18px 20px; border: 1px solid rgba(27,107,74,0.1); box-shadow: var(--gk-shadow); margin-bottom: 16px; }
+    .notes h2 { margin: 0 0 8px; font-size: 15px; color: var(--gk-blue-700); }
+    .notes ul { margin: 0; padding-left: 18px; color: var(--gk-muted); font-size: 13px; line-height: 1.55; }
+    .notes li strong { color: var(--gk-text); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <img src="assets/logo.png" alt="GreenकBadi" />
+      <div>
+        <h1>GreenकBadi · Phase 1 UI Mockups</h1>
+        <p>
+          Review-ready HTML/CSS (RN-ready Flexbox). Green primary · Blue secondary · White/light surfaces.
+          Language on register + Settings. Shared Header, Message header, Footer.
+        </p>
+      </div>
+    </div>
+
+    <section class="notes">
+      <h2>How to review</h2>
+      <ul>
+        <li>Open screens below in the browser (phone frame for apps, desktop for Admin).</li>
+        <li>Customer flow: <strong>Splash → Language → Signup → Home</strong>.</li>
+        <li>Change language later: <strong>Profile → Settings → Language</strong>.</li>
+        <li>Brand logo: <code>assets/logo.png</code> (final Green क Badi mark).</li>
+      </ul>
+    </section>
+
+    <section class="group">
+      <h2>Customer App <span>Phase 1</span></h2>
+      <div class="grid">
+        <a class="card-link" href="customer/splash.html"><strong>Splash</strong><small>Logo · Create / Log in</small></a>
+        <a class="card-link" href="customer/language.html"><strong>Language</strong><small>Register first screen · EN/HI/BN</small></a>
+        <a class="card-link" href="customer/signup.html"><strong>Sign up</strong><small>After language</small></a>
+        <a class="card-link" href="customer/login.html"><strong>Login</strong><small>Returning customer</small></a>
+        <a class="card-link" href="customer/home.html"><strong>Home</strong><small>Header address · Change / Add</small></a>
+        <a class="card-link" href="customer/addresses.html"><strong>Saved addresses</strong><small>Change default</small></a>
+        <a class="card-link" href="customer/address-add.html"><strong>Add address</strong><small>GPS · auto ZIP/state</small></a>
+        <a class="card-link" href="customer/home-empty.html"><strong>Empty / History</strong><small>Empty state</small></a>
+        <a class="card-link" href="customer/home-loading.html"><strong>Loading</strong><small>Skeleton</small></a>
+        <a class="card-link" href="customer/post.html"><strong>Post scrap</strong><small>Step 1 · photos · category</small></a>
+        <a class="card-link" href="customer/post-address.html"><strong>Pickup address</strong><small>Location / saved · auto ZIP</small></a>
+        <a class="card-link" href="customer/detail.html"><strong>Item detail</strong><small>Timeline</small></a>
+        <a class="card-link" href="customer/notifications.html"><strong>Notifications</strong><small>Status &amp; pay alerts</small></a>
+        <a class="card-link" href="customer/messages.html"><strong>Messages</strong><small>Chats · link to History</small></a>
+        <a class="card-link" href="customer/history.html"><strong>History</strong><small>Short Order ID pill · full UUID on detail</small></a>
+        <a class="card-link" href="customer/chat.html"><strong>Chat</strong><small>Message header</small></a>
+        <a class="card-link" href="customer/transaction.html"><strong>Customer payment</strong><small>Paid to you · same as staff</small></a>
+        <a class="card-link" href="customer/profile.html"><strong>Profile</strong><small>Edit · Contact · Privacy</small></a>
+        <a class="card-link" href="customer/edit-profile.html"><strong>Edit profile</strong><small>Photo upload · name</small></a>
+        <a class="card-link" href="customer/change-password.html"><strong>Change password</strong><small>Security</small></a>
+        <a class="card-link" href="customer/delete-account.html"><strong>Delete account</strong><small>Confirm DELETE</small></a>
+        <a class="card-link" href="customer/contact.html"><strong>Contact us</strong><small>Support</small></a>
+        <a class="card-link" href="customer/privacy.html"><strong>Privacy policy</strong><small>Legal</small></a>
+        <a class="card-link" href="customer/settings.html"><strong>Settings</strong><small>Language option</small></a>
+        <a class="card-link" href="customer/settings-language.html"><strong>Settings · Language</strong><small>Change anytime</small></a>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>Staff App <span>Collector</span></h2>
+      <div class="grid">
+        <a class="card-link" href="staff/login.html"><strong>Login</strong><small>No public signup</small></a>
+        <a class="card-link" href="staff/jobs.html"><strong>My Jobs</strong><small>Flat notif header</small></a>
+        <a class="card-link" href="staff/notifications.html"><strong>Notifications</strong><small>New job alerts</small></a>
+        <a class="card-link" href="staff/job-detail.html"><strong>Job detail</strong><small>On the way</small></a>
+        <a class="card-link" href="staff/transaction.html"><strong>Complete pickup</strong><small>Verify → pay → receipt</small></a>
+        <a class="card-link" href="staff/receipt.html"><strong>Staff transaction</strong><small>Paid to customer · same figure</small></a>
+        <a class="card-link" href="staff/messages.html"><strong>Messages</strong><small>Thread list</small></a>
+        <a class="card-link" href="staff/chat.html"><strong>Chat</strong><small>Message header</small></a>
+        <a class="card-link" href="staff/profile.html"><strong>Profile</strong><small>Edit · Settings icons</small></a>
+        <a class="card-link" href="staff/edit-profile.html"><strong>Edit profile</strong><small>Photo + details</small></a>
+        <a class="card-link" href="staff/change-password.html"><strong>Change password</strong><small>From Profile</small></a>
+        <a class="card-link" href="staff/help.html"><strong>Help &amp; FAQ</strong><small>Collector help</small></a>
+        <a class="card-link" href="staff/contact.html"><strong>Contact us</strong><small>Ops support</small></a>
+        <a class="card-link" href="staff/privacy.html"><strong>Privacy policy</strong><small>Legal</small></a>
+        <a class="card-link" href="staff/terms.html"><strong>Terms of service</strong><small>Legal</small></a>
+        <a class="card-link" href="staff/settings.html"><strong>Settings</strong><small>Language · Notif · Delete</small></a>
+        <a class="card-link" href="staff/delete-account.html"><strong>Delete account</strong><small>From Settings</small></a>
+        <a class="card-link" href="staff/settings-language.html"><strong>Settings · Language</strong><small>Change anytime</small></a>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>Admin Website <span>Desktop</span></h2>
+      <div class="grid">
+        <a class="card-link" href="admin/login.html"><strong>Login</strong><small>Company account</small></a>
+        <a class="card-link" href="admin/inbox.html"><strong>Pending inbox</strong><small>New requests</small></a>
+        <a class="card-link" href="admin/assign.html"><strong>Assign</strong><small>Active collectors</small></a>
+        <a class="card-link" href="admin/monitor.html"><strong>Monitor</strong><small>Statuses + mismatch</small></a>
+        <a class="card-link" href="admin/users.html"><strong>Users</strong><small>Customers + staff list</small></a>
+        <a class="card-link" href="admin/staff-add.html"><strong>Add staff</strong><small>Name · login · password</small></a>
+        <a class="card-link" href="admin/rates.html"><strong>Rates</strong><small>Category rates</small></a>
+        <a class="card-link" href="admin/settings.html"><strong>Settings</strong><small>Language preference</small></a>
+      </div>
+    </section>
+
+    <section class="notes">
+      <h2>Design suggestions (for discussion)</h2>
+      <ul>
+        <li><strong>Card-first home</strong> — scrap items as soft cards (photo, status chip); maps cleanly to RN FlatList.</li>
+        <li><strong>Green primary / blue secondary</strong> — primary CTAs green; chat/assign secondary blue.</li>
+        <li><strong>One collector transaction screen</strong> — Verify → Rate → Amount → Paid → Complete.</li>
+        <li><strong>Admin sidebar</strong> — same tokens as apps for brand consistency.</li>
+        <li><strong>Soft green wash backgrounds</strong> — light, professional, not dark/purple AI look.</li>
+        <li><strong>Language on register + Settings only</strong> — not in Header (keeps home clean).</li>
+        <li><strong>Landing page</strong> — Phase 2 after this review.</li>
+      </ul>
+    </section>
+
+    <section class="notes">
+      <h2>RN migration notes</h2>
+      <ul>
+        <li>Flexbox column/row only · 8pt spacing · 44px touch targets.</li>
+        <li>Shared classes ≈ Header / MessageHeader / Footer / Card / Btn / Field.</li>
+        <li><code>i18n.js</code> → later i18next (or similar) with same keys.</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>

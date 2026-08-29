@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Item detail - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="home.html">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle" id="itemTitle">Old fridge</h1>
+            <span class="HeaderSub">Pickup detail</span>
+          </div>
+          <span class="Chip" id="statusChip">On the way</span>
+        </header>
+        <div class="ScreenScroll stack">
+          <div class="OrderIdBar" id="orderBar">
+            <div class="OrderIdBar-meta">
+              <span class="lbl">Order ID</span>
+              <span class="full" data-order-full>c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14</span>
+            </div>
+            <button type="button" class="OrderIdCopy" data-order-copy>Copy</button>
+          </div>
+          <div class="CardThumb" id="itemThumb" style="width:100%;height:140px;border-radius:16px;font-size:48px;">🧊</div>
+          <div class="Card">
+            <h3 style="margin:0 0 4px;font-size:16px;" id="itemName">Old fridge</h3>
+            <p class="muted" style="margin:0;" id="itemMeta">Electronics · Sector 2, Salt Lake · Approx 40 kg · Expected Rs. 500 (indication)</p>
+          </div>
+          <div class="Card" id="collectorCard" style="flex-direction:row;align-items:center;gap:12px;">
+            <div class="MsgAvatar" style="width:44px;height:44px;border-radius:14px;font-size:15px;">K<span class="MsgDot" id="collectorDot"></span></div>
+            <div class="grow" style="min-width:0;">
+              <strong style="display:block;font-size:14px;">Karim</strong>
+              <span class="muted" style="font-size:12px;" id="collectorSub">Collector · On the way</span>
+            </div>
+            <a class="Btn Btn-secondary" id="msgLink" href="chat.html" style="min-height:40px;padding:0 14px;font-size:13px;width:auto;">Message</a>
+            <span class="ChatClosedLabel" id="msgClosed" hidden>Chat closed</span>
+          </div>
+          <div class="Card">
+            <strong style="font-size:14px;">Status timeline</strong>
+            <div class="timeline" style="margin-top:12px;" id="timeline"></div>
+          </div>
+
+          <!-- Only after pickup is completed -->
+          <div id="completedActions" hidden>
+            <div class="amount-box" id="payPreview" style="margin-bottom:12px;">
+              <div class="label">Paid to you</div>
+              <div class="amt" id="payAmt">Rs. 420</div>
+              <div class="hint">Same amount staff recorded</div>
+            </div>
+            <a class="Btn Btn-primary Btn-block" id="payLink" href="transaction.html">View payment receipt</a>
+            <button type="button" class="Btn Btn-ghost Btn-block" id="printBtn" style="margin-top:8px;">Print receipt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/ids.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var order = params.get("order") || params.get("uuid") || "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14";
+    var status = (params.get("status") || "").toLowerCase();
+
+    // Known sample orders
+    var catalog = {
+      "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14": { title: "Old fridge", thumb: "🧊", meta: "Electronics · Sector 2, Salt Lake · Approx 40 kg · Expected Rs. 500 (indication)", status: "waiting" },
+      "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45": { title: "LED TV 32\"", thumb: "📺", meta: "Electronics · Sector 2 · Collector on the way", status: "enroute" },
+      "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47": { title: "Metal scrap bag", thumb: "🔩", meta: "Metal · Verified 28 kg · Paid Rs. 420", status: "completed" }
+    };
+    var item = catalog[order] || catalog["c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14"];
+    if (status) item = Object.assign({}, item, { status: status });
+
+    var chipMap = {
+      waiting: { cls: "Chip-waiting", label: "Waiting" },
+      assigned: { cls: "Chip-assigned", label: "Assigned" },
+      enroute: { cls: "Chip-enroute", label: "On the way" },
+      collected: { cls: "Chip-assigned", label: "Collected" },
+      completed: { cls: "Chip-done", label: "Completed" }
+    };
+    var chip = chipMap[item.status] || chipMap.waiting;
+    var isDone = item.status === "completed";
+
+    document.getElementById("itemTitle").textContent = item.title;
+    document.getElementById("itemName").textContent = item.title;
+    document.getElementById("itemMeta").textContent = item.meta;
+    document.getElementById("itemThumb").textContent = item.thumb;
+    var statusChip = document.getElementById("statusChip");
+    statusChip.className = "Chip " + chip.cls;
+    statusChip.textContent = chip.label;
+    document.getElementById("collectorSub").textContent = isDone
+      ? "Collector · Pickup completed"
+      : "Collector · " + chip.label;
+    document.getElementById("collectorDot").style.display = isDone ? "none" : "";
+
+    var steps = [
+      { key: "waiting", label: "Waiting", note: "Posted" },
+      { key: "assigned", label: "Assigned", note: "Collector Karim" },
+      { key: "enroute", label: "On the way", note: "ETA update" },
+      { key: "collected", label: "Collected", note: "Verified at door" },
+      { key: "completed", label: "Completed", note: "Payment done" }
+    ];
+    var orderKeys = ["waiting", "assigned", "enroute", "collected", "completed"];
+    var idx = orderKeys.indexOf(item.status);
+    if (idx < 0) idx = 0;
+    var tl = document.getElementById("timeline");
+    steps.forEach(function (s, i) {
+      var state = i < idx ? "done" : i === idx ? "active" : "";
+      if (isDone) state = "done";
+      var note = state === "" ? "Pending" : s.note;
+      tl.innerHTML +=
+        '<div class="tl-item ' + state + '"><div class="tl-dot"></div><div><strong>' +
+        s.label + "</strong><span>" + note + "</span></div></div>";
+    });
+
+    GK_IDS.bindBar(document.getElementById("orderBar"), order);
+    var msgLink = document.getElementById("msgLink");
+    var msgClosed = document.getElementById("msgClosed");
+    if (isDone) {
+      msgLink.hidden = true;
+      msgClosed.hidden = false;
+    } else {
+      msgLink.hidden = false;
+      msgClosed.hidden = true;
+      msgLink.href =
+        "chat.html?order=" + encodeURIComponent(order) + "&from=detail";
+    }
+
+    var actions = document.getElementById("completedActions");
+    if (isDone) {
+      actions.hidden = false;
+      var payHref = "transaction.html?order=" + encodeURIComponent(order);
+      document.getElementById("payLink").href = payHref;
+      var paid = 420;
+      try {
+        var rec = JSON.parse(localStorage.getItem("gk_receipt_" + order) || "null");
+        if (rec && rec.amountPaid != null) paid = rec.amountPaid;
+        else if (/Rs\.\s*(\d+)/i.test(item.meta || "")) {
+          paid = parseInt(RegExp.$1, 10) || paid;
+        }
+      } catch (e) {}
+      if (order.indexOf("6d2e") === 0) paid = 180;
+      document.getElementById("payAmt").textContent = "Rs. " + paid;
+      document.getElementById("printBtn").onclick = function () {
+        location.href = payHref + "&print=1";
+      };
+    }
+  </script>
+</body>
+</html>

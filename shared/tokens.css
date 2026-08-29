@@ -1,0 +1,75 @@
+/* GreenकBadi design tokens — RN-ready */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+:root {
+  /* Brand */
+  --gk-green-900: #0f3d2c;
+  --gk-green-700: #1b6b4a;
+  --gk-green-600: #218a5c;
+  --gk-green-100: #e6f4ec;
+  --gk-green-50: #f3faf6;
+
+  --gk-blue-700: #1d4ed8;
+  --gk-blue-600: #2563eb;
+  --gk-blue-100: #dbe8fb;
+  --gk-blue-50: #eff5ff;
+
+  --gk-white: #ffffff;
+  --gk-bg: #f4f8f6;
+  --gk-text: #1a1f1c;
+  --gk-muted: #5b6b63;
+  --gk-border: #e2eae5;
+  --gk-danger: #c0392b;
+  --gk-warning: #d97706;
+
+  /* Status */
+  --gk-status-waiting-bg: #fff7e6;
+  --gk-status-waiting: #b45309;
+  --gk-status-assigned-bg: #eff5ff;
+  --gk-status-assigned: #2563eb;
+  --gk-status-enroute-bg: #eef2ff;
+  --gk-status-enroute: #4338ca;
+  --gk-status-done-bg: #e6f4ec;
+  --gk-status-done: #1b6b4a;
+  --gk-status-cancel-bg: #f3f4f6;
+  --gk-status-cancel: #6b7280;
+
+  /* Type */
+  --gk-font: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* Radius / shadow */
+  --gk-radius-sm: 10px;
+  --gk-radius: 14px;
+  --gk-radius-lg: 18px;
+  --gk-shadow: 0 4px 16px rgba(15, 61, 44, 0.06);
+  --gk-shadow-md: 0 8px 28px rgba(15, 61, 44, 0.1);
+  --gk-shadow-hover: 0 12px 32px rgba(15, 61, 44, 0.12);
+  --gk-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --gk-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Spacing (8pt) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --touch: 44px;
+}
+
+@keyframes gk-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--gk-font);
+  color: var(--gk-text);
+  background: #dfe8e3;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+button, input, select, textarea { font-family: inherit; }

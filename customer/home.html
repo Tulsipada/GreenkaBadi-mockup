@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer - Home - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <div class="grow" style="min-width:0;">
+              <h1 class="HeaderTitle" style="font-size:15px;"><span data-i18n="home.hi">Hello</span>, Rina</h1>
+              <a class="HeaderAddr" href="addresses.html" title="Change address">
+                <span class="text">Salt Lake, 700091</span>
+              </a>
+            </div>
+          </div>
+          <div class="Header-right">
+            <a class="HeaderIcon" href="notifications.html" title="Notifications" aria-label="Notifications">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 7 3 7 3 7H3s3 0 3-7"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+              <span class="badge">3</span>
+            </a>
+          </div>
+        </header>
+        <div class="ScreenScroll pad-tab">
+          <div class="feed-toolbar">
+            <div class="SegControl" id="tabs" role="tablist">
+              <button class="seg active" type="button" data-tab="active" role="tab" aria-selected="true">Active</button>
+              <button class="seg" type="button" data-tab="done" role="tab" aria-selected="false">Done</button>
+            </div>
+            <label class="SearchField SearchField-soft">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input type="search" id="search" placeholder="Search pickups, order ID…" autocomplete="off" />
+            </label>
+          </div>
+          <div class="JobFeed" id="list"></div>
+          <p class="ListEmptyHint" id="empty" hidden>No pickups match.</p>
+        </div>
+        <nav class="Footer">
+          <a class="active" href="home.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5"/><path d="M6 9.5V21h12V9.5"/><path d="M10 21v-6h4v6"/></svg></span><span data-i18n="tab.home">Home</span></a>
+          <a href="history.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span data-i18n="tab.history">History</span></a>
+          <div class="fab-wrap"><a class="fab" href="post.html" title="Post">+</a></div>
+          <a href="messages.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg></span><span data-i18n="tab.messages">Messages</span></a>
+          <a href="profile.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19.5c1.6-3.2 4-4.75 6.5-4.75s4.9 1.55 6.5 4.75"/></svg></span><span data-i18n="tab.profile">Profile</span></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/i18n.js"></script>
+  <script>
+    var pickups = [
+      {
+        tab: "active",
+        order: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
+        status: "waiting",
+        chipLabel: "Waiting",
+        title: "Old fridge",
+        meta: "Sector 2 · Posted today",
+        q: "old fridge waiting sector salt lake c4e2a91b"
+      },
+      {
+        tab: "active",
+        order: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
+        status: "enroute",
+        chipLabel: "On the way",
+        title: "LED TV 32\"",
+        meta: "Collector on the way",
+        q: "led tv on the way collector b1d9e704"
+      },
+      {
+        tab: "done",
+        order: "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47",
+        status: "completed",
+        chipLabel: "Completed",
+        title: "Metal scrap bag",
+        meta: "Paid to you · Rs. 420",
+        q: "metal scrap completed paid a3f1c8e2"
+      }
+    ];
+
+    var tab = "active";
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+    var search = document.getElementById("search");
+    var chevron =
+      '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
+
+    function shortId(id) {
+      return "#" + String(id).replace(/-/g, "").slice(0, 8);
+    }
+
+    function render() {
+      var q = (search.value || "").trim().toLowerCase();
+      list.innerHTML = "";
+      var shown = 0;
+      pickups.forEach(function (p) {
+        if (p.tab !== tab) return;
+        if (q && p.q.indexOf(q) < 0 && p.title.toLowerCase().indexOf(q) < 0) return;
+        shown++;
+        var a = document.createElement("a");
+        a.className = "JobRow";
+        a.href =
+          p.tab === "done"
+            ? "transaction.html?order=" + encodeURIComponent(p.order)
+            : "detail.html?order=" +
+              encodeURIComponent(p.order) +
+              "&status=" +
+              encodeURIComponent(p.status);
+        a.innerHTML =
+          '<div class="JobMain">' +
+          '<div class="JobKicker">' +
+          '<span class="JobStatus is-' + p.status + '">' + p.chipLabel + "</span>" +
+          '<span class="JobOid">' + shortId(p.order) + "</span>" +
+          "</div>" +
+          "<h3>" + p.title + "</h3>" +
+          "<p>" + p.meta + "</p>" +
+          "</div>" +
+          chevron;
+        list.appendChild(a);
+      });
+      empty.hidden = shown > 0;
+      empty.textContent = q
+        ? "No pickups match your search."
+        : tab === "active"
+          ? "No active pickups."
+          : "No completed pickups yet.";
+    }
+
+    document.querySelectorAll("#tabs .seg").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll("#tabs .seg").forEach(function (b) {
+          b.classList.remove("active");
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+        tab = btn.getAttribute("data-tab");
+        search.placeholder =
+          tab === "active"
+            ? "Search pickups, order ID…"
+            : "Search completed pickups…";
+        render();
+      });
+    });
+    search.addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>
