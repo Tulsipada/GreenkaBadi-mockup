@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Users - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="more.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Users</h1>
+            <span class="HeaderSub">Customers only</span>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="feed-toolbar">
+            <label class="SearchField SearchField-soft">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input type="search" id="search" placeholder="Search name, phone, area…" autocomplete="off" />
+            </label>
+          </div>
+          <div class="JobFeed" id="list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var users = [
+      { name: "Rina Sharma", phone: "98XXXX1122", area: "Salt Lake", pickups: 12, status: "Active" },
+      { name: "Amit Das", phone: "97XXXX3344", area: "Champasari", pickups: 5, status: "Active" },
+      { name: "Priya", phone: "90XXXX5566", area: "Bidhannagar", pickups: 3, status: "Active" }
+    ];
+    var list = document.getElementById("list");
+    var search = document.getElementById("search");
+    function render() {
+      var q = (search.value || "").toLowerCase().trim();
+      list.innerHTML = "";
+      users.forEach(function (u) {
+        if (q && (u.name + " " + u.phone + " " + u.area).toLowerCase().indexOf(q) < 0) return;
+        var row = document.createElement("div");
+        row.className = "PersonRow";
+        row.innerHTML =
+          '<div class="avatar">' +
+          u.name.charAt(0) +
+          '</div><div class="body"><h3>' +
+          u.name +
+          "</h3><p>" +
+          u.phone +
+          " · " +
+          u.area +
+          "</p><p>" +
+          u.pickups +
+          ' pickups</p></div><span class="status">' +
+          u.status +
+          "</span>";
+        list.appendChild(row);
+      });
+    }
+    search.addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>

@@ -43,28 +43,44 @@
                   <th>Login</th>
                   <th>Jobs today</th>
                   <th>Status</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="staffBody"></tbody>
             </table>
           </div>
-          <div class="admin-foot">Collectors created by admin with login password</div>
+          <div class="admin-foot">Deactivate staff to hide them from Assign · Reactivate anytime</div>
         </div>
       </div>
     </div>
   </div>
   <script>
+    var KEY = "gk_admin_staff";
     var defaultStaff = [
-      { name: "Karim", phone: "91XXXX1001", login: "karim", jobs: 2, status: "Active", passwordSet: true },
-      { name: "Suman", phone: "91XXXX1002", login: "suman", jobs: 1, status: "Active", passwordSet: true }
+      { id: "s1", name: "Karim", phone: "91XXXX1001", login: "karim", jobs: 2, status: "Active", passwordSet: true },
+      { id: "s2", name: "Suman", phone: "91XXXX1002", login: "suman", jobs: 1, status: "Active", passwordSet: true }
     ];
+
+    function isActive(s) {
+      return (s.status || "Active") === "Active";
+    }
 
     function loadStaff() {
       try {
-        var saved = JSON.parse(localStorage.getItem("gk_admin_staff") || "null");
-        if (saved && saved.length) return saved;
+        var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (saved && saved.length) {
+          return saved.map(function (row, i) {
+            if (!row.id) row.id = "s" + (i + 1);
+            if (!row.status) row.status = "Active";
+            return row;
+          });
+        }
       } catch (e) {}
       return defaultStaff.slice();
+    }
+
+    function saveStaff(list) {
+      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
     }
 
     function chip(status) {
@@ -72,17 +88,43 @@
       return '<span class="Chip ' + cls + '">' + status + "</span>";
     }
 
+    var staff = loadStaff();
+    saveStaff(staff);
     var body = document.getElementById("staffBody");
-    loadStaff().forEach(function (s) {
-      var tr = document.createElement("tr");
-      tr.innerHTML =
-        "<td><strong>" + s.name + "</strong></td>" +
-        "<td>" + (s.phone || "—") + "</td>" +
-        "<td>" + (s.login || "—") + "</td>" +
-        "<td>" + (s.jobs != null ? s.jobs : 0) + "</td>" +
-        "<td>" + chip(s.status || "Active") + "</td>";
-      body.appendChild(tr);
+
+    function render() {
+      body.innerHTML = "";
+      staff.forEach(function (s) {
+        var active = isActive(s);
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td><strong>" + s.name + "</strong></td>" +
+          "<td>" + (s.phone || "—") + "</td>" +
+          "<td>" + (s.login || s.email || "—") + "</td>" +
+          "<td>" + (s.jobs != null ? s.jobs : 0) + "</td>" +
+          "<td>" + chip(active ? "Active" : "Inactive") + "</td>" +
+          '<td><button type="button" class="Btn Btn-secondary" data-id="' +
+          s.id +
+          '" style="min-height:34px;padding:6px 12px;font-size:12px;width:auto;">' +
+          (active ? "Deactivate" : "Activate") +
+          "</button></td>";
+        body.appendChild(tr);
+      });
+    }
+
+    body.addEventListener("click", function (e) {
+      var btn = e.target.closest("button[data-id]");
+      if (!btn) return;
+      var id = btn.getAttribute("data-id");
+      staff.forEach(function (s) {
+        if (String(s.id) !== String(id)) return;
+        s.status = isActive(s) ? "Inactive" : "Active";
+      });
+      saveStaff(staff);
+      render();
     });
+
+    render();
   </script>
   <script src="admin-chrome.js"></script>
 </body>

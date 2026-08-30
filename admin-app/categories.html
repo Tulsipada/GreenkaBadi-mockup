@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Categories - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="more.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Categories</h1>
+            <span class="HeaderSub">Rates &amp; subcategories</span>
+          </div>
+          <div class="Header-right">
+            <a class="Btn Btn-primary" href="category-edit.html" style="min-height:36px;padding:6px 12px;font-size:13px;">Add</a>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="JobFeed" id="list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../admin/catalog.js"></script>
+  <script>
+    var list = document.getElementById("list");
+    var chevron =
+      '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
+    GK_CATALOG.load().forEach(function (c) {
+      var a = document.createElement("a");
+      a.className = "JobRow";
+      a.href = "category-detail.html?id=" + encodeURIComponent(c.id);
+      a.innerHTML =
+        '<div class="JobMain">' +
+        '<div class="JobKicker"><span class="JobStatus ' +
+        (c.active !== false ? "is-done" : "is-waiting") +
+        '">' +
+        (c.active !== false ? "Active" : "Off") +
+        "</span></div>" +
+        "<h3>" +
+        c.name +
+        "</h3>" +
+        "<p>" +
+        (c.subs || []).length +
+        " subcategories · " +
+        (c.description || "") +
+        "</p></div>" +
+        chevron;
+      list.appendChild(a);
+    });
+  </script>
+</body>
+</html>

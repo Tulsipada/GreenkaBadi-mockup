@@ -193,8 +193,24 @@
 
     try {
       var saved = JSON.parse(localStorage.getItem("gk_admin_txns") || "null");
-      if (saved && saved.length) txns = saved;
-      else localStorage.setItem("gk_admin_txns", JSON.stringify(txns));
+      if (saved && saved.length) {
+        txns = saved.map(function (t) {
+          return {
+            id: t.id,
+            short: t.short || ("#" + String(t.id || "").replace(/-/g, "").slice(0, 8)),
+            item: t.item || t.title || "Pickup",
+            customer: t.customer || "—",
+            collector: t.collector || t.staff || "—",
+            status: t.status || "completed",
+            paid: t.paid != null ? t.paid : null,
+            date: t.date || todayISO(),
+            mismatch: !!t.mismatch
+          };
+        });
+        localStorage.setItem("gk_admin_txns", JSON.stringify(txns));
+      } else {
+        localStorage.setItem("gk_admin_txns", JSON.stringify(txns));
+      }
     } catch (e) {}
 
     var staffSelect = document.getElementById("staff");

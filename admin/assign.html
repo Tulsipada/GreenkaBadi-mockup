@@ -90,24 +90,32 @@
       if (staff && staff.length) {
         var list = document.getElementById("collectorList");
         list.innerHTML = "";
-        staff.forEach(function (s, i) {
-          var initial = (s.name || "?").charAt(0).toUpperCase();
-          var label = document.createElement("label");
-          label.className = "Card CardRow";
-          label.style.cssText = "cursor:pointer;align-items:center;";
-          label.innerHTML =
-            '<input type="radio" name="c"' + (i === 0 ? " checked" : "") + " />" +
-            '<div class="CardThumb" style="border-radius:999px;width:44px;height:44px;font-size:16px;">' +
-            initial +
-            "</div>" +
-            '<div class="CardBody"><h3>' +
-            s.name +
-            "</h3><p>Active · " +
-            (s.jobs || 0) +
-            " jobs today</p></div>" +
-            '<span class="Chip Chip-done">Available</span>';
-          list.appendChild(label);
+        var active = staff.filter(function (s) {
+          return (s.status || "Active") === "Active";
         });
+        if (!active.length) {
+          list.innerHTML =
+            '<p class="muted" style="margin:0;">No active collectors. Activate staff from Staffs.</p>';
+        } else {
+          active.forEach(function (s, i) {
+            var initial = (s.name || "?").charAt(0).toUpperCase();
+            var label = document.createElement("label");
+            label.className = "Card CardRow";
+            label.style.cssText = "cursor:pointer;align-items:center;";
+            label.innerHTML =
+              '<input type="radio" name="c"' + (i === 0 ? " checked" : "") + " />" +
+              '<div class="CardThumb" style="border-radius:999px;width:44px;height:44px;font-size:16px;">' +
+              initial +
+              "</div>" +
+              '<div class="CardBody"><h3>' +
+              s.name +
+              "</h3><p>Active · " +
+              (s.jobs || 0) +
+              " jobs today</p></div>" +
+              '<span class="Chip Chip-done">Available</span>';
+            list.appendChild(label);
+          });
+        }
       }
     } catch (e) {}
 

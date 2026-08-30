@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Edit category - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" id="back" href="categories.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle" id="pageTitle">Add category</h1>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <form class="stack" id="form">
+            <div class="Field">
+              <label for="name">Category name</label>
+              <input id="name" type="text" required placeholder="e.g. Metal" />
+            </div>
+            <div class="Field">
+              <label for="description">Description</label>
+              <textarea id="description" rows="3" placeholder="Short description"></textarea>
+            </div>
+            <div class="Field">
+              <label for="active">Status</label>
+              <select id="active">
+                <option value="1">Active</option>
+                <option value="0">Off</option>
+              </select>
+            </div>
+            <button class="Btn Btn-primary Btn-block" type="submit">Save category</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../admin/catalog.js"></script>
+  <script>
+    var id = new URLSearchParams(location.search).get("id");
+    var existing = id ? GK_CATALOG.findCat(id) : null;
+    if (existing) {
+      document.getElementById("pageTitle").textContent = "Edit category";
+      document.getElementById("name").value = existing.name || "";
+      document.getElementById("description").value = existing.description || "";
+      document.getElementById("active").value = existing.active === false ? "0" : "1";
+      document.getElementById("back").href =
+        "category-detail.html?id=" + encodeURIComponent(existing.id);
+    }
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = document.getElementById("name").value.trim();
+      if (!name) return;
+      var cid = existing ? existing.id : GK_CATALOG.slug(name);
+      GK_CATALOG.upsertCat({
+        id: cid,
+        name: name,
+        description: document.getElementById("description").value.trim(),
+        active: document.getElementById("active").value === "1",
+        subs: existing ? existing.subs || [] : []
+      });
+      location.href = "category-detail.html?id=" + encodeURIComponent(cid);
+    });
+  </script>
+</body>
+</html>

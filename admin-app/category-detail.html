@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Category details - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="categories.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle" id="catName">Category</h1>
+            <span class="HeaderSub" id="catMeta"></span>
+          </div>
+          <div class="Header-right">
+            <a class="Btn Btn-secondary" id="editCat" href="#" style="min-height:36px;padding:6px 10px;font-size:12px;">Edit</a>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <a class="Btn Btn-primary Btn-block" id="addSub" href="#" style="margin-bottom:8px;">Add subcategory</a>
+          <div class="JobFeed" id="list"></div>
+          <p class="ListEmptyHint" id="empty" hidden>No subcategories yet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../admin/catalog.js"></script>
+  <script>
+    var id = new URLSearchParams(location.search).get("id");
+    var cat = GK_CATALOG.findCat(id);
+    if (!cat) location.href = "categories.html";
+    document.getElementById("catName").textContent = cat.name;
+    document.getElementById("catMeta").textContent =
+      (cat.subs || []).length + " subs · " + (cat.active !== false ? "Active" : "Off");
+    document.getElementById("editCat").href =
+      "category-edit.html?id=" + encodeURIComponent(cat.id);
+    document.getElementById("addSub").href =
+      "subcategory-edit.html?cat=" + encodeURIComponent(cat.id);
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+    var chevron =
+      '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
+    var subs = cat.subs || [];
+    empty.hidden = subs.length > 0;
+    subs.forEach(function (s) {
+      var a = document.createElement("a");
+      a.className = "JobRow";
+      a.href =
+        "subcategory-edit.html?cat=" +
+        encodeURIComponent(cat.id) +
+        "&sub=" +
+        encodeURIComponent(s.id);
+      var instr = s.instruction
+        ? "<p>i · " +
+          s.instruction.slice(0, 56) +
+          (s.instruction.length > 56 ? "…" : "") +
+          "</p>"
+        : "";
+      a.innerHTML =
+        '<div class="JobMain">' +
+        '<div class="JobKicker"><span class="JobStatus ' +
+        (s.active !== false ? "is-done" : "is-waiting") +
+        '">' +
+        (s.active !== false ? "Active" : "Off") +
+        "</span></div>" +
+        "<h3>" +
+        s.name +
+        "</h3>" +
+        "<p>Rs. " +
+        s.rate +
+        " / " +
+        (s.unit || "kg") +
+        "</p>" +
+        instr +
+        "</div>" +
+        chevron;
+      list.appendChild(a);
+    });
+  </script>
+</body>
+</html>

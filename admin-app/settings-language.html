@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Language - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="settings.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow"><h1 class="HeaderTitle">Language</h1></div>
+        </header>
+        <div class="ScreenScroll">
+          <button type="button" class="LangCard" data-lang="en"><span class="flag">EN</span><span><strong>English</strong><span>Continue in English</span></span></button>
+          <button type="button" class="LangCard" data-lang="hi"><span class="flag">हिं</span><span><strong>Hindi</strong><span>Continue in Hindi</span></span></button>
+          <button type="button" class="LangCard" data-lang="bn"><span class="flag">বাং</span><span><strong>Bengali</strong><span>Continue in Bengali</span></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll(".LangCard").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        try { localStorage.setItem("gk_lang", btn.getAttribute("data-lang")); } catch (e) {}
+        location.href = "settings.html";
+      });
+    });
+  </script>
+</body>
+</html>

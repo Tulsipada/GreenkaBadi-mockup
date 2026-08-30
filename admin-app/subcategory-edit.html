@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Edit subcategory - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" id="back" href="categories.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle" id="pageTitle">Add subcategory</h1>
+            <span class="HeaderSub" id="catLabel"></span>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <form class="stack" id="form">
+            <div class="Field">
+              <label for="name">Subcategory name</label>
+              <input id="name" type="text" required placeholder="e.g. Copper" />
+            </div>
+            <div class="row" style="gap:12px;align-items:flex-start;">
+              <div class="Field grow" style="margin:0;">
+                <label for="rate">Rate (₹)</label>
+                <input id="rate" type="number" min="0" step="0.01" required value="0" />
+              </div>
+              <div class="Field" style="margin:0;min-width:110px;">
+                <label for="unit">Unit</label>
+                <select id="unit">
+                  <option value="kg">kg</option>
+                  <option value="piece">piece</option>
+                  <option value="lot">lot</option>
+                </select>
+              </div>
+            </div>
+            <div class="Field">
+              <label for="note">Detail / notes</label>
+              <textarea id="note" rows="2" placeholder="Internal notes…"></textarea>
+            </div>
+            <div class="Field">
+              <label for="instruction">Important instructions (customer)</label>
+              <textarea id="instruction" rows="3" placeholder="Shown when customer taps i on Post scrap…"></textarea>
+            </div>
+            <div class="Field">
+              <label for="active">Status</label>
+              <select id="active">
+                <option value="1">Active</option>
+                <option value="0">Off</option>
+              </select>
+            </div>
+            <button class="Btn Btn-primary Btn-block" type="submit">Save subcategory</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../admin/catalog.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var catId = params.get("cat");
+    var subId = params.get("sub");
+    var cat = GK_CATALOG.findCat(catId);
+    if (!cat) location.href = "categories.html";
+    document.getElementById("catLabel").textContent = "Category · " + cat.name;
+    document.getElementById("back").href =
+      "category-detail.html?id=" + encodeURIComponent(cat.id);
+    var existing = subId ? GK_CATALOG.findSub(catId, subId) : null;
+    if (existing) {
+      document.getElementById("pageTitle").textContent = "Edit subcategory";
+      document.getElementById("name").value = existing.name || "";
+      document.getElementById("rate").value = existing.rate != null ? existing.rate : 0;
+      document.getElementById("unit").value = existing.unit || "kg";
+      document.getElementById("note").value = existing.note || "";
+      document.getElementById("instruction").value = existing.instruction || "";
+      document.getElementById("active").value = existing.active === false ? "0" : "1";
+    }
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = document.getElementById("name").value.trim();
+      var rate = parseFloat(document.getElementById("rate").value);
+      if (!name || isNaN(rate) || rate < 0) return;
+      var id = existing ? existing.id : GK_CATALOG.slug(name);
+      GK_CATALOG.upsertSub(catId, {
+        id: id,
+        name: name,
+        rate: rate,
+        unit: document.getElementById("unit").value,
+        note: document.getElementById("note").value.trim(),
+        instruction: document.getElementById("instruction").value.trim(),
+        active: document.getElementById("active").value === "1"
+      });
+      location.href = "category-detail.html?id=" + encodeURIComponent(catId);
+    });
+  </script>
+</body>
+</html>

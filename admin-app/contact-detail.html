@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Contact details - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="contacts.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Contact details</h1>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="Card">
+            <h3 style="margin:0 0 4px;" id="name">Rina Sharma</h3>
+            <p class="muted" style="margin:0 0 12px;" id="email">rina@example.com</p>
+            <p id="message" style="margin:0;line-height:1.5;font-size:14px;">Pickup was delayed yesterday. Please confirm the new slot.</p>
+          </div>
+          <a class="Btn Btn-primary Btn-block" id="replyBtn" href="#">Reply by email</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var map = {
+      c1: { name: "Rina Sharma", email: "rina@example.com", message: "Pickup was delayed yesterday. Please confirm the new slot." },
+      c2: { name: "Amit Das", email: "amit@example.com", message: "Need rate clarification for mixed e-waste on job #c4e2a91b." },
+      c3: { name: "Priya", email: "priya@example.com", message: "Thanks for the quick pickup." }
+    };
+    var id = new URLSearchParams(location.search).get("id") || "c1";
+    var item = map[id] || map.c1;
+    document.getElementById("name").textContent = item.name;
+    document.getElementById("email").textContent = item.email;
+    document.getElementById("message").textContent = item.message;
+    var subject = encodeURIComponent("Re: Green Kabadi contact — " + item.name);
+    var body = encodeURIComponent("Hi " + item.name + ",\n\nThanks for contacting Green Kabadi.\n\n---\nYour message:\n" + item.message);
+    document.getElementById("replyBtn").href = "mailto:" + item.email + "?subject=" + subject + "&body=" + body;
+  </script>
+</body>
+</html>

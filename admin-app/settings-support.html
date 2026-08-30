@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Support - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="settings.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow"><h1 class="HeaderTitle">Support contact</h1></div>
+        </header>
+        <div class="ScreenScroll">
+          <form class="stack" id="form">
+            <div class="Field">
+              <label for="email">Support email</label>
+              <input id="email" type="email" required value="support@greenkabadi.in" />
+            </div>
+            <div class="Field">
+              <label for="phone">Support phone</label>
+              <input id="phone" type="tel" value="+91 98000 00000" />
+            </div>
+            <button class="Btn Btn-primary Btn-block" type="submit">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    try {
+      var s = JSON.parse(localStorage.getItem("gk_admin_support") || "null");
+      if (s) {
+        if (s.email) document.getElementById("email").value = s.email;
+        if (s.phone) document.getElementById("phone").value = s.phone;
+      }
+    } catch (e) {}
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      try {
+        localStorage.setItem("gk_admin_support", JSON.stringify({
+          email: document.getElementById("email").value.trim(),
+          phone: document.getElementById("phone").value.trim()
+        }));
+      } catch (ex) {}
+      location.href = "settings.html";
+    });
+  </script>
+</body>
+</html>

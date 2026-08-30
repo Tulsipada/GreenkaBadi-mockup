@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Transactions - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <div class="Header-left">
+            <div style="min-width:0;">
+              <h1 class="HeaderTitle">Transactions</h1>
+              <span class="HeaderSub">Completed pickups</span>
+            </div>
+          </div>
+          <div class="Header-right">
+            <button type="button" class="HeaderIcon" id="csvBtn" title="Download CSV" aria-label="Download CSV" style="border:none;background:transparent;cursor:pointer;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            </button>
+          </div>
+        </header>
+        <div class="ScreenScroll pad-tab">
+          <div class="feed-toolbar">
+            <div class="FilterRow">
+              <div class="Field">
+                <label for="date">Date</label>
+                <input id="date" type="date" />
+              </div>
+              <div class="Field">
+                <label for="staff">Staff</label>
+                <select id="staff">
+                  <option value="">All staff</option>
+                </select>
+              </div>
+            </div>
+            <div class="TotalPaid">
+              <span class="label">Total paid</span>
+              <span class="amt" id="totalAmt">Rs. 0</span>
+            </div>
+          </div>
+          <div class="JobFeed" id="list"></div>
+          <p class="ListEmptyHint" id="empty" hidden>No completed transactions.</p>
+        </div>
+        <nav class="Footer">
+          <a href="inbox.html">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg>
+              <span class="tab-badge" data-badge="inbox">3</span>
+            </span>
+            Inbox
+          </a>
+          <a class="active" href="transactions.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="18" cy="17" r="2.5"/></svg></span>Txns</a>
+          <a href="more.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></span>More</a>
+          <a href="profile.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19.5c1.6-3.2 4-4.75 6.5-4.75s4.9 1.55 6.5 4.75"/></svg></span>Profile</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script src="chrome.js"></script>
+  <script>
+    function todayStr() {
+      var d = new Date();
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+    var dateEl = document.getElementById("date");
+    var staffEl = document.getElementById("staff");
+    dateEl.value = todayStr();
+
+    var defaults = [
+      { id: "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47", short: "#a3f1c8e2", item: "Metal scrap", customer: "Amit", collector: "Karim", status: "completed", paid: 420, date: todayStr() },
+      { id: "6d2e4b91-0c5a-4f38-b7e1-88a2c4d5f013", short: "#6d2e4b91", item: "Paper cartons", customer: "Priya", collector: "Suman", status: "completed", paid: 180, date: todayStr() },
+      { id: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14", short: "#c4e2a91b", item: "Old fridge", customer: "Rina", collector: "Karim", status: "completed", paid: 960, date: todayStr() }
+    ];
+
+    function pick(t, keys, fallback) {
+      for (var i = 0; i < keys.length; i++) {
+        var v = t[keys[i]];
+        if (v != null && String(v).trim() !== "" && String(v) !== "undefined") {
+          return String(v);
+        }
+      }
+      return fallback;
+    }
+
+    function normalize(t) {
+      var id = t && t.id != null ? String(t.id) : "";
+      var seed = defaults.find(function (d) { return d.id === id; });
+      return {
+        id: id || (seed && seed.id) || "",
+        short: pick(t, ["short"], seed && seed.short) ||
+          ("#" + id.replace(/-/g, "").slice(0, 8)),
+        item: pick(t, ["item", "title", "name", "material"], seed && seed.item) || "Pickup",
+        customer: pick(t, ["customer", "customerName", "user"], seed && seed.customer) || "—",
+        collector: pick(t, ["collector", "staff", "staffName"], seed && seed.collector) || "—",
+        status: pick(t, ["status"], "completed") || "completed",
+        paid: t.paid != null && t.paid !== "" ? Number(t.paid) || 0 : (seed ? seed.paid : 0),
+        date: pick(t, ["date"], todayStr()) || todayStr()
+      };
+    }
+
+    function load() {
+      var list = [];
+      try {
+        var saved = JSON.parse(localStorage.getItem("gk_admin_txns") || "null");
+        if (saved && saved.length) list = saved.map(normalize);
+      } catch (e) {}
+      if (!list.length) list = defaults.map(normalize);
+      try { localStorage.setItem("gk_admin_txns", JSON.stringify(list)); } catch (e2) {}
+      return list;
+    }
+
+    var all = load();
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+    var chevron =
+      '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
+
+    var staffNames = [];
+    all.forEach(function (t) {
+      if (t.collector && t.collector !== "—" && staffNames.indexOf(t.collector) < 0) {
+        staffNames.push(t.collector);
+      }
+    });
+    staffNames.sort().forEach(function (n) {
+      var opt = document.createElement("option");
+      opt.value = n;
+      opt.textContent = n;
+      staffEl.appendChild(opt);
+    });
+
+    function filtered() {
+      return all.filter(function (t) {
+        if ((t.status || "completed") !== "completed") return false;
+        if (dateEl.value && t.date !== dateEl.value) return false;
+        if (staffEl.value && t.collector !== staffEl.value) return false;
+        return true;
+      });
+    }
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function render() {
+      var rows = filtered();
+      var total = rows.reduce(function (s, t) { return s + (Number(t.paid) || 0); }, 0);
+      document.getElementById("totalAmt").textContent = "Rs. " + total.toLocaleString("en-IN");
+      empty.hidden = rows.length > 0;
+      list.innerHTML = "";
+      rows.forEach(function (t) {
+        var itemLabel = t.item || "Pickup";
+        var who = (t.customer || "—") + " · " + (t.collector || "—");
+        var a = document.createElement("a");
+        a.className = "JobRow";
+        a.href = "transaction-edit.html?id=" + encodeURIComponent(t.id);
+        a.innerHTML =
+          '<div class="JobMain">' +
+          '<div class="JobKicker"><span class="JobStatus is-done">Completed</span>' +
+          '<span class="JobOid">' + esc(t.short) + "</span></div>" +
+          "<h3>" +
+          esc(itemLabel) +
+          "</h3>" +
+          "<p>" +
+          esc(who) +
+          "</p>" +
+          "<p>Rs. " +
+          Number(t.paid || 0).toLocaleString("en-IN") +
+          "</p>" +
+          "</div>" +
+          chevron;
+        list.appendChild(a);
+      });
+    }
+
+    dateEl.addEventListener("change", render);
+    staffEl.addEventListener("change", render);
+    document.getElementById("csvBtn").addEventListener("click", function () {
+      var rows = filtered();
+      var total = rows.reduce(function (s, t) { return s + (Number(t.paid) || 0); }, 0);
+      var lines = ["Order,Item,Customer,Staff,Paid,Date"];
+      rows.forEach(function (t) {
+        lines.push([t.id, t.item, t.customer, t.collector, t.paid, t.date].join(","));
+      });
+      lines.push("TOTAL,,,,," + total);
+      var blob = new Blob([lines.join("\n")], { type: "text/csv" });
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "greenkabadi-transactions.csv";
+      a.click();
+    });
+    render();
+  </script>
+</body>
+</html>

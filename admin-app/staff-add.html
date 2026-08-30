@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Add staff - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="staffs.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Add staff</h1>
+            <span class="HeaderSub">Collector login</span>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <form class="stack" id="form">
+            <div class="Field">
+              <label for="name">Full name</label>
+              <input id="name" type="text" required placeholder="e.g. Karim" />
+            </div>
+            <div class="Field">
+              <label for="phone">Phone</label>
+              <input id="phone" type="tel" required placeholder="98XXXXXXXX" />
+            </div>
+            <div class="Field">
+              <label for="email">Login email</label>
+              <input id="email" type="email" required placeholder="collector@greenkabadi.com" />
+            </div>
+            <div class="Field">
+              <label for="password">Temp password</label>
+              <input id="password" type="text" required placeholder="Share securely" />
+            </div>
+            <button class="Btn Btn-primary Btn-block" type="submit">Create staff</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var KEY = "gk_admin_staff";
+      var list = [];
+      try { list = JSON.parse(localStorage.getItem(KEY) || "[]") || []; } catch (ex) {}
+      list.push({
+        id: "s" + Date.now().toString(36),
+        name: document.getElementById("name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        jobs: 0,
+        status: "Active"
+      });
+      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e2) {}
+      location.href = "staffs.html";
+    });
+  </script>
+</body>
+</html>

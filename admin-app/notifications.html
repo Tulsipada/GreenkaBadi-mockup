@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Notifications - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="more.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Notifications</h1>
+          </div>
+          <div class="Header-right">
+            <button type="button" class="link" id="markAll" style="border:none;background:none;font-size:13px;cursor:pointer;color:var(--gk-green-700);font-weight:700;">Mark all read</button>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="feed-toolbar">
+            <div class="SegControl" id="tabs" role="tablist">
+              <button class="seg active" type="button" data-tab="unread">Unread</button>
+              <button class="seg" type="button" data-tab="read">Read</button>
+            </div>
+          </div>
+          <div class="JobFeed" id="list"></div>
+          <p class="ListEmptyHint" id="empty" hidden>No notifications.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="chrome.js"></script>
+  <script>
+    var KEY = "gk_admin_app_notifs";
+    var defaults = [
+      { id: "n1", title: "New pickup request", body: "Old fridge · Salt Lake", unread: true },
+      { id: "n2", title: "New contact message", body: "Amit Das wrote in", unread: true },
+      { id: "n3", title: "Staff completed job", body: "Karim · Metal scrap · Rs. 420", unread: false }
+    ];
+    function load() {
+      try {
+        var s = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (s) return s;
+      } catch (e) {}
+      try { localStorage.setItem(KEY, JSON.stringify(defaults)); } catch (e2) {}
+      return defaults.slice();
+    }
+    function syncUnread(items) {
+      var n = items.filter(function (x) { return x.unread; }).length;
+      try { localStorage.setItem("gk_admin_notif_unread", String(n)); } catch (e) {}
+      if (window.GK_ADMIN_APP) GK_ADMIN_APP.refresh();
+    }
+    var items = load();
+    syncUnread(items);
+    var tab = "unread";
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+    function render() {
+      list.innerHTML = "";
+      var shown = 0;
+      items.forEach(function (n) {
+        if (tab === "unread" ? !n.unread : n.unread) return;
+        shown++;
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "JobRow";
+        btn.setAttribute("data-id", n.id);
+        btn.style.cssText = "width:100%;font:inherit;cursor:pointer;text-align:left;";
+        btn.innerHTML =
+          '<div class="JobMain">' +
+          '<div class="JobKicker"><span class="JobStatus ' +
+          (n.unread ? "is-waiting" : "is-done") +
+          '">' +
+          (n.unread ? "Unread" : "Read") +
+          "</span></div>" +
+          "<h3>" +
+          n.title +
+          "</h3>" +
+          "<p>" +
+          n.body +
+          "</p></div>";
+        list.appendChild(btn);
+      });
+      empty.hidden = shown > 0;
+    }
+    document.getElementById("tabs").addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-tab]");
+      if (!btn) return;
+      tab = btn.getAttribute("data-tab");
+      document.querySelectorAll("#tabs .seg").forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+      });
+      render();
+    });
+    list.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-id]");
+      if (!btn) return;
+      var id = btn.getAttribute("data-id");
+      items.forEach(function (n) {
+        if (n.id === id) n.unread = false;
+      });
+      try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (ex) {}
+      syncUnread(items);
+      render();
+    });
+    document.getElementById("markAll").addEventListener("click", function () {
+      items.forEach(function (n) { n.unread = false; });
+      try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (ex) {}
+      syncUnread(items);
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>

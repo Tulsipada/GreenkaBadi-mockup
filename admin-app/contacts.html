@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Contact - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="more.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Contact us</h1>
+            <span class="HeaderSub">Customer messages</span>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="feed-toolbar">
+            <div class="SegControl" id="tabs" role="tablist">
+              <button class="seg active" type="button" data-tab="unread" role="tab">Unread</button>
+              <button class="seg" type="button" data-tab="read" role="tab">Read</button>
+            </div>
+          </div>
+          <div class="JobFeed" id="list"></div>
+          <p class="ListEmptyHint" id="empty" hidden>No messages.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var contacts = [
+      { id: "c1", name: "Rina Sharma", email: "rina@example.com", preview: "Pickup delayed yesterday…", unread: true },
+      { id: "c2", name: "Amit Das", email: "amit@example.com", preview: "Need rate clarification…", unread: true },
+      { id: "c3", name: "Priya", email: "priya@example.com", preview: "Thanks for the quick pickup.", unread: false }
+    ];
+    var tab = "unread";
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+    var chevron =
+      '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
+    function render() {
+      list.innerHTML = "";
+      var shown = 0;
+      contacts.forEach(function (c) {
+        if (tab === "unread" ? !c.unread : c.unread) return;
+        shown++;
+        var a = document.createElement("a");
+        a.className = "JobRow";
+        a.href = "contact-detail.html?id=" + encodeURIComponent(c.id);
+        a.innerHTML =
+          '<div class="JobMain">' +
+          '<div class="JobKicker"><span class="JobStatus ' +
+          (c.unread ? "is-waiting" : "is-done") +
+          '">' +
+          (c.unread ? "Unread" : "Read") +
+          "</span></div>" +
+          "<h3>" +
+          c.name +
+          "</h3>" +
+          "<p>" +
+          c.email +
+          "</p>" +
+          "<p>" +
+          c.preview +
+          "</p></div>" +
+          chevron;
+        list.appendChild(a);
+      });
+      empty.hidden = shown > 0;
+    }
+    document.getElementById("tabs").addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-tab]");
+      if (!btn) return;
+      tab = btn.getAttribute("data-tab");
+      document.querySelectorAll("#tabs .seg").forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+      });
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>

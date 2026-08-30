@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Edit paid amount - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="transactions.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Edit paid amount</h1>
+            <span class="HeaderSub">Amount only</span>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="Card" id="metaCard">
+            <h3 style="margin:0 0 4px;" id="title">Metal scrap</h3>
+            <p class="muted" style="margin:0;" id="meta">Amit · Karim · Completed</p>
+          </div>
+          <form class="stack" id="form">
+            <div class="Field">
+              <label for="paid">Paid amount (₹)</label>
+              <input id="paid" type="number" min="0" step="1" required />
+            </div>
+            <p class="muted" style="margin:0;font-size:12px;">Other fields are locked. Only admin can adjust the paid amount.</p>
+            <button class="Btn Btn-primary Btn-block" type="submit">Save amount</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var KEY = "gk_admin_txns";
+    var id = new URLSearchParams(location.search).get("id");
+    var all = [];
+    try { all = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+    var item = all.find(function (t) { return t.id === id; }) || all.find(function (t) {
+      return (t.status || "completed") === "completed";
+    });
+    if (!item) location.href = "transactions.html";
+
+    var label = item.item || item.title || "Transaction";
+    var customer = item.customer || "—";
+    var collector = item.collector || item.staff || "—";
+    document.getElementById("title").textContent = label;
+    document.getElementById("meta").textContent =
+      customer + " · " + collector + " · Completed";
+    document.getElementById("paid").value = item.paid != null ? item.paid : 0;
+
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = parseFloat(document.getElementById("paid").value);
+      if (isNaN(v) || v < 0) return;
+      item.paid = v;
+      if (item.mismatch != null) item.mismatch = false;
+      try { localStorage.setItem(KEY, JSON.stringify(all)); } catch (ex) {}
+      location.href = "transactions.html";
+    });
+  </script>
+</body>
+</html>

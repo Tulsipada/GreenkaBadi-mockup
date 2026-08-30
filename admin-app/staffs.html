@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin App - Staffs - Green Kabadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <link rel="stylesheet" href="admin-app.css" />
+</head>
+<body>
+  <div class="phone-stage">
+    <div class="phone-frame feed-page">
+      <div class="phone-notch">9:41</div>
+      <div class="Screen">
+        <header class="Header">
+          <a class="HeaderBack" href="more.html" aria-label="Back">&lsaquo;</a>
+          <div class="grow">
+            <h1 class="HeaderTitle">Staffs</h1>
+            <span class="HeaderSub">Collectors</span>
+          </div>
+          <div class="Header-right">
+            <a class="Btn Btn-primary" href="staff-add.html" style="min-height:36px;padding:6px 12px;font-size:13px;">Add</a>
+          </div>
+        </header>
+        <div class="ScreenScroll">
+          <div class="feed-toolbar">
+            <div class="SegControl" id="tabs" role="tablist">
+              <button class="seg active" type="button" data-tab="active" role="tab">Active</button>
+              <button class="seg" type="button" data-tab="off" role="tab">Inactive</button>
+            </div>
+          </div>
+          <div class="JobFeed" id="list"></div>
+          <p class="ListEmptyHint" id="empty" hidden>No staff yet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var KEY = "gk_admin_staff";
+    var defaults = [
+      { id: "s1", name: "Karim", phone: "98XXXX7788", email: "karim@greenkabadi.com", jobs: 2, status: "Active" },
+      { id: "s2", name: "Suman", phone: "97XXXX9900", email: "suman@greenkabadi.com", jobs: 1, status: "Active" }
+    ];
+    function isActive(s) {
+      return (s.status || "Active") === "Active";
+    }
+    function load() {
+      try {
+        var s = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (s && s.length) {
+          return s.map(function (row, i) {
+            if (!row.id) row.id = "s" + (i + 1);
+            if (!row.status) row.status = "Active";
+            return row;
+          });
+        }
+      } catch (e) {}
+      try { localStorage.setItem(KEY, JSON.stringify(defaults)); } catch (e2) {}
+      return defaults.slice();
+    }
+    function save(list) {
+      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
+    }
+    function jobLabel(n) {
+      n = Number(n) || 0;
+      return n === 1 ? "1 job today" : n + " jobs today";
+    }
+
+    var tab = "active";
+    var staff = load();
+    save(staff);
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+
+    function render() {
+      list.innerHTML = "";
+      var rows = staff.filter(function (s) {
+        return tab === "active" ? isActive(s) : !isActive(s);
+      });
+      empty.hidden = rows.length > 0;
+      empty.textContent =
+        tab === "active" ? "No active staff." : "No inactive staff.";
+      rows.forEach(function (s) {
+        var active = isActive(s);
+        var row = document.createElement("div");
+        row.className = "PersonRow" + (active ? "" : " is-off");
+        row.innerHTML =
+          '<div class="avatar">' +
+          (s.name || "?").charAt(0).toUpperCase() +
+          '</div><div class="body"><h3>' +
+          (s.name || "Staff") +
+          "</h3><p>" +
+          (s.phone || "") +
+          "</p><p>" +
+          jobLabel(s.jobs) +
+          '</p></div><div class="actions">' +
+          '<span class="status">' +
+          (active ? "Active" : "Inactive") +
+          "</span>" +
+          '<button type="button" class="StaffToggle' +
+          (active ? "" : " is-off") +
+          '" data-id="' +
+          s.id +
+          '">' +
+          (active ? "Deactivate" : "Activate") +
+          "</button></div>";
+        list.appendChild(row);
+      });
+    }
+
+    list.addEventListener("click", function (e) {
+      var btn = e.target.closest(".StaffToggle");
+      if (!btn) return;
+      var id = btn.getAttribute("data-id");
+      staff.forEach(function (s) {
+        if (String(s.id) !== String(id)) return;
+        s.status = isActive(s) ? "Inactive" : "Active";
+      });
+      save(staff);
+      render();
+    });
+
+    document.getElementById("tabs").addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-tab]");
+      if (!btn) return;
+      tab = btn.getAttribute("data-tab");
+      document.querySelectorAll("#tabs .seg").forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+      });
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
