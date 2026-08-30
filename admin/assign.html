@@ -19,6 +19,7 @@
           </div>
           <nav class="admin-nav">
             <a class="active" href="inbox.html"><span>Inbox</span></a>
+            <a href="jobs.html"><span>Jobs</span></a>
             <a href="monitor.html"><span>Transactions</span></a>
             <a href="users.html"><span>Users</span></a>
             <a href="staff.html"><span>Staffs</span></a>
@@ -67,20 +68,23 @@
       </div>
     </div>
   </div>
+  <script src="jobs-data.js"></script>
   <script>
     var params = new URLSearchParams(location.search);
     var reqId = params.get("id");
     try {
+      var found = null;
       var inbox = JSON.parse(localStorage.getItem("gk_admin_inbox") || "null");
-      if (inbox && reqId) {
-        var found = inbox.find(function (r) { return r.id === reqId; });
-        if (found) {
-          var card = document.querySelector(".admin-content .Card");
-          if (card) {
-            card.querySelector("h3").textContent = found.title;
-            card.querySelector("p").textContent =
-              found.customer + " · " + found.area + " · " + found.meta;
-          }
+      if (inbox && reqId) found = inbox.find(function (r) { return r.id === reqId; });
+      if (!found && reqId && window.GK_ADMIN_JOBS) {
+        found = GK_ADMIN_JOBS.load().find(function (j) { return j.id === reqId; });
+      }
+      if (found) {
+        var card = document.querySelector(".admin-content .Card");
+        if (card) {
+          card.querySelector("h3").textContent = found.title;
+          card.querySelector("p").textContent =
+            found.customer + " · " + found.area + " · " + (found.meta || "");
         }
       }
     } catch (e0) {}
@@ -121,17 +125,56 @@
 
     document.getElementById("confirmBtn").addEventListener("click", function (e) {
       e.preventDefault();
+      var picked = document.querySelector('input[name="c"]:checked');
+      var collector = "";
+      if (picked) {
+        var h3 = picked.closest("label") && picked.closest("label").querySelector("h3");
+        if (h3) collector = h3.textContent.trim();
+      }
+      var inboxItem = null;
       try {
         var items = JSON.parse(localStorage.getItem("gk_admin_inbox") || "[]");
         if (reqId) {
+          inboxItem = items.find(function (r) { return r.id === reqId; }) || null;
           items = items.filter(function (r) { return r.id !== reqId; });
         } else if (items.length) {
+          inboxItem = items[0];
           items.shift();
         }
         localStorage.setItem("gk_admin_inbox", JSON.stringify(items));
         localStorage.setItem("gk_admin_inbox_pending", String(items.length));
       } catch (ex) {}
-      location.href = "inbox.html";
+      try {
+        if (window.GK_ADMIN_JOBS && (reqId || inboxItem)) {
+          var jobs = GK_ADMIN_JOBS.load();
+          var id = reqId || (inboxItem && inboxItem.id);
+          var job = jobs.find(function (j) { return j.id === id; });
+          if (!job && inboxItem) {
+            job = {
+              id: inboxItem.id,
+              orderId: inboxItem.id,
+              title: inboxItem.title,
+              customer: inboxItem.customer,
+              area: inboxItem.area,
+              collector: "",
+              status: "waiting",
+              statusLabel: "Waiting",
+              meta: inboxItem.meta || "",
+              date: "Today",
+              tab: "active"
+            };
+            jobs.push(job);
+          }
+          if (job) {
+            job.collector = collector;
+            job.status = "assigned";
+            job.statusLabel = "Assigned";
+            job.tab = "active";
+            GK_ADMIN_JOBS.save(jobs);
+          }
+        }
+      } catch (ex2) {}
+      location.href = "jobs.html";
     });
   </script>
   <script src="admin-chrome.js"></script>

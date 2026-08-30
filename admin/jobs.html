@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Jobs · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <style>
+    .FilterBar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 4px;
+    }
+    .FilterBar .Field {
+      margin: 0;
+      min-width: 160px;
+    }
+    .FilterBar .Field label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gk-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .FilterBar .grow { flex: 1; min-width: 200px; }
+  </style>
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a class="active" href="jobs.html"><span>Jobs</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Jobs</h1>
+            <span class="Chip Chip-done" id="countChip">0 active</span>
+          </div>
+          <div class="admin-content">
+            <div class="FilterBar">
+              <div class="Field">
+                <label for="tab">Show</label>
+                <select id="tab">
+                  <option value="active">Active</option>
+                  <option value="done">Done</option>
+                  <option value="all">All</option>
+                </select>
+              </div>
+              <div class="Field">
+                <label for="staff">Staff</label>
+                <select id="staff">
+                  <option value="">All staff</option>
+                  <option value="__unassigned">Unassigned</option>
+                </select>
+              </div>
+              <div class="Field grow">
+                <label for="search">Search</label>
+                <input id="search" type="search" placeholder="Customer, item, area, order…" autocomplete="off" />
+              </div>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Job</th>
+                  <th>Customer</th>
+                  <th>Area</th>
+                  <th>Staff</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="body"></tbody>
+            </table>
+            <p class="ListEmptyHint" id="empty" hidden>No jobs match.</p>
+          </div>
+          <div class="admin-foot">Active = waiting / assigned / on the way · Done = completed pickups</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="jobs-data.js"></script>
+  <script>
+    var jobs = GK_ADMIN_JOBS.load();
+    var body = document.getElementById("body");
+    var empty = document.getElementById("empty");
+    var tabEl = document.getElementById("tab");
+    var staffEl = document.getElementById("staff");
+    var searchEl = document.getElementById("search");
+
+    var staffNames = [];
+    jobs.forEach(function (j) {
+      if (j.collector && staffNames.indexOf(j.collector) < 0) staffNames.push(j.collector);
+    });
+    staffNames.sort().forEach(function (n) {
+      var opt = document.createElement("option");
+      opt.value = n;
+      opt.textContent = n;
+      staffEl.appendChild(opt);
+    });
+
+    function chip(status, label) {
+      var map = {
+        waiting: "Chip-waiting",
+        assigned: "Chip-assigned",
+        enroute: "Chip-enroute",
+        completed: "Chip-done",
+        cancel: "Chip-cancel"
+      };
+      return (
+        '<span class="Chip ' +
+        (map[status] || "Chip-waiting") +
+        '">' +
+        (label || status) +
+        "</span>"
+      );
+    }
+
+    function filtered() {
+      var tab = tabEl.value;
+      var staff = staffEl.value;
+      var q = (searchEl.value || "").toLowerCase().trim();
+      return jobs.filter(function (j) {
+        if (tab === "active" && j.tab !== "active") return false;
+        if (tab === "done" && j.tab !== "done") return false;
+        if (staff === "__unassigned" && j.collector) return false;
+        if (staff && staff !== "__unassigned" && j.collector !== staff) return false;
+        if (!q) return true;
+        var hay = [j.title, j.customer, j.area, j.collector, j.meta, j.orderId, j.statusLabel]
+          .join(" ")
+          .toLowerCase();
+        return hay.indexOf(q) >= 0;
+      });
+    }
+
+    function render() {
+      var rows = filtered();
+      var activeN = jobs.filter(function (j) { return j.tab === "active"; }).length;
+      document.getElementById("countChip").textContent = activeN + " active";
+      empty.hidden = rows.length > 0;
+      body.innerHTML = rows
+        .map(function (j) {
+          var action =
+            j.status === "waiting"
+              ? '<a class="Btn Btn-primary" href="assign.html?id=' +
+                encodeURIComponent(j.id) +
+                '" style="min-height:34px;padding:6px 12px;font-size:12px;width:auto;">Assign</a>'
+              : '<span class="muted" style="font-size:12px;">' +
+                GK_ADMIN_JOBS.short(j.orderId) +
+                "</span>";
+          return (
+            "<tr>" +
+            "<td><strong>" +
+            j.title +
+            '</strong><br /><span class="muted" style="font-size:12px;">' +
+            (j.meta || "") +
+            "</span></td>" +
+            "<td>" +
+            j.customer +
+            "</td>" +
+            "<td>" +
+            j.area +
+            "</td>" +
+            "<td>" +
+            (j.collector || "—") +
+            "</td>" +
+            "<td>" +
+            chip(j.status, j.statusLabel) +
+            "</td>" +
+            "<td>" +
+            action +
+            "</td>" +
+            "</tr>"
+          );
+        })
+        .join("");
+    }
+
+    tabEl.addEventListener("change", render);
+    staffEl.addEventListener("change", render);
+    searchEl.addEventListener("input", render);
+    render();
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>

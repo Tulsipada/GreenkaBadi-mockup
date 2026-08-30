@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin App - Inbox - Green Kabadi</title>
+  <title>Admin App - Jobs - Green Kabadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
@@ -18,102 +18,126 @@
         <header class="Header">
           <div class="Header-left">
             <div style="min-width:0;">
-              <h1 class="HeaderTitle">Inbox</h1>
-              <span class="HeaderSub">Pending requests</span>
+              <h1 class="HeaderTitle">Jobs</h1>
+              <span class="HeaderSub">All pickups</span>
             </div>
-          </div>
-          <div class="Header-right">
-            <a class="HeaderIcon" href="notifications.html" title="Notifications" aria-label="Notifications">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 7 3 7 3 7H3s3 0 3-7"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
-              <span class="badge" data-badge="notif">2</span>
-            </a>
           </div>
         </header>
         <div class="ScreenScroll pad-tab">
           <div class="feed-toolbar">
+            <div class="SegControl" id="tabs" role="tablist">
+              <button class="seg active" type="button" data-tab="active" role="tab">Active<span class="count" id="countActive">0</span></button>
+              <button class="seg" type="button" data-tab="done" role="tab">Done<span class="count" id="countDone">0</span></button>
+            </div>
             <label class="SearchField SearchField-soft">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
               <input type="search" id="search" placeholder="Search customer, area, item…" autocomplete="off" />
             </label>
           </div>
           <div class="JobFeed" id="list"></div>
-          <p class="ListEmptyHint" id="empty" hidden>No pending requests.</p>
+          <p class="ListEmptyHint" id="empty" hidden>No jobs match.</p>
         </div>
         <nav class="Footer">
-          <a class="active" href="inbox.html">
+          <a href="inbox.html">
             <span class="ico" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg>
               <span class="tab-badge" data-badge="inbox">3</span>
             </span>
             Inbox
           </a>
-          <a href="jobs.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg></span>Jobs</a>
+          <a class="active" href="jobs.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg></span>Jobs</a>
           <a href="transactions.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="18" cy="17" r="2.5"/></svg></span>Txns</a>
           <a href="more.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></span>More</a>
         </nav>
       </div>
     </div>
   </div>
+  <script src="../admin/jobs-data.js"></script>
   <script src="chrome.js"></script>
   <script>
-    var KEY = "gk_admin_inbox";
-    var defaults = [
-      { id: "i1", title: "Old fridge", meta: "Electronics · ~40 kg", customer: "Rina Sharma", area: "Salt Lake Sec 2", status: "Waiting" },
-      { id: "i2", title: "Paper cartons", meta: "Paper · ~15 kg", customer: "Amit Das", area: "Champasari", status: "Waiting" },
-      { id: "i3", title: "Copper wire", meta: "Metal · ~8 kg", customer: "Priya", area: "Bidhannagar", status: "Waiting" }
-    ];
-    function load() {
-      try {
-        var saved = JSON.parse(localStorage.getItem(KEY) || "null");
-        if (saved) return saved;
-      } catch (e) {}
-      try { localStorage.setItem(KEY, JSON.stringify(defaults)); } catch (e2) {}
-      return defaults.slice();
-    }
-    var items = load();
-    try { localStorage.setItem("gk_admin_inbox_pending", String(items.length)); } catch (e3) {}
-    if (window.GK_ADMIN_APP) GK_ADMIN_APP.refresh();
-
+    var jobs = GK_ADMIN_JOBS.load();
+    var tab = "active";
     var list = document.getElementById("list");
     var empty = document.getElementById("empty");
     var search = document.getElementById("search");
     var chevron =
       '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
 
+    function syncCounts() {
+      document.getElementById("countActive").textContent = String(
+        jobs.filter(function (j) { return j.tab === "active"; }).length
+      );
+      document.getElementById("countDone").textContent = String(
+        jobs.filter(function (j) { return j.tab === "done"; }).length
+      );
+    }
+
     function render() {
       var q = (search.value || "").toLowerCase().trim();
       list.innerHTML = "";
       var shown = 0;
-      items.forEach(function (r) {
-        var hay = (r.title + " " + r.customer + " " + r.area + " " + r.meta).toLowerCase();
+      jobs.forEach(function (j) {
+        if (j.tab !== tab) return;
+        var hay = [j.title, j.customer, j.area, j.collector, j.meta, j.orderId]
+          .join(" ")
+          .toLowerCase();
         if (q && hay.indexOf(q) < 0) return;
         shown++;
         var a = document.createElement("a");
         a.className = "JobRow";
-        a.href = "assign.html?id=" + encodeURIComponent(r.id);
+        a.href =
+          j.status === "waiting"
+            ? "assign.html?id=" + encodeURIComponent(j.id)
+            : j.status === "completed"
+              ? "transaction-edit.html?id=" + encodeURIComponent(j.orderId)
+              : "assign.html?id=" + encodeURIComponent(j.id);
+        var who = j.collector
+          ? j.customer + " · " + j.collector
+          : j.customer + " · Unassigned";
         a.innerHTML =
           '<div class="JobMain">' +
-          '<div class="JobKicker"><span class="JobStatus is-waiting">' +
-          (r.status || "Waiting") +
+          '<div class="JobKicker">' +
+          '<span class="JobStatus is-' +
+          j.status +
+          '">' +
+          j.statusLabel +
+          "</span>" +
+          '<span class="JobOid">' +
+          GK_ADMIN_JOBS.short(j.orderId) +
           "</span></div>" +
           "<h3>" +
-          r.title +
+          j.title +
           "</h3>" +
           "<p>" +
-          r.customer +
-          " · " +
-          r.area +
+          who +
           "</p>" +
           "<p>" +
-          r.meta +
+          j.area +
+          (j.meta ? " · " + j.meta : "") +
           "</p>" +
           "</div>" +
           chevron;
         list.appendChild(a);
       });
       empty.hidden = shown > 0;
-      empty.textContent = q ? "No requests match your search." : "No pending requests.";
+      empty.textContent = q
+        ? "No jobs match your search."
+        : tab === "active"
+          ? "No active jobs."
+          : "No completed jobs yet.";
+      syncCounts();
     }
+
+    document.getElementById("tabs").addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-tab]");
+      if (!btn) return;
+      tab = btn.getAttribute("data-tab");
+      document.querySelectorAll("#tabs .seg").forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+        b.setAttribute("aria-selected", b === btn ? "true" : "false");
+      });
+      render();
+    });
     search.addEventListener("input", render);
     render();
   </script>
