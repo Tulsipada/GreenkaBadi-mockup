@@ -32,7 +32,7 @@
         <div class="admin-main">
           <div class="admin-topbar">
             <h1 id="pageTitle">Add subcategory</h1>
-            <a class="link" id="backLink" class="active" href="categories.html">← Back</a>
+            <a class="link" id="backLink" href="categories.html">← Back</a>
           </div>
           <div class="admin-content">
             <div class="Card" style="padding:20px;">
@@ -58,7 +58,12 @@
                 </div>
                 <div class="Field">
                   <label for="note">Detail / notes</label>
-                  <textarea id="note" rows="3" placeholder="Pricing notes, conditions, examples…"></textarea>
+                  <textarea id="note" rows="3" placeholder="Internal pricing notes, conditions, examples…"></textarea>
+                </div>
+                <div class="Field">
+                  <label for="instruction">Important instructions (customer)</label>
+                  <textarea id="instruction" rows="3" placeholder="Shown when customer taps the i button on Post scrap…"></textarea>
+                  <p class="muted" style="margin:6px 0 0;font-size:12px;">Customers see this when they tap <strong>i</strong> next to the subcategory.</p>
                 </div>
                 <div class="Field">
                   <label for="active">Status</label>
@@ -97,6 +102,7 @@
       document.getElementById("rate").value = existing.rate != null ? existing.rate : 0;
       document.getElementById("unit").value = existing.unit || "kg";
       document.getElementById("note").value = existing.note || "";
+      document.getElementById("instruction").value = existing.instruction || "";
       document.getElementById("active").value = existing.active === false ? "0" : "1";
     }
 
@@ -126,6 +132,7 @@
         rate: rate,
         unit: document.getElementById("unit").value,
         note: document.getElementById("note").value.trim(),
+        instruction: document.getElementById("instruction").value.trim(),
         active: document.getElementById("active").value === "1"
       });
       location.href = "category-detail.html?id=" + encodeURIComponent(catId);

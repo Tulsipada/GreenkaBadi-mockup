@@ -8,6 +8,72 @@
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
   <link rel="stylesheet" href="../shared/card-app.css" />
+  <style>
+    .InfoBtn {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(27, 107, 74, 0.45);
+      background: var(--gk-green-50);
+      color: var(--gk-green-700);
+      font-size: 12px;
+      font-weight: 800;
+      font-style: italic;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .InfoBtn:active { transform: scale(0.96); }
+    .FieldLabelRow {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .FieldLabelRow label { margin: 0; }
+    .Screen { position: relative; }
+    .InfoPopup {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 18px;
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .InfoPopup.is-open { display: flex; }
+    .InfoPopupCard {
+      width: 100%;
+      max-width: 320px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px 18px 16px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.2);
+    }
+    .InfoPopupCard h2 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      color: var(--gk-green-800, #14532d);
+    }
+    .InfoPopupCard p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--gk-ink-2, #334155);
+      white-space: pre-wrap;
+    }
+    .InfoPopupActions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px;
+    }
+  </style>
 </head>
 <body>
   <div class="phone-stage">
@@ -34,7 +100,10 @@
           </div>
 
           <div class="Field" id="subWrap" hidden>
-            <label>Sub category</label>
+            <div class="FieldLabelRow">
+              <label for="subcategory">Sub category</label>
+              <button type="button" class="InfoBtn" id="infoBtn" aria-label="Important instructions" title="Important instructions">i</button>
+            </div>
             <select id="subcategory">
               <option value="">Select sub category</option>
             </select>
@@ -68,9 +137,19 @@
           <p class="muted">Final amount = verified weight x Green Kabadi rate at pickup (not this estimate).</p>
           <a class="Btn Btn-primary Btn-block" href="post-address.html" id="nextBtn">Next - Address</a>
         </div>
+        <div class="InfoPopup" id="infoPopup" aria-hidden="true">
+          <div class="InfoPopupCard" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+            <h2 id="infoTitle">Important instructions</h2>
+            <p id="infoBody"></p>
+            <div class="InfoPopupActions">
+              <button type="button" class="Btn Btn-primary" id="infoClose">Got it</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <script src="../admin/catalog.js"></script>
   <script>
     var rates = {
       metal: { copper: 450, iron: 25, aluminium: 120, steel: 30 },
@@ -91,14 +170,74 @@
       paper: { newspaper: "Old newspapers", carton: "Carton boxes", mixed: "Mixed paper" }
     };
 
+    /* Prefer live admin catalog rates / labels / instructions when present */
+    try {
+      if (window.GK_CATALOG) {
+        GK_CATALOG.load().forEach(function (cat) {
+          if (!cat || !cat.id) return;
+          rates[cat.id] = rates[cat.id] || {};
+          labels[cat.id] = labels[cat.id] || {};
+          (cat.subs || []).forEach(function (s) {
+            if (!s || !s.id || s.active === false) return;
+            rates[cat.id][s.id] = s.rate;
+            labels[cat.id][s.id] = s.name;
+          });
+        });
+      }
+    } catch (e0) {}
+
     var category = document.getElementById("category");
     var subcategory = document.getElementById("subcategory");
     var material = document.getElementById("material");
     var weight = document.getElementById("weight");
     var photoList = document.getElementById("photoList");
     var addPhotoBtn = document.getElementById("addPhotoBtn");
+    var infoBtn = document.getElementById("infoBtn");
+    var infoPopup = document.getElementById("infoPopup");
+    var infoBody = document.getElementById("infoBody");
+    var infoTitle = document.getElementById("infoTitle");
     var photoCount = 0;
     var maxPhotos = 5;
+
+    /** Always read live from admin catalog (localStorage). */
+    function currentInstruction() {
+      var c = category.value;
+      var s = subcategory.value;
+      if (!c || !s || !window.GK_CATALOG) return "";
+      try {
+        var sub = GK_CATALOG.findSub(c, s);
+        return (sub && sub.instruction) ? String(sub.instruction).trim() : "";
+      } catch (e1) {
+        return "";
+      }
+    }
+
+    function openInfo(e) {
+      if (e) e.preventDefault();
+      var c = category.value;
+      var s = subcategory.value;
+      if (!s) {
+        infoTitle.textContent = "Important instructions";
+        infoBody.textContent = "Select a subcategory first to see instructions set by admin.";
+      } else {
+        var text = currentInstruction();
+        var name = (labels[c] && labels[c][s]) || "Subcategory";
+        try {
+          var live = window.GK_CATALOG && GK_CATALOG.findSub(c, s);
+          if (live && live.name) name = live.name;
+        } catch (e2) {}
+        infoTitle.textContent = name + " · Instructions";
+        infoBody.textContent =
+          text || "Admin has not set important instructions for this subcategory yet.";
+      }
+      infoPopup.classList.add("is-open");
+      infoPopup.setAttribute("aria-hidden", "false");
+    }
+
+    function closeInfo() {
+      infoPopup.classList.remove("is-open");
+      infoPopup.setAttribute("aria-hidden", "true");
+    }
 
     function currentRate() {
       var c = category.value;
@@ -182,6 +321,15 @@
       } else {
         material.value = "";
       }
+    });
+
+    infoBtn.addEventListener("click", openInfo);
+    document.getElementById("infoClose").addEventListener("click", closeInfo);
+    infoPopup.addEventListener("click", function (e) {
+      if (e.target === infoPopup) closeInfo();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && infoPopup.classList.contains("is-open")) closeInfo();
     });
 
     weight.addEventListener("input", updateEstimate);
