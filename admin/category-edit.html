@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Edit category · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a class="active" href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1 id="pageTitle">Add category</h1>
+            <a class="link" class="active" href="categories.html">← Back</a>
+          </div>
+          <div class="admin-content">
+            <div class="Card" style="padding:20px;">
+              <form class="stack" id="form">
+                <div class="Field">
+                  <label for="name">Category name</label>
+                  <input id="name" type="text" required placeholder="e.g. Metal" />
+                </div>
+                <div class="Field">
+                  <label for="description">Description</label>
+                  <textarea id="description" rows="3" placeholder="Short note for staff / customers"></textarea>
+                </div>
+                <div class="Field">
+                  <label for="active">Status</label>
+                  <select id="active">
+                    <option value="1">Active</option>
+                    <option value="0">Off</option>
+                  </select>
+                </div>
+                <p class="muted" id="hint">Save, then add subcategories on the category details page.</p>
+                <p class="mismatch" id="err" hidden></p>
+                <button class="Btn Btn-primary" type="submit" style="align-self:flex-start;">Save category</button>
+              </form>
+            </div>
+          </div>
+          <div class="admin-foot">Edit name, description, and active status</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="catalog.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var id = params.get("id");
+    var existing = id ? GK_CATALOG.findCat(id) : null;
+    if (existing) {
+      document.getElementById("pageTitle").textContent = "Edit category";
+      document.getElementById("name").value = existing.name || "";
+      document.getElementById("description").value = existing.description || "";
+      document.getElementById("active").value = existing.active === false ? "0" : "1";
+      document.getElementById("hint").textContent =
+        "After save, open category details to add subcategories.";
+    }
+
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var err = document.getElementById("err");
+      err.hidden = true;
+      var name = document.getElementById("name").value.trim();
+      if (!name) {
+        err.textContent = "Name is required.";
+        err.hidden = false;
+        return;
+      }
+      var catId = existing ? existing.id : GK_CATALOG.slug(name);
+      var list = GK_CATALOG.load();
+      if (!existing && list.some(function (c) { return c.id === catId; })) {
+        catId = catId + "-" + Date.now().toString(36);
+      }
+      GK_CATALOG.upsertCat({
+        id: catId,
+        name: name,
+        description: document.getElementById("description").value.trim(),
+        active: document.getElementById("active").value === "1",
+        subs: existing ? existing.subs || [] : []
+      });
+      location.href = "category-detail.html?id=" + encodeURIComponent(catId);
+    });
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>

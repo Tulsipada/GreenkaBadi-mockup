@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Notifications · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <style>
+    .ContactTabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--gk-border);
+      margin: 0 0 4px;
+    }
+    .ContactTabs button {
+      appearance: none;
+      border: none;
+      background: transparent;
+      padding: 10px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gk-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+    .ContactTabs button.active {
+      color: var(--gk-green-800);
+      border-bottom-color: var(--gk-green-700);
+    }
+    .AdminNotif {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      background: #fff;
+      border: 1px solid var(--gk-border);
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .AdminNotif:hover { border-color: rgba(27, 107, 74, 0.28); }
+    .AdminNotif.is-unread {
+      background: rgba(27, 107, 74, 0.04);
+      border-color: rgba(27, 107, 74, 0.18);
+    }
+    .AdminNotifIco {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      background: #e8f5ef;
+    }
+    .AdminNotifBody { flex: 1; min-width: 0; }
+    .AdminNotifBody strong {
+      display: block;
+      font-size: 14px;
+      color: var(--gk-green-900);
+      margin-bottom: 2px;
+    }
+    .AdminNotifBody p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--gk-muted);
+      line-height: 1.4;
+    }
+    .AdminNotifMeta {
+      font-size: 11px;
+      color: var(--gk-muted);
+      font-weight: 600;
+      white-space: nowrap;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .AdminNotifDot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gk-green-700);
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a class="active" href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Notifications</h1>
+            <span class="Chip Chip-waiting" id="countChip">0 unread</span>
+            <button class="Btn Btn-secondary" type="button" id="markAll" style="min-height:36px;padding:6px 12px;font-size:12px;width:auto;">Mark all read</button>
+          </div>
+          <div class="admin-content">
+            <div class="ContactTabs" id="tabs" role="tablist">
+              <button type="button" class="active" data-tab="unread" role="tab" aria-selected="true">Unread</button>
+              <button type="button" data-tab="read" role="tab" aria-selected="false">Read</button>
+            </div>
+            <div class="stack" id="list" style="gap:10px;"></div>
+            <p class="ListEmptyHint" id="empty" hidden>No notifications.</p>
+          </div>
+          <div class="admin-foot">Pickup · contact · payment alerts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var KEY = "gk_admin_notifications";
+    var defaults = [
+      {
+        id: "n1",
+        title: "New pickup request",
+        body: "Old fridge · Rina Sharma · Salt Lake Sec 2",
+        href: "inbox.html",
+        icon: "📋",
+        when: "2m",
+        read: false
+      },
+      {
+        id: "n2",
+        title: "Contact us message",
+        body: "Rina Sharma · Pickup was delayed yesterday…",
+        href: "contact-detail.html?id=c1",
+        icon: "✉️",
+        when: "18m",
+        read: false
+      },
+      {
+        id: "n3",
+        title: "Payment completed",
+        body: "Metal scrap · Karim · Paid ₹420",
+        href: "monitor.html",
+        icon: "₹",
+        when: "1h",
+        read: false
+      },
+      {
+        id: "n4",
+        title: "Staff account created",
+        body: "New collector login ready for assign",
+        href: "staff.html",
+        icon: "👤",
+        when: "Yesterday",
+        read: true
+      }
+    ];
+
+    function load() {
+      try {
+        var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (saved && saved.length) return saved;
+      } catch (e) {}
+      try { localStorage.setItem(KEY, JSON.stringify(defaults)); } catch (e2) {}
+      return defaults.slice();
+    }
+
+    function save(list) {
+      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
+    }
+
+    var tab = "unread";
+    var list = load();
+    var wrap = document.getElementById("list");
+    var empty = document.getElementById("empty");
+
+    function render() {
+      var unreadCount = list.filter(function (n) { return !n.read; }).length;
+      document.getElementById("countChip").textContent = unreadCount + " unread";
+      wrap.innerHTML = "";
+      var shown = list.filter(function (n) {
+        return tab === "unread" ? !n.read : !!n.read;
+      });
+      empty.hidden = shown.length > 0;
+      empty.textContent =
+        tab === "unread" ? "No unread notifications." : "No read notifications yet.";
+      shown.forEach(function (n) {
+        var a = document.createElement("a");
+        a.className = "AdminNotif" + (n.read ? "" : " is-unread");
+        a.href = n.href || "#";
+        a.innerHTML =
+          '<div class="AdminNotifIco" aria-hidden="true">' + (n.icon || "🔔") + "</div>" +
+          '<div class="AdminNotifBody"><strong>' + n.title + "</strong><p>" + n.body + "</p></div>" +
+          '<div class="AdminNotifMeta"><span>' + (n.when || "") + "</span>" +
+          (n.read ? "" : '<span class="AdminNotifDot" aria-hidden="true"></span>') +
+          "</div>";
+        a.addEventListener("click", function () {
+          n.read = true;
+          save(list);
+          syncNavBadge();
+        });
+        wrap.appendChild(a);
+      });
+      syncNavBadge();
+    }
+
+    function syncNavBadge() {
+      var link = document.querySelector('.admin-nav a[href="notifications.html"]');
+      if (!link) return;
+      var existing = link.querySelector("[data-nav-notif-badge]");
+      if (existing) existing.remove();
+      var n = list.filter(function (x) { return !x.read; }).length;
+      if (n <= 0) return;
+      var badge = document.createElement("span");
+      badge.className = "admin-nav-badge";
+      badge.setAttribute("data-nav-notif-badge", "1");
+      badge.textContent = n > 9 ? "9+" : String(n);
+      link.appendChild(badge);
+    }
+
+    document.querySelectorAll("#tabs button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll("#tabs button").forEach(function (b) {
+          b.classList.remove("active");
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+        tab = btn.getAttribute("data-tab");
+        render();
+      });
+    });
+
+    document.getElementById("markAll").addEventListener("click", function () {
+      list.forEach(function (n) { n.read = true; });
+      save(list);
+      tab = "read";
+      document.querySelectorAll("#tabs button").forEach(function (b) {
+        var on = b.getAttribute("data-tab") === "read";
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      render();
+    });
+
+    render();
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>

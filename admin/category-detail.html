@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Category details · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <style>
+    .DetailSheet {
+      background: #fff;
+      border: 1px solid var(--gk-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .DetailSheet h2 {
+      margin: 0 0 4px;
+      font-size: 20px;
+      color: var(--gk-green-900);
+    }
+    .DetailMeta {
+      margin: 0;
+      font-size: 13px;
+      color: var(--gk-muted);
+    }
+    .DetailActions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .DetailActions .Btn {
+      min-height: 36px;
+      padding: 6px 12px;
+      font-size: 13px;
+      width: auto;
+    }
+    .SubTable {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--gk-border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .SubTable th,
+    .SubTable td {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 13px;
+      border-bottom: 1px solid var(--gk-border);
+    }
+    .SubTable th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--gk-muted);
+      background: #fafafa;
+    }
+    .SubTable tr:last-child td { border-bottom: none; }
+    .SubTable .Btn {
+      min-height: 32px;
+      padding: 4px 10px;
+      font-size: 12px;
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a class="active" href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Category details</h1>
+            <a class="Btn Btn-primary" id="addSubBtn" href="#" style="min-height:40px;padding:8px 14px;font-size:13px;width:auto;">Add subcategory</a>
+            <a class="link" class="active" href="categories.html">← All categories</a>
+          </div>
+          <div class="admin-content stack" style="gap:16px;">
+            <div class="DetailSheet">
+              <div class="row" style="align-items:flex-start;gap:12px;">
+                <div class="grow" style="min-width:0;">
+                  <h2 id="catName">—</h2>
+                  <p class="DetailMeta" id="catMeta"></p>
+                </div>
+                <span id="catChip"></span>
+              </div>
+              <div class="DetailActions">
+                <a class="Btn Btn-secondary" id="editCatBtn" href="#">Edit category</a>
+              </div>
+            </div>
+
+            <div>
+              <h3 style="margin:0 0 10px;font-size:14px;color:var(--gk-green-800);">Subcategories</h3>
+              <div id="subWrap"></div>
+            </div>
+          </div>
+          <div class="admin-foot">Use Add subcategory at the top to create a new item</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="catalog.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var catId = params.get("id");
+    var cat = GK_CATALOG.findCat(catId);
+    if (!cat) {
+      location.href = "categories.html";
+    }
+
+    function chip(active) {
+      return active
+        ? '<span class="Chip Chip-done">Active</span>'
+        : '<span class="Chip Chip-waiting">Off</span>';
+    }
+
+    function render() {
+      cat = GK_CATALOG.findCat(catId);
+      document.getElementById("catName").textContent = cat.name;
+      document.getElementById("catMeta").textContent =
+        (cat.subs || []).length +
+        " subcategories · " +
+        (cat.description || "No description");
+      document.getElementById("catChip").innerHTML = chip(cat.active !== false);
+      document.getElementById("editCatBtn").href =
+        "category-edit.html?id=" + encodeURIComponent(cat.id);
+      document.getElementById("addSubBtn").href =
+        "subcategory-edit.html?cat=" + encodeURIComponent(cat.id);
+
+      var wrap = document.getElementById("subWrap");
+      var subs = cat.subs || [];
+      if (!subs.length) {
+        wrap.innerHTML =
+          '<p class="muted" style="margin:0;">No subcategories yet. Tap <strong>Add subcategory</strong> at the top.</p>';
+        return;
+      }
+      wrap.innerHTML =
+        '<table class="SubTable"><thead><tr>' +
+        "<th>Subcategory</th><th>Rate</th><th>Status</th><th></th>" +
+        "</tr></thead><tbody>" +
+        subs
+          .map(function (s) {
+            return (
+              "<tr>" +
+              "<td><strong>" +
+              s.name +
+              "</strong>" +
+              (s.note
+                ? '<br /><span class="muted" style="font-size:12px;">' +
+                  s.note +
+                  "</span>"
+                : "") +
+              "</td>" +
+              "<td>Rs. " +
+              s.rate +
+              " / " +
+              (s.unit || "kg") +
+              "</td>" +
+              "<td>" +
+              chip(s.active !== false) +
+              "</td>" +
+              '<td><a class="Btn Btn-secondary" href="subcategory-edit.html?cat=' +
+              encodeURIComponent(cat.id) +
+              "&amp;sub=" +
+              encodeURIComponent(s.id) +
+              '">Edit</a></td>' +
+              "</tr>"
+            );
+          })
+          .join("") +
+        "</tbody></table>";
+    }
+
+    render();
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>

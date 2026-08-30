@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Contact us · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <style>
+    .ContactTabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--gk-border);
+      margin: 0 0 4px;
+    }
+    .ContactTabs button {
+      appearance: none;
+      border: none;
+      background: transparent;
+      padding: 10px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gk-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+    .ContactTabs button.active {
+      color: var(--gk-green-800);
+      border-bottom-color: var(--gk-green-700);
+    }
+    .IconBtn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--gk-border);
+      background: #fff;
+      color: var(--gk-green-800);
+      text-decoration: none;
+    }
+    .IconBtn:hover {
+      background: rgba(27, 107, 74, 0.06);
+      border-color: rgba(27, 107, 74, 0.25);
+    }
+    .IconBtn svg { width: 18px; height: 18px; }
+    .MsgPreview {
+      max-width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    tr.is-unread td:first-child strong { font-weight: 800; }
+  </style>
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a class="active" href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Contact us</h1>
+            <span class="Chip Chip-waiting" id="countChip">0 unread</span>
+          </div>
+          <div class="admin-content">
+            <div class="ContactTabs" id="tabs" role="tablist">
+              <button type="button" class="active" data-tab="unread" role="tab" aria-selected="true">Unread</button>
+              <button type="button" data-tab="read" role="tab" aria-selected="false">Read</button>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>From</th>
+                  <th>Email</th>
+                  <th>Message</th>
+                  <th>When</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="body"></tbody>
+            </table>
+            <p class="ListEmptyHint" id="empty" hidden>No messages.</p>
+          </div>
+          <div class="admin-foot">Opening details marks a message as read</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var KEY = "gk_contact_messages";
+    var defaults = [
+      {
+        id: "c1",
+        name: "Rina Sharma",
+        email: "rina.sharma@email.com",
+        role: "Customer",
+        message: "Pickup was delayed yesterday. Can someone confirm tomorrow slot?",
+        at: "30 Aug 2026, 11:20 AM",
+        read: false
+      },
+      {
+        id: "c2",
+        name: "Karim",
+        email: "karim.collector@email.com",
+        role: "Staff",
+        message: "Need rate clarification for mixed e-waste on job #c4e2a91b.",
+        at: "29 Aug 2026, 4:05 PM",
+        read: false
+      },
+      {
+        id: "c3",
+        name: "Amit Das",
+        email: "amit.das@email.com",
+        role: "Customer",
+        message: "How do I change my saved address before posting scrap?",
+        at: "28 Aug 2026, 9:40 AM",
+        read: true
+      }
+    ];
+
+    function load() {
+      try {
+        var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (saved && saved.length) {
+          return saved.map(function (m) {
+            return Object.assign({ read: false }, m);
+          });
+        }
+      } catch (e) {}
+      try { localStorage.setItem(KEY, JSON.stringify(defaults)); } catch (e2) {}
+      return defaults.slice();
+    }
+
+    function save(list) {
+      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
+    }
+
+    var eye =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+    var tab = "unread";
+    var list = load();
+    var tbody = document.getElementById("body");
+    var empty = document.getElementById("empty");
+
+    function render() {
+      var unreadCount = list.filter(function (m) { return !m.read; }).length;
+      document.getElementById("countChip").textContent = unreadCount + " unread";
+      tbody.innerHTML = "";
+      var shown = list.filter(function (m) {
+        return tab === "unread" ? !m.read : !!m.read;
+      });
+      empty.hidden = shown.length > 0;
+      empty.textContent =
+        tab === "unread" ? "No unread messages." : "No read messages yet.";
+      shown.forEach(function (item) {
+        var tr = document.createElement("tr");
+        if (!item.read) tr.className = "is-unread";
+        var detail = "contact-detail.html?id=" + encodeURIComponent(item.id);
+        tr.innerHTML =
+          "<td><strong>" + item.name + "</strong><br /><span class=\"muted\">" + (item.role || "User") + "</span></td>" +
+          "<td>" + item.email + "</td>" +
+          '<td><div class="MsgPreview" title="' + String(item.message || "").replace(/"/g, "&quot;") + '">' +
+          (item.message || "") +
+          "</div></td>" +
+          "<td>" + (item.at || "—") + "</td>" +
+          '<td><a class="IconBtn" href="' + detail + '" title="View details" aria-label="View details">' +
+          eye +
+          "</a></td>";
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.querySelectorAll("#tabs button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll("#tabs button").forEach(function (b) {
+          b.classList.remove("active");
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+        tab = btn.getAttribute("data-tab");
+        render();
+      });
+    });
+
+    render();
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>

@@ -19,16 +19,20 @@
           </div>
           <nav class="admin-nav">
             <a href="inbox.html"><span>Inbox</span></a>
-            <a href="monitor.html"><span>Monitor</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
             <a href="users.html"><span>Users</span></a>
-            <a href="rates.html"><span>Rates</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
             <a class="active" href="settings.html"><span>Settings</span></a>
           </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
         </aside>
         <div class="admin-main">
           <div class="admin-topbar">
             <h1 data-i18n="settings.language">Language</h1>
-            <a class="link" href="settings.html">← Settings</a>
+            <a class="link" class="active" href="settings.html">← Settings</a>
           </div>
           <div class="admin-content" style="max-width:480px;">
             <div class="LangList">
@@ -36,7 +40,7 @@
               <button type="button" class="LangCard" data-lang="hi"><span class="flag">हिं</span><span><strong>हिन्दी</strong><span>हिन्दी में जारी रखें</span></span></button>
               <button type="button" class="LangCard" data-lang="bn"><span class="flag">বাং</span><span><strong>বাংলা</strong><span>বাংলায় চালিয়ে যান</span></span></button>
             </div>
-            <a class="Btn Btn-primary" href="settings.html" style="align-self:flex-start;margin-top:8px;">Save</a>
+            <a class="Btn Btn-primary" class="active" href="settings.html" style="align-self:flex-start;margin-top:8px;">Save</a>
           </div>
           <div class="admin-foot">Admin display language</div>
         </div>
@@ -59,5 +63,6 @@
     });
     sync();
   </script>
+  <script src="admin-chrome.js"></script>
 </body>
 </html>

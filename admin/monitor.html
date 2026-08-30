@@ -3,10 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Monitor · GreenकBadi</title>
+  <title>Admin — Transactions · GreenकBadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
+  <style>
+    .FilterBar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    .FilterBar .Field {
+      margin: 0;
+      min-width: 160px;
+    }
+    .FilterBar .Field label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gk-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .TotalPaid {
+      background: #fff;
+      border: 1px solid var(--gk-border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .TotalPaid .label { font-size: 13px; color: var(--gk-muted); font-weight: 600; }
+    .TotalPaid .amt { font-size: 22px; font-weight: 800; color: var(--gk-green-800); letter-spacing: -0.02em; }
+    .IconBtn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--gk-border);
+      background: #fff;
+      color: var(--gk-green-800);
+      text-decoration: none;
+    }
+    .IconBtn:hover {
+      background: rgba(27, 107, 74, 0.06);
+    }
+    .IconBtn svg { width: 16px; height: 16px; }
+  </style>
 </head>
 <body>
   <div class="admin-stage">
@@ -19,68 +66,285 @@
           </div>
           <nav class="admin-nav">
             <a href="inbox.html"><span>Inbox</span></a>
-            <a class="active" href="monitor.html"><span>Monitor</span></a>
+            <a class="active" href="monitor.html"><span>Transactions</span></a>
             <a href="users.html"><span>Users</span></a>
-            <a href="rates.html"><span>Rates</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
             <a href="settings.html"><span>Settings</span></a>
           </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
         </aside>
         <div class="admin-main">
           <div class="admin-topbar">
-            <h1>Monitor operations</h1>
-            <div class="pill-tabs">
-              <button class="pill active" type="button">All</button>
-              <button class="pill" type="button">On the way</button>
-              <button class="pill" type="button">Completed</button>
-            </div>
+            <h1>Completed transactions</h1>
           </div>
           <div class="admin-content">
+            <div class="FilterBar">
+              <div class="Field">
+                <label for="date">Date</label>
+                <input id="date" type="date" />
+              </div>
+              <div class="Field">
+                <label for="staff">Staff (collector)</label>
+                <select id="staff">
+                  <option value="">All staff</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="TotalPaid">
+              <div>
+                <div class="label">Total paid</div>
+                <div class="muted" id="totalMeta" style="font-size:12px;margin-top:2px;"></div>
+              </div>
+              <div class="row" style="gap:12px;align-items:center;">
+                <div class="amt" id="totalPaid">₹0</div>
+                <button class="Btn Btn-primary" type="button" id="csvBtn" style="min-height:40px;padding:8px 14px;font-size:13px;width:auto;">Download CSV</button>
+              </div>
+            </div>
+
             <table class="table">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>Order</th>
                   <th>Item</th>
                   <th>Collector</th>
                   <th>Status</th>
                   <th>Paid</th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>GK-1842</td>
-                  <td>Metal scrap</td>
-                  <td>Karim</td>
-                  <td><span class="Chip Chip-done">Completed</span></td>
-                  <td>₹420</td>
-                </tr>
-                <tr>
-                  <td>GK-1845</td>
-                  <td>Old fridge</td>
-                  <td>Karim</td>
-                  <td><span class="Chip Chip-enroute">On the way</span></td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td>GK-1840</td>
-                  <td>Paper cartons</td>
-                  <td>Suman</td>
-                  <td><span class="Chip Chip-assigned">Assigned</span></td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td>GK-1831</td>
-                  <td>Plastic drums</td>
-                  <td>Karim</td>
-                  <td><span class="Chip Chip-done">Completed</span></td>
-                  <td><span style="color:var(--gk-warning);font-weight:700;">₹180 ⚠ mismatch</span></td>
-                </tr>
-              </tbody>
+              <tbody id="body"></tbody>
             </table>
+            <p class="ListEmptyHint" id="empty" hidden>No completed transactions.</p>
           </div>
-          <div class="admin-foot">Mismatch flag when Amount Paid ≠ Final Amount</div>
+          <div class="admin-foot">Download CSV includes total paid amount</div>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    function todayISO() {
+      var d = new Date();
+      var m = String(d.getMonth() + 1).padStart(2, "0");
+      var day = String(d.getDate()).padStart(2, "0");
+      return d.getFullYear() + "-" + m + "-" + day;
+    }
+
+    var txns = [
+      {
+        id: "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47",
+        short: "#a3f1c8e2",
+        item: "Metal scrap",
+        customer: "Amit",
+        collector: "Karim",
+        status: "completed",
+        paid: 420,
+        date: todayISO(),
+        mismatch: false
+      },
+      {
+        id: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
+        short: "#c4e2a91b",
+        item: "Old fridge",
+        customer: "Rina",
+        collector: "Karim",
+        status: "enroute",
+        paid: null,
+        date: todayISO(),
+        mismatch: false
+      },
+      {
+        id: "6d2e4b91-0c5a-4f38-b7e1-88a2c4d5f013",
+        short: "#6d2e4b91",
+        item: "Paper cartons",
+        customer: "Priya",
+        collector: "Suman",
+        status: "completed",
+        paid: 180,
+        date: todayISO(),
+        mismatch: false
+      },
+      {
+        id: "e8b7a016-3d2f-4c9a-9e55-2a1b7c8d9e0f",
+        short: "#e8b7a016",
+        item: "Plastic drums",
+        customer: "Soham",
+        collector: "Karim",
+        status: "completed",
+        paid: 180,
+        date: "2026-08-29",
+        mismatch: true
+      },
+      {
+        id: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
+        short: "#b1d9e704",
+        item: "LED TV 32\"",
+        customer: "Amit",
+        collector: "Suman",
+        status: "assigned",
+        paid: null,
+        date: todayISO(),
+        mismatch: false
+      }
+    ];
+
+    try {
+      var saved = JSON.parse(localStorage.getItem("gk_admin_txns") || "null");
+      if (saved && saved.length) txns = saved;
+      else localStorage.setItem("gk_admin_txns", JSON.stringify(txns));
+    } catch (e) {}
+
+    var staffSelect = document.getElementById("staff");
+    var staffNames = [];
+    txns.forEach(function (t) {
+      if (t.collector && staffNames.indexOf(t.collector) < 0) staffNames.push(t.collector);
+    });
+    try {
+      var roster = JSON.parse(localStorage.getItem("gk_admin_staff") || "null");
+      if (roster) {
+        roster.forEach(function (s) {
+          if (s.name && staffNames.indexOf(s.name) < 0) staffNames.push(s.name);
+        });
+      }
+    } catch (e2) {}
+    staffNames.sort().forEach(function (n) {
+      var opt = document.createElement("option");
+      opt.value = n;
+      opt.textContent = n;
+      staffSelect.appendChild(opt);
+    });
+
+    var dateEl = document.getElementById("date");
+    dateEl.value = todayISO();
+
+    var chipMap = {
+      completed: { cls: "Chip-done", label: "Completed" },
+      enroute: { cls: "Chip-enroute", label: "On the way" },
+      assigned: { cls: "Chip-assigned", label: "Assigned" }
+    };
+
+    var editIcon =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+
+    function filtered() {
+      var date = dateEl.value;
+      var staff = staffSelect.value;
+      return txns.filter(function (t) {
+        if (t.status !== "completed") return false;
+        if (date && t.date !== date) return false;
+        if (staff && t.collector !== staff) return false;
+        return true;
+      });
+    }
+
+    function csvEscape(v) {
+      var s = String(v == null ? "" : v);
+      if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+      return s;
+    }
+
+    function downloadCsv() {
+      var rows = filtered();
+      var statusLabel = {
+        completed: "Completed",
+        enroute: "On the way",
+        assigned: "Assigned"
+      };
+      var total = 0;
+      rows.forEach(function (t) {
+        if (t.paid != null) total += Number(t.paid) || 0;
+      });
+      var filterDate = dateEl.value || todayISO();
+      var filterStaff = staffSelect.value || "All staff";
+      var lines = [
+        ["Filter date", filterDate].join(","),
+        ["Filter staff", csvEscape(filterStaff)].join(","),
+        ["Total paid", total].join(","),
+        ["Transactions", rows.length].join(","),
+        "",
+        ["Order ID", "Short", "Item", "Customer", "Collector", "Status", "Paid", "Date", "Mismatch"].join(",")
+      ];
+      rows.forEach(function (t) {
+        lines.push(
+          [
+            csvEscape(t.id),
+            csvEscape(t.short),
+            csvEscape(t.item),
+            csvEscape(t.customer),
+            csvEscape(t.collector),
+            csvEscape(statusLabel[t.status] || t.status),
+            csvEscape(t.paid == null ? "" : t.paid),
+            csvEscape(t.date),
+            csvEscape(t.mismatch ? "yes" : "no")
+          ].join(",")
+        );
+      });
+      lines.push("");
+      lines.push(["", "", "", "", "", "Total paid", total, "", ""].join(","));
+      var blob = new Blob(["\uFEFF" + lines.join("\r\n")], {
+        type: "text/csv;charset=utf-8;"
+      });
+      var a = document.createElement("a");
+      var stamp = filterDate + (staffSelect.value ? "-" + staffSelect.value : "");
+      a.href = URL.createObjectURL(blob);
+      a.download = "greenkabadi-transactions-" + stamp + ".csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 500);
+    }
+
+    function render() {
+      var rows = filtered();
+      var staff = staffSelect.value;
+      var date = dateEl.value;
+
+      var total = 0;
+      rows.forEach(function (t) {
+        if (t.paid != null) total += Number(t.paid) || 0;
+      });
+      document.getElementById("totalPaid").textContent = "₹" + total.toLocaleString("en-IN");
+      document.getElementById("totalMeta").textContent =
+        rows.length + " transaction(s)" +
+        (staff ? " · " + staff : " · all staff") +
+        (date ? " · " + date : "");
+
+      var body = document.getElementById("body");
+      var empty = document.getElementById("empty");
+      body.innerHTML = "";
+      empty.hidden = rows.length > 0;
+      rows.forEach(function (t) {
+        var chip = chipMap[t.status] || chipMap.assigned;
+        var paidHtml =
+          t.paid == null
+            ? "—"
+            : t.mismatch
+              ? '<span style="color:var(--gk-warning);font-weight:700;">₹' + t.paid + " ⚠</span>"
+              : "₹" + t.paid;
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td><strong>" + t.short + "</strong></td>" +
+          "<td>" + t.item + "<br /><span class=\"muted\">" + (t.customer || "") + "</span></td>" +
+          "<td><strong>" + t.collector + "</strong></td>" +
+          '<td><span class="Chip ' + chip.cls + '">' + chip.label + "</span></td>" +
+          "<td>" + paidHtml + "</td>" +
+          '<td><a class="IconBtn" href="transaction-edit.html?id=' +
+          encodeURIComponent(t.id) +
+          '" title="Edit paid amount" aria-label="Edit paid amount">' +
+          editIcon +
+          "</a></td>";
+        body.appendChild(tr);
+      });
+    }
+
+    dateEl.addEventListener("change", render);
+    staffSelect.addEventListener("change", render);
+    document.getElementById("csvBtn").addEventListener("click", downloadCsv);
+    render();
+  </script>
+  <script src="admin-chrome.js"></script>
 </body>
 </html>

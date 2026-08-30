@@ -39,13 +39,42 @@
             <p class="muted" style="margin:6px 0 0;">Salt Lake, Kolkata, West Bengal</p>
           </div>
           <div class="Field">
-            <label>Message</label>
-            <textarea rows="4" placeholder="Job ID, issue, or question..."></textarea>
+            <label for="email">Your email</label>
+            <input id="email" type="email" required placeholder="you@email.com" value="karim.collector@email.com" />
           </div>
-          <button type="button" class="Btn Btn-primary Btn-block">Send message</button>
+          <div class="Field">
+            <label for="msg">Message</label>
+            <textarea id="msg" rows="4" placeholder="Job ID, issue, or question..."></textarea>
+          </div>
+          <p class="muted" id="sentNote" hidden style="color:var(--gk-green-700);font-weight:600;">Message sent. Admin can reply by email.</p>
+          <button type="button" class="Btn Btn-primary Btn-block" id="sendBtn">Send message</button>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    document.getElementById("sendBtn").onclick = function () {
+      var email = (document.getElementById("email").value || "").trim();
+      var message = (document.getElementById("msg").value || "").trim();
+      if (!email || !message) return;
+      var list = [];
+      try { list = JSON.parse(localStorage.getItem("gk_contact_messages") || "[]"); } catch (e) {}
+      list.unshift({
+        id: "c" + Date.now(),
+        name: "Karim",
+        email: email,
+        role: "Staff",
+        message: message,
+        read: false,
+        at: new Date().toLocaleString("en-IN", {
+          day: "numeric", month: "short", year: "numeric",
+          hour: "numeric", minute: "2-digit"
+        })
+      });
+      try { localStorage.setItem("gk_contact_messages", JSON.stringify(list)); } catch (e2) {}
+      document.getElementById("msg").value = "";
+      document.getElementById("sentNote").hidden = false;
+    };
+  </script>
 </body>
 </html>

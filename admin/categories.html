@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Categories · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <style>
+    .CatBlock {
+      background: #fff;
+      border: 1px solid var(--gk-border);
+      border-radius: 14px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .CatHead {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(27, 107, 74, 0.04);
+    }
+    .CatHead .grow { min-width: 0; flex: 1; }
+    .CatHead h3 { margin: 0; font-size: 15px; color: var(--gk-green-900); }
+    .CatHead p { margin: 2px 0 0; font-size: 12px; color: var(--gk-muted); }
+    .CatActions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .CatActions .Btn {
+      min-height: 34px;
+      padding: 6px 12px;
+      font-size: 12px;
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a class="active" href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Categories</h1>
+            <a class="Btn Btn-primary" href="category-edit.html" style="min-height:40px;padding:8px 14px;font-size:13px;width:auto;">Add category</a>
+          </div>
+          <div class="admin-content stack" id="list" style="gap:14px;"></div>
+          <div class="admin-foot">Open a category to add subcategories and edit details</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="catalog.js"></script>
+  <script>
+    function chip(active) {
+      return active
+        ? '<span class="Chip Chip-done">Active</span>'
+        : '<span class="Chip Chip-waiting">Off</span>';
+    }
+
+    var list = document.getElementById("list");
+    var cats = GK_CATALOG.load();
+    if (!cats.length) {
+      list.innerHTML = '<p class="muted">No categories yet. Add one to start.</p>';
+    }
+    cats.forEach(function (c) {
+      var block = document.createElement("div");
+      block.className = "CatBlock";
+      var detail =
+        "category-detail.html?id=" + encodeURIComponent(c.id);
+      block.innerHTML =
+        '<div class="CatHead">' +
+        '<div class="grow"><h3>' +
+        c.name +
+        "</h3><p>" +
+        (c.subs || []).length +
+        " subcategories · " +
+        (c.description || "No description") +
+        "</p></div>" +
+        chip(c.active !== false) +
+        '<div class="CatActions">' +
+        '<a class="Btn Btn-primary" href="' +
+        detail +
+        '">Open details</a>' +
+        "</div></div>";
+      list.appendChild(block);
+    });
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>

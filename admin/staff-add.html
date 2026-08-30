@@ -19,16 +19,20 @@
           </div>
           <nav class="admin-nav">
             <a href="inbox.html"><span>Inbox</span></a>
-            <a href="monitor.html"><span>Monitor</span></a>
-            <a class="active" href="users.html"><span>Users</span></a>
-            <a href="rates.html"><span>Rates</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a class="active" href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
             <a href="settings.html"><span>Settings</span></a>
           </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
         </aside>
         <div class="admin-main">
           <div class="admin-topbar">
             <h1>Add staff</h1>
-            <a class="link" href="users.html">← Back to users</a>
+            <a class="link" href="staff.html">← Back to staffs</a>
           </div>
           <div class="admin-content" style="max-width:480px;">
             <p class="muted" style="margin:0 0 8px;">Create a collector login. Staff signs in with phone/login and this password.</p>
@@ -125,9 +129,10 @@
       ok.textContent = "Staff “" + name + "” created. Opening users list…";
       ok.hidden = false;
       setTimeout(function () {
-        location.href = "users.html";
+        location.href = "staff.html";
       }, 700);
     });
   </script>
+  <script src="admin-chrome.js"></script>
 </body>
 </html>

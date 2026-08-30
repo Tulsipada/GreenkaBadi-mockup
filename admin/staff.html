@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Users · GreenकBadi</title>
+  <title>Admin — Staffs · GreenकBadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
@@ -20,8 +20,8 @@
           <nav class="admin-nav">
             <a href="inbox.html"><span>Inbox</span></a>
             <a href="monitor.html"><span>Transactions</span></a>
-            <a class="active" href="users.html"><span>Users</span></a>
-            <a href="staff.html"><span>Staffs</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a class="active" href="staff.html"><span>Staffs</span></a>
             <a href="categories.html"><span>Categories</span></a>
             <a href="contacts.html"><span>Contact</span></a>
             <a href="notifications.html"><span>Notifications</span></a>
@@ -31,8 +31,8 @@
         </aside>
         <div class="admin-main">
           <div class="admin-topbar">
-            <h1>Users</h1>
-            <span class="muted" style="font-size:13px;">Customers (app signup)</span>
+            <h1>Staffs</h1>
+            <a class="Btn Btn-primary" href="staff-add.html" style="min-height:36px;padding:8px 14px;font-size:13px;width:auto;">Add staff</a>
           </div>
           <div class="admin-content">
             <table class="table">
@@ -40,41 +40,47 @@
                 <tr>
                   <th>Name</th>
                   <th>Phone</th>
-                  <th>Area</th>
-                  <th>Pickups</th>
+                  <th>Login</th>
+                  <th>Jobs today</th>
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody id="customerBody"></tbody>
+              <tbody id="staffBody"></tbody>
             </table>
           </div>
-          <div class="admin-foot">Customer accounts from the mobile app</div>
+          <div class="admin-foot">Collectors created by admin with login password</div>
         </div>
       </div>
     </div>
   </div>
   <script>
-    var customers = [
-      { name: "Rina Sharma", phone: "98XXXX1122", area: "Salt Lake Sec 2", pickups: 3, status: "Active" },
-      { name: "Amit Das", phone: "97XXXX3344", area: "Champasari", pickups: 5, status: "Active" },
-      { name: "Priya", phone: "96XXXX5566", area: "Bidhannagar", pickups: 2, status: "Active" },
-      { name: "Soham", phone: "95XXXX7788", area: "New Town", pickups: 0, status: "Active" }
+    var defaultStaff = [
+      { name: "Karim", phone: "91XXXX1001", login: "karim", jobs: 2, status: "Active", passwordSet: true },
+      { name: "Suman", phone: "91XXXX1002", login: "suman", jobs: 1, status: "Active", passwordSet: true }
     ];
+
+    function loadStaff() {
+      try {
+        var saved = JSON.parse(localStorage.getItem("gk_admin_staff") || "null");
+        if (saved && saved.length) return saved;
+      } catch (e) {}
+      return defaultStaff.slice();
+    }
 
     function chip(status) {
       var cls = status === "Active" ? "Chip-done" : "Chip-waiting";
       return '<span class="Chip ' + cls + '">' + status + "</span>";
     }
 
-    var body = document.getElementById("customerBody");
-    customers.forEach(function (c) {
+    var body = document.getElementById("staffBody");
+    loadStaff().forEach(function (s) {
       var tr = document.createElement("tr");
       tr.innerHTML =
-        "<td><strong>" + c.name + "</strong></td>" +
-        "<td>" + c.phone + "</td>" +
-        "<td>" + c.area + "</td>" +
-        "<td>" + c.pickups + "</td>" +
-        "<td>" + chip(c.status) + "</td>";
+        "<td><strong>" + s.name + "</strong></td>" +
+        "<td>" + (s.phone || "—") + "</td>" +
+        "<td>" + (s.login || "—") + "</td>" +
+        "<td>" + (s.jobs != null ? s.jobs : 0) + "</td>" +
+        "<td>" + chip(s.status || "Active") + "</td>";
       body.appendChild(tr);
     });
   </script>

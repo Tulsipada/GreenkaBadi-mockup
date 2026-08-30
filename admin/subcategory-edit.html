@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Edit subcategory · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a class="active" href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1 id="pageTitle">Add subcategory</h1>
+            <a class="link" id="backLink" class="active" href="categories.html">← Back</a>
+          </div>
+          <div class="admin-content">
+            <div class="Card" style="padding:20px;">
+              <p class="muted" id="catLabel" style="margin:0 0 12px;"></p>
+              <form class="stack" id="form">
+                <div class="Field">
+                  <label for="name">Subcategory name</label>
+                  <input id="name" type="text" required placeholder="e.g. Copper" />
+                </div>
+                <div class="row" style="gap:12px;align-items:flex-start;">
+                  <div class="Field grow" style="margin:0;">
+                    <label for="rate">Rate (₹)</label>
+                    <input id="rate" type="number" min="0" step="0.01" required value="0" />
+                  </div>
+                  <div class="Field" style="margin:0;min-width:140px;">
+                    <label for="unit">Unit</label>
+                    <select id="unit">
+                      <option value="kg">kg</option>
+                      <option value="piece">piece</option>
+                      <option value="lot">lot</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="Field">
+                  <label for="note">Detail / notes</label>
+                  <textarea id="note" rows="3" placeholder="Pricing notes, conditions, examples…"></textarea>
+                </div>
+                <div class="Field">
+                  <label for="active">Status</label>
+                  <select id="active">
+                    <option value="1">Active</option>
+                    <option value="0">Off</option>
+                  </select>
+                </div>
+                <p class="mismatch" id="err" hidden></p>
+                <button class="Btn Btn-primary" type="submit" style="align-self:flex-start;">Save subcategory</button>
+              </form>
+            </div>
+          </div>
+          <div class="admin-foot">Rate used for customer estimate and staff payment</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="catalog.js"></script>
+  <script>
+    var params = new URLSearchParams(location.search);
+    var catId = params.get("cat");
+    var subId = params.get("sub");
+    var cat = GK_CATALOG.findCat(catId);
+    if (!cat) {
+      location.href = "categories.html";
+    }
+    document.getElementById("catLabel").textContent = "Category · " + cat.name;
+    document.getElementById("backLink").href =
+      "category-detail.html?id=" + encodeURIComponent(cat.id);
+
+    var existing = subId ? GK_CATALOG.findSub(catId, subId) : null;
+    if (existing) {
+      document.getElementById("pageTitle").textContent = "Edit subcategory";
+      document.getElementById("name").value = existing.name || "";
+      document.getElementById("rate").value = existing.rate != null ? existing.rate : 0;
+      document.getElementById("unit").value = existing.unit || "kg";
+      document.getElementById("note").value = existing.note || "";
+      document.getElementById("active").value = existing.active === false ? "0" : "1";
+    }
+
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var err = document.getElementById("err");
+      err.hidden = true;
+      var name = document.getElementById("name").value.trim();
+      var rate = parseFloat(document.getElementById("rate").value);
+      if (!name) {
+        err.textContent = "Name is required.";
+        err.hidden = false;
+        return;
+      }
+      if (isNaN(rate) || rate < 0) {
+        err.textContent = "Enter a valid rate.";
+        err.hidden = false;
+        return;
+      }
+      var id = existing ? existing.id : GK_CATALOG.slug(name);
+      if (!existing && (cat.subs || []).some(function (s) { return s.id === id; })) {
+        id = id + "-" + Date.now().toString(36);
+      }
+      GK_CATALOG.upsertSub(catId, {
+        id: id,
+        name: name,
+        rate: rate,
+        unit: document.getElementById("unit").value,
+        note: document.getElementById("note").value.trim(),
+        active: document.getElementById("active").value === "1"
+      });
+      location.href = "category-detail.html?id=" + encodeURIComponent(catId);
+    });
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>

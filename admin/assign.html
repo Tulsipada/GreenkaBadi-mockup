@@ -19,11 +19,15 @@
           </div>
           <nav class="admin-nav">
             <a class="active" href="inbox.html"><span>Inbox</span></a>
-            <a href="monitor.html"><span>Monitor</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
             <a href="users.html"><span>Users</span></a>
-            <a href="rates.html"><span>Rates</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
             <a href="settings.html"><span>Settings</span></a>
           </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
         </aside>
         <div class="admin-main">
           <div class="admin-topbar">
@@ -56,14 +60,31 @@
                 <span class="Chip Chip-done">Available</span>
               </label>
             </div>
-            <a class="Btn Btn-primary" href="monitor.html" style="align-self:flex-start;">Confirm assign</a>
+            <a class="Btn Btn-primary" href="#" id="confirmBtn" style="align-self:flex-start;">Confirm assign</a>
           </div>
-          <div class="admin-foot">Only active collectors are listed · Add staff from Users</div>
+          <div class="admin-foot">Only active collectors are listed · Add staff from Staffs menu</div>
         </div>
       </div>
     </div>
   </div>
   <script>
+    var params = new URLSearchParams(location.search);
+    var reqId = params.get("id");
+    try {
+      var inbox = JSON.parse(localStorage.getItem("gk_admin_inbox") || "null");
+      if (inbox && reqId) {
+        var found = inbox.find(function (r) { return r.id === reqId; });
+        if (found) {
+          var card = document.querySelector(".admin-content .Card");
+          if (card) {
+            card.querySelector("h3").textContent = found.title;
+            card.querySelector("p").textContent =
+              found.customer + " · " + found.area + " · " + found.meta;
+          }
+        }
+      }
+    } catch (e0) {}
+
     try {
       var staff = JSON.parse(localStorage.getItem("gk_admin_staff") || "null");
       if (staff && staff.length) {
@@ -89,6 +110,22 @@
         });
       }
     } catch (e) {}
+
+    document.getElementById("confirmBtn").addEventListener("click", function (e) {
+      e.preventDefault();
+      try {
+        var items = JSON.parse(localStorage.getItem("gk_admin_inbox") || "[]");
+        if (reqId) {
+          items = items.filter(function (r) { return r.id !== reqId; });
+        } else if (items.length) {
+          items.shift();
+        }
+        localStorage.setItem("gk_admin_inbox", JSON.stringify(items));
+        localStorage.setItem("gk_admin_inbox_pending", String(items.length));
+      } catch (ex) {}
+      location.href = "inbox.html";
+    });
   </script>
+  <script src="admin-chrome.js"></script>
 </body>
 </html>

@@ -19,16 +19,20 @@
           </div>
           <nav class="admin-nav">
             <a class="active" href="inbox.html"><span>Inbox</span></a>
-            <a href="monitor.html"><span>Monitor</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
             <a href="users.html"><span>Users</span></a>
-            <a href="rates.html"><span>Rates</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
             <a href="settings.html"><span>Settings</span></a>
           </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
         </aside>
         <div class="admin-main">
           <div class="admin-topbar">
             <h1>Pending inbox</h1>
-            <span class="Chip Chip-waiting">3 new</span>
+            <span class="Chip Chip-waiting" id="newChip">0 new</span>
           </div>
           <div class="admin-content">
             <table class="table">
@@ -41,35 +45,55 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Old fridge</strong><br /><span class="muted">Electronics · ~40 kg</span></td>
-                  <td>Rina Sharma</td>
-                  <td>Salt Lake Sec 2</td>
-                  <td><span class="Chip Chip-waiting">Waiting</span></td>
-                  <td><a class="Btn Btn-primary" href="assign.html" style="min-height:36px;padding:8px 12px;font-size:12px;">Assign</a></td>
-                </tr>
-                <tr>
-                  <td><strong>Paper cartons</strong><br /><span class="muted">Paper · ~15 kg</span></td>
-                  <td>Amit Das</td>
-                  <td>Champasari</td>
-                  <td><span class="Chip Chip-waiting">Waiting</span></td>
-                  <td><a class="Btn Btn-primary" href="assign.html" style="min-height:36px;padding:8px 12px;font-size:12px;">Assign</a></td>
-                </tr>
-                <tr>
-                  <td><strong>Copper wire</strong><br /><span class="muted">Metal · ~8 kg</span></td>
-                  <td>Priya</td>
-                  <td>Bidhannagar</td>
-                  <td><span class="Chip Chip-waiting">Waiting</span></td>
-                  <td><a class="Btn Btn-primary" href="assign.html" style="min-height:36px;padding:8px 12px;font-size:12px;">Assign</a></td>
-                </tr>
-              </tbody>
+              <tbody id="body"></tbody>
             </table>
+            <p class="ListEmptyHint" id="empty" hidden>No pending requests.</p>
           </div>
-          <div class="admin-foot">GreenकBadi Admin · Version 1 mockup</div>
+          <div class="admin-foot">Waiting pickups · badge clears as you assign</div>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    var KEY = "gk_admin_inbox";
+    var defaults = [
+      { id: "i1", title: "Old fridge", meta: "Electronics · ~40 kg", customer: "Rina Sharma", area: "Salt Lake Sec 2", status: "Waiting" },
+      { id: "i2", title: "Paper cartons", meta: "Paper · ~15 kg", customer: "Amit Das", area: "Champasari", status: "Waiting" },
+      { id: "i3", title: "Copper wire", meta: "Metal · ~8 kg", customer: "Priya", area: "Bidhannagar", status: "Waiting" }
+    ];
+
+    function load() {
+      try {
+        var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (saved) return saved;
+      } catch (e) {}
+      try { localStorage.setItem(KEY, JSON.stringify(defaults)); } catch (e2) {}
+      return defaults.slice();
+    }
+
+    function syncPending(count) {
+      try { localStorage.setItem("gk_admin_inbox_pending", String(count)); } catch (e) {}
+      document.getElementById("newChip").textContent = count + " new";
+      if (window.GK_ADMIN_BADGES) window.GK_ADMIN_BADGES.refresh();
+    }
+
+    var items = load();
+    var body = document.getElementById("body");
+    var empty = document.getElementById("empty");
+    empty.hidden = items.length > 0;
+    syncPending(items.length);
+
+    items.forEach(function (row) {
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td><strong>" + row.title + "</strong><br /><span class=\"muted\">" + row.meta + "</span></td>" +
+        "<td>" + row.customer + "</td>" +
+        "<td>" + row.area + "</td>" +
+        '<td><span class="Chip Chip-waiting">' + row.status + "</span></td>" +
+        '<td><a class="Btn Btn-primary" href="assign.html?id=' + encodeURIComponent(row.id) + '" style="min-height:36px;padding:8px 12px;font-size:12px;">Assign</a></td>';
+      body.appendChild(tr);
+    });
+  </script>
+  <script src="admin-chrome.js"></script>
 </body>
 </html>

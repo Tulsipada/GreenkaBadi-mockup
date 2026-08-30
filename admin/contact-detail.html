@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Contact details · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong>GreenकBadi</strong>
+          </div>
+          <nav class="admin-nav">
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a class="active" href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Contact details</h1>
+            <a class="link" href="contacts.html">← All messages</a>
+          </div>
+          <div class="admin-content">
+            <div class="Card" style="padding:20px;gap:14px;">
+              <div class="row" style="justify-content:space-between;align-items:flex-start;gap:12px;">
+                <div>
+                  <h2 id="name" style="margin:0;font-size:18px;color:var(--gk-green-900);">—</h2>
+                  <p class="muted" id="role" style="margin:4px 0 0;"></p>
+                </div>
+                <span class="Chip Chip-waiting" id="when"></span>
+              </div>
+              <div>
+                <div class="muted" style="font-size:12px;margin-bottom:4px;">Email</div>
+                <a class="link" id="email" href="#" style="font-size:15px;font-weight:700;"></a>
+                <p class="muted" style="margin:6px 0 0;font-size:12px;">Click email to open mail and reply</p>
+              </div>
+              <div>
+                <div class="muted" style="font-size:12px;margin-bottom:6px;">Message</div>
+                <p id="message" style="margin:0;font-size:14px;line-height:1.5;white-space:pre-wrap;"></p>
+              </div>
+            </div>
+          </div>
+          <div class="admin-foot">Email opens mailto: for reply</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var KEY = "gk_contact_messages";
+    var defaults = [
+      {
+        id: "c1",
+        name: "Rina Sharma",
+        email: "rina.sharma@email.com",
+        role: "Customer",
+        message: "Pickup was delayed yesterday. Can someone confirm tomorrow slot?",
+        at: "30 Aug 2026, 11:20 AM"
+      },
+      {
+        id: "c2",
+        name: "Karim",
+        email: "karim.collector@email.com",
+        role: "Staff",
+        message: "Need rate clarification for mixed e-waste on job #c4e2a91b.",
+        at: "29 Aug 2026, 4:05 PM"
+      },
+      {
+        id: "c3",
+        name: "Amit Das",
+        email: "amit.das@email.com",
+        role: "Customer",
+        message: "How do I change my saved address before posting scrap?",
+        at: "28 Aug 2026, 9:40 AM"
+      }
+    ];
+
+    function load() {
+      try {
+        var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (saved && saved.length) return saved;
+      } catch (e) {}
+      return defaults;
+    }
+
+    function markRead(id) {
+      var list = load().map(function (m) {
+        return Object.assign({}, m, { read: m.id === id ? true : !!m.read });
+      });
+      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
+      return list.find(function (m) { return m.id === id; });
+    }
+
+    function mailtoHref(item) {
+      var subject = encodeURIComponent("Re: GreenकBadi contact — " + (item.name || ""));
+      var body = encodeURIComponent(
+        "Hi " + (item.name || "") + ",\n\nThanks for contacting GreenकBadi.\n\n---\nYour message:\n" +
+        (item.message || "") +
+        "\n"
+      );
+      return "mailto:" + encodeURIComponent(item.email) + "?subject=" + subject + "&body=" + body;
+    }
+
+    var id = new URLSearchParams(location.search).get("id");
+    var item = markRead(id) || load()[0];
+    if (!item) {
+      location.href = "contacts.html";
+    }
+    document.getElementById("name").textContent = item.name || "—";
+    document.getElementById("role").textContent = item.role || "User";
+    document.getElementById("when").textContent = item.at || "";
+    document.getElementById("message").textContent = item.message || "";
+    var emailEl = document.getElementById("email");
+    emailEl.textContent = item.email;
+    emailEl.href = mailtoHref(item);
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>
