@@ -53,7 +53,7 @@
       var raw = localStorage.getItem("gk_pickups");
       if (raw) {
         var parsed = JSON.parse(raw);
-        return parsed.map(function (p) {
+        var list = parsed.map(function (p) {
           var id = p.orderId && p.orderId.indexOf("-") > 10 ? p.orderId : (p.uuid || uuidv4());
           return {
             orderId: id,
@@ -64,9 +64,50 @@
             chip: p.chip
           };
         });
+        var hasActive = list.some(function (p) {
+          return p.chip === "waiting" || p.chip === "enroute" || p.chip === "assigned";
+        });
+        if (!hasActive) {
+          list = [
+            {
+              orderId: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
+              title: "Old fridge",
+              status: "Waiting",
+              amount: "-",
+              date: "Today",
+              chip: "waiting"
+            },
+            {
+              orderId: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
+              title: "LED TV 32\"",
+              status: "On the way",
+              amount: "-",
+              date: "Today",
+              chip: "enroute"
+            }
+          ].concat(list);
+          try { localStorage.setItem("gk_pickups", JSON.stringify(list)); } catch (e0) {}
+        }
+        return list;
       }
     } catch (e) {}
     var seed = [
+      {
+        orderId: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
+        title: "Old fridge",
+        status: "Waiting",
+        amount: "-",
+        date: "Today",
+        chip: "waiting"
+      },
+      {
+        orderId: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
+        title: "LED TV 32\"",
+        status: "On the way",
+        amount: "-",
+        date: "Today",
+        chip: "enroute"
+      },
       {
         orderId: "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47",
         title: "Metal scrap bag",

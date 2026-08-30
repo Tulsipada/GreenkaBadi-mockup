@@ -26,10 +26,16 @@
           </div>
         </header>
         <div class="ScreenScroll pad-tab">
-          <label class="SearchField SearchField-soft">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input type="search" id="search" placeholder="Search history, order ID…" autocomplete="off" />
-          </label>
+          <div class="feed-toolbar">
+            <div class="SegControl" id="tabs" role="tablist">
+              <button class="seg active" type="button" data-tab="active" role="tab" aria-selected="true">Active<span class="count" id="countActive">0</span></button>
+              <button class="seg" type="button" data-tab="done" role="tab" aria-selected="false">Done<span class="count" id="countDone">0</span></button>
+            </div>
+            <label class="SearchField SearchField-soft">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input type="search" id="search" placeholder="Search history, order ID…" autocomplete="off" />
+            </label>
+          </div>
           <div class="JobFeed" id="list"></div>
           <p class="ListEmptyHint" id="empty" hidden>No pickups match.</p>
         </div>
@@ -49,23 +55,41 @@
     var list = document.getElementById("list");
     var empty = document.getElementById("empty");
     var search = document.getElementById("search");
-    var items = GK_IDS.list().filter(function (p) {
+    var tab = "active";
+    var all = GK_IDS.list();
+    try { localStorage.setItem("gk_pickups", JSON.stringify(all)); } catch (e) {}
+
+    function isDone(p) {
       return p.chip === "done" || p.chip === "cancel" || /complet|cancel/i.test(p.status || "");
-    });
-    try { localStorage.setItem("gk_pickups", JSON.stringify(GK_IDS.list())); } catch (e) {}
+    }
+    function isActive(p) {
+      return !isDone(p);
+    }
+
     var chevron =
       '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
 
     function statusClass(p) {
       if (p.chip === "done") return "completed";
       if (p.chip === "cancel") return "cancel";
-      return p.chip || "completed";
+      if (p.chip === "enroute") return "enroute";
+      if (p.chip === "assigned") return "assigned";
+      if (p.chip === "waiting") return "waiting";
+      return p.chip || "waiting";
+    }
+
+    function syncCounts() {
+      var activeN = all.filter(isActive).length;
+      var doneN = all.filter(isDone).length;
+      document.getElementById("countActive").textContent = String(activeN);
+      document.getElementById("countDone").textContent = String(doneN);
     }
 
     function render() {
       var q = (search.value || "").trim().toLowerCase();
       list.innerHTML = "";
       var shown = 0;
+      var items = all.filter(tab === "active" ? isActive : isDone);
       items.forEach(function (p) {
         var hay =
           (p.title || "") +
@@ -80,7 +104,12 @@
         if (q && hay.toLowerCase().indexOf(q) < 0) return;
         shown++;
         var st = statusClass(p);
-        var statusKey = p.chip === "cancel" ? "cancelled" : "completed";
+        var statusKey =
+          p.chip === "cancel"
+            ? "cancelled"
+            : p.chip === "done"
+              ? "completed"
+              : st;
         var a = document.createElement("a");
         a.className = "JobRow";
         a.href =
@@ -93,33 +122,73 @@
         var amountLine =
           p.chip === "done" && p.amount && p.amount !== "-"
             ? "Paid to you · " + p.amount
-            : p.amount;
+            : p.amount && p.amount !== "-"
+              ? p.amount
+              : p.date;
         a.innerHTML =
           '<div class="JobMain">' +
           '<div class="JobKicker">' +
-          '<span class="JobStatus is-' + st + '">' + p.status + "</span>" +
-          '<span class="JobOid">' + GK_IDS.short(p.orderId) + "</span>" +
-          "</div>" +
-          "<h3>" + p.title + "</h3>" +
-          "<p>" + p.date + " · " + amountLine + "</p>" +
+          '<span class="JobStatus is-' +
+          st +
+          '">' +
+          p.status +
+          "</span>" +
+          '<span class="JobOid">' +
+          GK_IDS.short(p.orderId) +
+          "</span></div>" +
+          "<h3>" +
+          p.title +
+          "</h3>" +
+          "<p>" +
+          p.date +
+          (amountLine && amountLine !== p.date ? " · " + amountLine : "") +
+          "</p>" +
           "</div>" +
           chevron;
         list.appendChild(a);
       });
       empty.hidden = shown > 0;
-      if (!items.length) {
+      if (!items.length && !q) {
         empty.hidden = false;
-        empty.innerHTML =
-          'No history yet.<br /><a class="Btn Btn-primary" href="post.html" style="margin-top:12px;display:inline-flex;">Post scrap</a>';
-        return;
+        empty.textContent =
+          tab === "active" ? "No active pickups." : "No completed pickups yet.";
+        if (tab === "done" && !all.filter(isDone).length) {
+          empty.innerHTML =
+            'No history yet.<br /><a class="Btn Btn-primary" href="post.html" style="margin-top:12px;display:inline-flex;">Post scrap</a>';
+        }
+      } else if (!shown) {
+        empty.textContent = "No pickups match your search.";
       }
-      empty.textContent = q
-        ? "No pickups match your search."
-        : "No completed pickups yet.";
+      syncCounts();
+    }
+
+    document.querySelectorAll("#tabs .seg").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll("#tabs .seg").forEach(function (b) {
+          b.classList.remove("active");
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+        tab = btn.getAttribute("data-tab");
+        search.placeholder =
+          tab === "active"
+            ? "Search active pickups…"
+            : "Search completed pickups…";
+        render();
+      });
+    });
+
+    var startTab = new URLSearchParams(location.search).get("tab");
+    if (startTab === "done") {
+      var doneBtn = document.querySelector('#tabs .seg[data-tab="done"]');
+      if (doneBtn) doneBtn.click();
+      else render();
+    } else {
+      render();
     }
 
     search.addEventListener("input", render);
-    render();
   </script>
 </body>
 </html>

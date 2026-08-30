@@ -32,10 +32,6 @@
         </header>
         <div class="ScreenScroll pad-tab">
           <div class="feed-toolbar">
-            <div class="SegControl" id="tabs" role="tablist">
-              <button class="seg active" type="button" data-tab="active" role="tab" aria-selected="true">Active</button>
-              <button class="seg" type="button" data-tab="done" role="tab" aria-selected="false">Done</button>
-            </div>
             <label class="SearchField SearchField-soft">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
               <input type="search" id="search" placeholder="Search pickups, order ID…" autocomplete="off" />
@@ -58,35 +54,27 @@
   <script>
     var pickups = [
       {
-        tab: "active",
         order: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
         status: "waiting",
         chipLabel: "Waiting",
         title: "Old fridge",
-        meta: "Sector 2 · Posted today",
-        q: "old fridge waiting sector salt lake c4e2a91b"
+        meta: "Electronics · ~40 kg · Sector 2",
+        thumb: "🧊",
+        note: "Awaiting assign",
+        q: "old fridge waiting sector salt lake c4e2a91b electronics"
       },
       {
-        tab: "active",
         order: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
         status: "enroute",
         chipLabel: "On the way",
         title: "LED TV 32\"",
-        meta: "Collector on the way",
-        q: "led tv on the way collector b1d9e704"
-      },
-      {
-        tab: "done",
-        order: "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47",
-        status: "completed",
-        chipLabel: "Completed",
-        title: "Metal scrap bag",
-        meta: "Paid to you · Rs. 420",
-        q: "metal scrap completed paid a3f1c8e2"
+        meta: "Karim · Champasari route",
+        thumb: "📺",
+        note: "Collector on the way",
+        q: "led tv on the way collector karim b1d9e704"
       }
     ];
 
-    var tab = "active";
     var list = document.getElementById("list");
     var empty = document.getElementById("empty");
     var search = document.getElementById("search");
@@ -97,59 +85,60 @@
       return "#" + String(id).replace(/-/g, "").slice(0, 8);
     }
 
+    function progressHtml(status) {
+      return (
+        '<div class="JobProgress is-' +
+        status +
+        '" aria-hidden="true"><i></i></div>'
+      );
+    }
+
     function render() {
       var q = (search.value || "").trim().toLowerCase();
       list.innerHTML = "";
       var shown = 0;
       pickups.forEach(function (p) {
-        if (p.tab !== tab) return;
         if (q && p.q.indexOf(q) < 0 && p.title.toLowerCase().indexOf(q) < 0) return;
         shown++;
         var a = document.createElement("a");
-        a.className = "JobRow";
+        a.className = "JobRow is-rich";
         a.href =
-          p.tab === "done"
-            ? "transaction.html?order=" + encodeURIComponent(p.order)
-            : "detail.html?order=" +
-              encodeURIComponent(p.order) +
-              "&status=" +
-              encodeURIComponent(p.status);
+          "detail.html?order=" +
+          encodeURIComponent(p.order) +
+          "&status=" +
+          encodeURIComponent(p.status);
         a.innerHTML =
+          '<div class="JobThumb" aria-hidden="true">' +
+          (p.thumb || "♻️") +
+          "</div>" +
           '<div class="JobMain">' +
           '<div class="JobKicker">' +
-          '<span class="JobStatus is-' + p.status + '">' + p.chipLabel + "</span>" +
-          '<span class="JobOid">' + shortId(p.order) + "</span>" +
-          "</div>" +
-          "<h3>" + p.title + "</h3>" +
-          "<p>" + p.meta + "</p>" +
+          '<span class="JobStatus is-' +
+          p.status +
+          '">' +
+          p.chipLabel +
+          "</span>" +
+          '<span class="JobOid">' +
+          shortId(p.order) +
+          "</span></div>" +
+          "<h3>" +
+          p.title +
+          "</h3>" +
+          "<p>" +
+          p.meta +
+          "</p>" +
+          progressHtml(p.status) +
+          '<div class="JobFoot"><span class="eta">' +
+          (p.note || p.chipLabel) +
+          "</span></div>" +
           "</div>" +
           chevron;
         list.appendChild(a);
       });
       empty.hidden = shown > 0;
-      empty.textContent = q
-        ? "No pickups match your search."
-        : tab === "active"
-          ? "No active pickups."
-          : "No completed pickups yet.";
+      empty.textContent = q ? "No pickups match your search." : "No active pickups.";
     }
 
-    document.querySelectorAll("#tabs .seg").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        document.querySelectorAll("#tabs .seg").forEach(function (b) {
-          b.classList.remove("active");
-          b.setAttribute("aria-selected", "false");
-        });
-        btn.classList.add("active");
-        btn.setAttribute("aria-selected", "true");
-        tab = btn.getAttribute("data-tab");
-        search.placeholder =
-          tab === "active"
-            ? "Search pickups, order ID…"
-            : "Search completed pickups…";
-        render();
-      });
-    });
     search.addEventListener("input", render);
     render();
   </script>
