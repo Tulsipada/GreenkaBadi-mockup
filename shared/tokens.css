@@ -1,36 +1,40 @@
-/* GreenकBadi design tokens — RN-ready */
+/* GreenकBadi design tokens — RN-ready · ref: Clean | Simple | Professional */
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 :root {
-  /* Brand */
-  --gk-green-900: #0f3d2c;
-  --gk-green-700: #1b6b4a;
-  --gk-green-600: #218a5c;
-  --gk-green-100: #e6f4ec;
-  --gk-green-50: #f3faf6;
+  /* Brand — Primary Green #16A34A · Secondary Blue #2563EB */
+  --gk-green-900: #14532d;
+  --gk-green-800: #166534;
+  --gk-green-700: #15803d;
+  --gk-green-600: #16a34a;
+  --gk-green-500: #22c55e;
+  --gk-green-100: #dcfce7;
+  --gk-green-50: #f0fdf4;
 
   --gk-blue-700: #1d4ed8;
   --gk-blue-600: #2563eb;
-  --gk-blue-100: #dbe8fb;
-  --gk-blue-50: #eff5ff;
+  --gk-blue-100: #dbeafe;
+  --gk-blue-50: #eff6ff;
 
   --gk-white: #ffffff;
-  --gk-bg: #f4f8f6;
-  --gk-text: #1a1f1c;
-  --gk-muted: #5b6b63;
-  --gk-border: #e2eae5;
-  --gk-danger: #c0392b;
+  --gk-bg: #f8faf9;
+  --gk-text: #111827;
+  --gk-muted: #6b7280;
+  --gk-border: #e5e7eb;
+  --gk-danger: #dc2626;
   --gk-warning: #d97706;
 
-  /* Status */
-  --gk-status-waiting-bg: #fff7e6;
-  --gk-status-waiting: #b45309;
-  --gk-status-assigned-bg: #eff5ff;
+  /* Status badges (reference) */
+  --gk-status-waiting-bg: #fff7ed;
+  --gk-status-waiting: #ea580c;
+  --gk-status-assigned-bg: #eff6ff;
   --gk-status-assigned: #2563eb;
-  --gk-status-enroute-bg: #eef2ff;
-  --gk-status-enroute: #4338ca;
-  --gk-status-done-bg: #e6f4ec;
-  --gk-status-done: #1b6b4a;
+  --gk-status-enroute-bg: #e0f2fe;
+  --gk-status-enroute: #0284c7;
+  --gk-status-done-bg: #dcfce7;
+  --gk-status-done: #16a34a;
+  --gk-status-active-bg: #ccfbf1;
+  --gk-status-active: #0d9488;
   --gk-status-cancel-bg: #f3f4f6;
   --gk-status-cancel: #6b7280;
 
@@ -41,9 +45,9 @@
   --gk-radius-sm: 10px;
   --gk-radius: 14px;
   --gk-radius-lg: 18px;
-  --gk-shadow: 0 4px 16px rgba(15, 61, 44, 0.06);
-  --gk-shadow-md: 0 8px 28px rgba(15, 61, 44, 0.1);
-  --gk-shadow-hover: 0 12px 32px rgba(15, 61, 44, 0.12);
+  --gk-shadow: 0 4px 16px rgba(20, 83, 45, 0.06);
+  --gk-shadow-md: 0 8px 28px rgba(20, 83, 45, 0.1);
+  --gk-shadow-hover: 0 12px 32px rgba(22, 163, 74, 0.14);
   --gk-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --gk-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -68,7 +72,7 @@ html, body { margin: 0; padding: 0; }
 body {
   font-family: var(--gk-font);
   color: var(--gk-text);
-  background: #dfe8e3;
+  background: #e8eee9;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; }

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Dashboard · GreenकBadi</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <link rel="stylesheet" href="../shared/app-shell.css" />
+  <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
+  <style>
+    .dash-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .dash-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .dash-tabs button {
+      border: 1px solid var(--gk-border);
+      background: #fff;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gk-muted);
+      cursor: pointer;
+    }
+    .dash-tabs button.active {
+      background: var(--gk-green-600);
+      border-color: var(--gk-green-600);
+      color: #fff;
+    }
+    .top-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid var(--gk-border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      min-width: 220px;
+    }
+    .top-search input {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      width: 100%;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-stage">
+    <div class="admin-frame">
+      <div class="admin-body">
+        <aside class="admin-sidebar">
+          <div class="brand">
+            <img src="../assets/logo.png" alt="" />
+            <strong><span class="g">Green</span><span class="ka">क</span><span class="b">Badi</span></strong>
+          </div>
+          <nav class="admin-nav">
+            <a class="active" href="dashboard.html"><span>Dashboard</span></a>
+            <a href="inbox.html"><span>Inbox</span></a>
+            <a href="jobs.html"><span>Jobs</span></a>
+            <a href="monitor.html"><span>Transactions</span></a>
+            <a href="users.html"><span>Users</span></a>
+            <a href="staff.html"><span>Staffs</span></a>
+            <a href="categories.html"><span>Categories</span></a>
+            <a href="contacts.html"><span>Contact</span></a>
+            <a href="notifications.html"><span>Notifications</span></a>
+            <a href="settings.html"><span>Settings</span></a>
+          </nav>
+          <a class="admin-logout" href="login.html">Log out</a>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h1>Dashboard</h1>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <label class="top-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <input type="search" placeholder="Search orders, customers…" />
+              </label>
+              <a class="HeaderIcon" href="notifications.html" title="Notifications" style="position:relative;width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--gk-border);border-radius:10px;background:#fff;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M6 9a6 6 0 1 1 12 0c0 7 3 7 3 7H3s3 0 3-7"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="admin-content">
+            <div class="AdminStatGrid">
+              <div class="AdminStatCard is-new"><div class="label">New Requests</div><div class="value">12</div></div>
+              <div class="AdminStatCard is-progress"><div class="label">In Progress</div><div class="value">8</div></div>
+              <div class="AdminStatCard is-done"><div class="label">Completed</div><div class="value">46</div></div>
+              <div class="AdminStatCard"><div class="label">Total Users</div><div class="value">320</div></div>
+            </div>
+
+            <div class="dash-toolbar">
+              <div>
+                <h2 style="margin:0 0 8px;font-size:16px;color:var(--gk-green-900);">Recent Pickup Requests</h2>
+                <div class="dash-tabs" id="tabs">
+                  <button type="button" class="active" data-f="all">All</button>
+                  <button type="button" data-f="waiting">Waiting</button>
+                  <button type="button" data-f="assigned">Assigned</button>
+                  <button type="button" data-f="enroute">On the Way</button>
+                  <button type="button" data-f="completed">Completed</button>
+                </div>
+              </div>
+              <a class="Btn Btn-primary" href="monitor.html">Download CSV</a>
+            </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Item</th>
+                  <th>Est. Weight</th>
+                  <th>Address</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="body"></tbody>
+            </table>
+          </div>
+          <div class="admin-foot">Clean · Simple · Professional · GreenकBadi ops</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var rows = [
+      { id: "c4e2a91b", customer: "Rina Sharma", item: "Old fridge", weight: "~40 kg", address: "Salt Lake Sec 2", status: "waiting", label: "Waiting", chip: "Chip-waiting", action: "Assign", href: "assign.html?id=i1" },
+      { id: "b1d9e704", customer: "Amit Das", item: "LED TV 32\"", weight: "~12 kg", address: "Champasari", status: "enroute", label: "On the Way", chip: "Chip-enroute", action: "View", href: "jobs.html" },
+      { id: "d9c1e8a0", customer: "Priya", item: "Copper wire", weight: "~8 kg", address: "Bidhannagar", status: "assigned", label: "Assigned", chip: "Chip-assigned", action: "View", href: "jobs.html" },
+      { id: "a3f1c8e2", customer: "Amit Das", item: "Metal scrap", weight: "~22 kg", address: "Champasari", status: "completed", label: "Completed", chip: "Chip-done", action: "View", href: "monitor.html" },
+      { id: "6d2e4b91", customer: "Priya", item: "Paper cartons", weight: "~15 kg", address: "Bidhannagar", status: "completed", label: "Completed", chip: "Chip-done", action: "View", href: "monitor.html" }
+    ];
+    var filter = "all";
+    var body = document.getElementById("body");
+
+    function render() {
+      body.innerHTML = rows
+        .filter(function (r) { return filter === "all" || r.status === filter; })
+        .map(function (r) {
+          return (
+            "<tr><td>#" + r.id + "</td><td>" + r.customer + "</td><td>" + r.item +
+            "</td><td>" + r.weight + "</td><td>" + r.address +
+            '</td><td><span class="Chip ' + r.chip + '">' + r.label +
+            '</span></td><td><a class="Btn ' +
+            (r.action === "Assign" ? "Btn-primary" : "Btn-ghost") +
+            '" href="' + r.href + '" style="min-height:34px;padding:0 12px;font-size:12px;">' +
+            r.action + "</a></td></tr>"
+          );
+        })
+        .join("");
+    }
+
+    document.getElementById("tabs").addEventListener("click", function (e) {
+      var btn = e.target.closest("button[data-f]");
+      if (!btn) return;
+      filter = btn.getAttribute("data-f");
+      document.querySelectorAll("#tabs button").forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+      });
+      render();
+    });
+    render();
+  </script>
+  <script src="admin-chrome.js"></script>
+</body>
+</html>

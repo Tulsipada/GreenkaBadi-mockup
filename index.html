@@ -18,8 +18,9 @@
     }
     .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 64px; }
     .hero { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; animation: gk-fade-up 0.45s var(--gk-ease-out) both; }
-    .hero img { width: 140px; height: auto; max-height: 140px; background: transparent; border-radius: 0; padding: 0; box-shadow: none; object-fit: contain; }
-    .hero h1 { margin: 0; font-size: 26px; font-weight: 800; color: var(--gk-green-700); letter-spacing: -0.03em; }
+    .hero img { width: min(320px, 100%); height: auto; max-height: 120px; background: transparent; border-radius: 0; padding: 0; box-shadow: none; object-fit: contain; }
+    .hero h1 { margin: 0; font-size: 26px; font-weight: 800; color: var(--gk-green-600); letter-spacing: -0.03em; }
+    .hero h1 .ka { color: var(--gk-blue-600); }
     .hero p { margin: 6px 0 0; color: var(--gk-muted); max-width: 580px; line-height: 1.5; font-size: 14px; }
     .group { margin-bottom: 28px; }
     .group h2 { margin: 0 0 12px; font-size: 15px; font-weight: 800; color: var(--gk-green-900); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
@@ -27,13 +28,16 @@
     .grid { display: flex; flex-wrap: wrap; gap: 12px; }
     .card-link {
       flex: 1 1 180px; max-width: 220px; background: linear-gradient(180deg,#fff,#f7faf8);
-      border: 1px solid rgba(27,107,74,0.1); border-radius: 16px; padding: 14px; text-decoration: none; color: inherit;
+      border: 1px solid var(--gk-border); border-radius: 16px; padding: 14px; text-decoration: none; color: inherit;
       box-shadow: var(--gk-shadow); transition: transform 0.25s var(--gk-ease), box-shadow 0.25s ease;
     }
     .card-link:hover { transform: translateY(-4px); box-shadow: var(--gk-shadow-hover); }
     .card-link strong { display: block; font-size: 13px; margin-bottom: 4px; }
     .card-link small { color: var(--gk-muted); font-size: 11px; line-height: 1.35; }
-    .notes { background: #fff; border-radius: 16px; padding: 18px 20px; border: 1px solid rgba(27,107,74,0.1); box-shadow: var(--gk-shadow); margin-bottom: 16px; }
+    .notes { background: #fff; border-radius: 16px; padding: 18px 20px; border: 1px solid var(--gk-border); box-shadow: var(--gk-shadow); margin-bottom: 16px; }
+    .swatches { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .swatch { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--gk-muted); font-weight: 600; }
+    .swatch i { width: 28px; height: 28px; border-radius: 8px; display: block; border: 1px solid var(--gk-border); }
     .notes h2 { margin: 0 0 8px; font-size: 15px; color: var(--gk-blue-700); }
     .notes ul { margin: 0; padding-left: 18px; color: var(--gk-muted); font-size: 13px; line-height: 1.55; }
     .notes li strong { color: var(--gk-text); }
@@ -42,12 +46,24 @@
 <body>
   <div class="wrap">
     <div class="hero">
-      <img src="assets/logo.png" alt="GreenकBadi" />
+      <img src="assets/logo-full.png" alt="GreenकBadi" />
       <div>
-        <h1>GreenकBadi · Phase 1 UI Mockups</h1>
+        <h1><span style="color:var(--gk-green-600)">Green</span><span class="ka">क</span><span style="color:var(--gk-green-900)">Badi</span> · Phase 1 UI Mockups</h1>
         <p>
-          Review-ready HTML/CSS (RN-ready Flexbox). Green primary · Blue secondary · White/light surfaces.
-          Language on register + Settings. Shared Header, Message header, Footer.
+          Clean · Simple · Professional. Primary green <code>#16A34A</code> · Secondary blue <code>#2563EB</code> · White surfaces.
+          Tagline: Recycle Today, Better Tomorrow.
+        </p>
+        <div class="swatches">
+          <span class="swatch"><i style="background:#16A34A"></i> Primary green</span>
+          <span class="swatch"><i style="background:#2563EB"></i> Secondary blue</span>
+          <span class="swatch"><i style="background:#fff"></i> White</span>
+          <span class="swatch"><i style="background:#E5E7EB"></i> Borders</span>
+        </div>
+        <p style="margin-top:14px;">
+          <a class="card-link" href="website/index.html" style="display:inline-flex;max-width:none;flex:none;padding:12px 18px;">
+            <strong>Marketing website →</strong>
+            <small style="display:block;margin-top:4px;">Landing page · EN / HI / BN</small>
+          </a>
         </p>
       </div>
     </div>
@@ -59,19 +75,28 @@
         <li>Customer flow: <strong>Splash → Language → Signup → Home</strong>.</li>
         <li>Admin app: same features as Admin website, phone UI like Customer / Staff.</li>
         <li>Change language later: <strong>Profile → Settings → Language</strong>.</li>
-        <li>Brand logo: <code>assets/logo.png</code> (final Green क Badi mark).</li>
+        <li>Brand: <code>assets/logo.png</code> (mark) · <code>assets/logo-full.png</code> (wordmark + tagline).</li>
       </ul>
+    </section>
+
+    <section class="group">
+      <h2>Marketing Website <span>Landing</span></h2>
+      <div class="grid">
+        <a class="card-link" href="website/index.html"><strong>Homepage</strong><small>View only · Android download</small></a>
+        <a class="card-link" href="website/privacy.html"><strong>Privacy policy</strong><small>HI + EN legal</small></a>
+        <a class="card-link" href="website/terms.html"><strong>Terms of service</strong><small>HI + EN legal</small></a>
+      </div>
     </section>
 
     <section class="group">
       <h2>Customer App <span>Phase 1</span></h2>
       <div class="grid">
-        <a class="card-link" href="customer/splash.html"><strong>Splash</strong><small>Logo · Create / Log in</small></a>
+        <a class="card-link" href="customer/splash.html"><strong>Splash</strong><small>Logo · Create / Log in · landscape</small></a>
         <a class="card-link" href="customer/language.html"><strong>Language</strong><small>Register first screen · EN/HI/BN</small></a>
         <a class="card-link" href="customer/signup.html"><strong>Sign up</strong><small>After language</small></a>
         <a class="card-link" href="customer/login.html"><strong>Login</strong><small>Returning customer</small></a>
         <a class="card-link" href="customer/forgot-password.html"><strong>Forgot password</strong><small>Email reset · customers only</small></a>
-        <a class="card-link" href="customer/home.html"><strong>Home</strong><small>Header address · Change / Add</small></a>
+        <a class="card-link" href="customer/home.html"><strong>Home</strong><small>Post Scrap · categories · recent</small></a>
         <a class="card-link" href="customer/addresses.html"><strong>Saved addresses</strong><small>Change default</small></a>
         <a class="card-link" href="customer/address-add.html"><strong>Add address</strong><small>GPS · auto ZIP/state</small></a>
         <a class="card-link" href="customer/home-empty.html"><strong>Empty / History</strong><small>Empty state</small></a>
@@ -99,7 +124,7 @@
       <h2>Staff App <span>Collector</span></h2>
       <div class="grid">
         <a class="card-link" href="staff/login.html"><strong>Login</strong><small>No public signup</small></a>
-        <a class="card-link" href="staff/jobs.html"><strong>My Jobs</strong><small>Flat notif header</small></a>
+        <a class="card-link" href="staff/jobs.html"><strong>My Jobs</strong><small>Stats · Today's Jobs</small></a>
         <a class="card-link" href="staff/notifications.html"><strong>Notifications</strong><small>New job alerts</small></a>
         <a class="card-link" href="staff/job-detail.html"><strong>Job detail</strong><small>On the way</small></a>
         <a class="card-link" href="staff/transaction.html"><strong>Complete pickup</strong><small>Verify → pay → receipt</small></a>
@@ -123,6 +148,7 @@
       <h2>Admin App <span>Mobile</span></h2>
       <div class="grid">
         <a class="card-link" href="admin-app/login.html"><strong>Login</strong><small>Phone frame · company</small></a>
+        <a class="card-link" href="admin-app/dashboard.html"><strong>Dashboard</strong><small>Stats · quick actions</small></a>
         <a class="card-link" href="admin-app/inbox.html"><strong>Inbox</strong><small>Pending · assign</small></a>
         <a class="card-link" href="admin-app/jobs.html"><strong>Jobs</strong><small>Active · Done</small></a>
         <a class="card-link" href="admin-app/assign.html?id=i1"><strong>Assign</strong><small>Pick collector</small></a>
@@ -142,6 +168,7 @@
     <section class="group">
       <h2>Admin Website <span>Desktop</span></h2>
       <div class="grid">
+        <a class="card-link" href="admin/dashboard.html"><strong>Dashboard</strong><small>Stats · recent requests</small></a>
         <a class="card-link" href="admin/login.html"><strong>Login</strong><small>Company account</small></a>
         <a class="card-link" href="admin/inbox.html"><strong>Pending inbox</strong><small>New requests</small></a>
         <a class="card-link" href="admin/jobs.html"><strong>Jobs</strong><small>Active · Done · All</small></a>

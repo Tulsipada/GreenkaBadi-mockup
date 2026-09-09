@@ -46,9 +46,9 @@
   flex: 1;
   min-height: 0;
   background:
-    radial-gradient(100% 55% at 0% -10%, rgba(27, 107, 74, 0.1), transparent 55%),
-    radial-gradient(80% 40% at 100% 0%, rgba(15, 61, 44, 0.05), transparent 45%),
-    #eef3f0;
+    radial-gradient(100% 55% at 0% -10%, rgba(22, 163, 74, 0.1), transparent 55%),
+    radial-gradient(80% 40% at 100% 0%, rgba(37, 99, 235, 0.06), transparent 45%),
+    #f8faf9;
 }
 
 .ScreenScroll {
@@ -94,7 +94,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(27, 107, 74, 0.1);
+  border: 1px solid rgba(22, 163, 74, 0.1);
 }
 
 .admin-body {
@@ -167,7 +167,12 @@
 .admin-sidebar .brand strong {
   font-size: 14px;
   font-weight: 800;
+  color: #fff;
 }
+
+.admin-sidebar .brand .g { color: #86efac; }
+.admin-sidebar .brand .ka { color: #93c5fd; }
+.admin-sidebar .brand .b { color: #fff; }
 
 .admin-nav a {
   display: flex;
@@ -215,7 +220,7 @@
   min-height: 0;
   overflow: hidden;
   background:
-    radial-gradient(90% 50% at 0% 0%, rgba(27, 107, 74, 0.07), transparent 50%),
+    radial-gradient(90% 50% at 0% 0%, rgba(22, 163, 74, 0.07), transparent 50%),
     #eef3f0;
 }
 
@@ -225,7 +230,7 @@
   font-size: 11px;
   color: var(--gk-muted);
   background: rgba(255, 255, 255, 0.88);
-  border-top: 1px solid rgba(27, 107, 74, 0.06);
+  border-top: 1px solid rgba(22, 163, 74, 0.06);
 }
 
 .admin-topbar {
@@ -237,7 +242,7 @@
   padding: 14px 20px;
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(27, 107, 74, 0.06);
+  border-bottom: 1px solid rgba(22, 163, 74, 0.06);
   min-height: 60px;
 }
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Customer - Home - Green Kabadi</title>
+  <title>Customer - Home - GreenकBadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
@@ -16,11 +16,10 @@
       <div class="Screen">
         <header class="Header">
           <div class="Header-left">
+            <img src="../assets/logo.png" alt="" width="36" height="36" style="border-radius:8px;object-fit:contain;" />
             <div class="grow" style="min-width:0;">
-              <h1 class="HeaderTitle" style="font-size:15px;"><span data-i18n="home.hi">Hello</span>, Rina</h1>
-              <a class="HeaderAddr" href="addresses.html" title="Change address">
-                <span class="text">Salt Lake, 700091</span>
-              </a>
+              <h1 class="HeaderTitle" style="font-size:15px;"><span style="color:var(--gk-green-600)">Green</span><span style="color:var(--gk-blue-600)">क</span>Badi</h1>
+              <span class="HeaderSub"><span data-i18n="home.hi">Hello</span>, Rina</span>
             </div>
           </div>
           <div class="Header-right">
@@ -30,15 +29,60 @@
             </a>
           </div>
         </header>
-        <div class="ScreenScroll pad-tab">
-          <div class="feed-toolbar">
-            <label class="SearchField SearchField-soft">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <input type="search" id="search" placeholder="Search pickups, order ID…" autocomplete="off" />
-            </label>
+        <div class="ScreenScroll pad-tab stack">
+          <a class="AddrBar" href="addresses.html">
+            <span class="pin" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            </span>
+            <span class="grow">
+              <span class="label">Your pickup address</span>
+              <span class="value">Salt Lake, 700091</span>
+            </span>
+            <span class="change">Change</span>
+          </a>
+
+          <a class="Btn Btn-primary Btn-block" href="post.html">+ Post Scrap</a>
+
+          <p class="SectionLabel">Materials</p>
+          <div class="CatScroll">
+            <a class="CatTile" href="post.html?cat=plastic"><span class="ico is-plastic" aria-hidden="true">🧴</span><strong>Plastic</strong></a>
+            <a class="CatTile" href="post.html?cat=paper"><span class="ico is-paper" aria-hidden="true">📄</span><strong>Paper</strong></a>
+            <a class="CatTile" href="post.html?cat=metal"><span class="ico is-metal" aria-hidden="true">⚙️</span><strong>Metal</strong></a>
+            <a class="CatTile" href="post.html?cat=electronics"><span class="ico is-ewaste" aria-hidden="true">📺</span><strong>E-waste</strong></a>
+            <a class="CatTile" href="post.html"><span class="ico is-other" aria-hidden="true">▦</span><strong>Other</strong></a>
           </div>
-          <div class="JobFeed" id="list"></div>
-          <p class="ListEmptyHint" id="empty" hidden>No pickups match.</p>
+
+          <p class="SectionLabel">Recent pickup</p>
+          <a class="PickupCard" href="detail.html?order=c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14&amp;status=waiting">
+            <div class="row">
+              <span class="oid">#c4e2a91b</span>
+              <span class="Chip Chip-waiting">Waiting</span>
+            </div>
+            <h3>Old fridge</h3>
+            <p>Electronics · ~40 kg · Salt Lake Sec 2</p>
+          </a>
+          <a class="PickupCard" href="detail.html?order=b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45&amp;status=enroute">
+            <div class="row">
+              <span class="oid">#b1d9e704</span>
+              <span class="Chip Chip-enroute">On the way</span>
+            </div>
+            <h3>LED TV 32"</h3>
+            <p>Karim · Champasari · Electronics</p>
+          </a>
+          <a class="PickupCard" href="transaction.html?id=a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47">
+            <div class="row">
+              <span class="oid">#a3f1c8e2</span>
+              <span class="Chip Chip-done">Completed</span>
+            </div>
+            <h3>Metal scrap bag</h3>
+            <p>24 Aug 2026 · Champasari</p>
+            <div class="amt">₹420 paid</div>
+          </a>
+
+          <a class="PromoBanner" href="post.html">
+            <strong>Clean City, Green Future Together</strong>
+            <span>Reduce · Reuse · Recycle — book a pickup in minutes.</span>
+          </a>
         </div>
         <nav class="Footer">
           <a class="active" href="home.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5"/><path d="M6 9.5V21h12V9.5"/><path d="M10 21v-6h4v6"/></svg></span><span data-i18n="tab.home">Home</span></a>
@@ -51,96 +95,5 @@
     </div>
   </div>
   <script src="../shared/i18n.js"></script>
-  <script>
-    var pickups = [
-      {
-        order: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
-        status: "waiting",
-        chipLabel: "Waiting",
-        title: "Old fridge",
-        meta: "Electronics · ~40 kg · Sector 2",
-        thumb: "🧊",
-        note: "Awaiting assign",
-        q: "old fridge waiting sector salt lake c4e2a91b electronics"
-      },
-      {
-        order: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
-        status: "enroute",
-        chipLabel: "On the way",
-        title: "LED TV 32\"",
-        meta: "Karim · Champasari route",
-        thumb: "📺",
-        note: "Collector on the way",
-        q: "led tv on the way collector karim b1d9e704"
-      }
-    ];
-
-    var list = document.getElementById("list");
-    var empty = document.getElementById("empty");
-    var search = document.getElementById("search");
-    var chevron =
-      '<span class="JobGo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
-
-    function shortId(id) {
-      return "#" + String(id).replace(/-/g, "").slice(0, 8);
-    }
-
-    function progressHtml(status) {
-      return (
-        '<div class="JobProgress is-' +
-        status +
-        '" aria-hidden="true"><i></i></div>'
-      );
-    }
-
-    function render() {
-      var q = (search.value || "").trim().toLowerCase();
-      list.innerHTML = "";
-      var shown = 0;
-      pickups.forEach(function (p) {
-        if (q && p.q.indexOf(q) < 0 && p.title.toLowerCase().indexOf(q) < 0) return;
-        shown++;
-        var a = document.createElement("a");
-        a.className = "JobRow is-rich";
-        a.href =
-          "detail.html?order=" +
-          encodeURIComponent(p.order) +
-          "&status=" +
-          encodeURIComponent(p.status);
-        a.innerHTML =
-          '<div class="JobThumb" aria-hidden="true">' +
-          (p.thumb || "♻️") +
-          "</div>" +
-          '<div class="JobMain">' +
-          '<div class="JobKicker">' +
-          '<span class="JobStatus is-' +
-          p.status +
-          '">' +
-          p.chipLabel +
-          "</span>" +
-          '<span class="JobOid">' +
-          shortId(p.order) +
-          "</span></div>" +
-          "<h3>" +
-          p.title +
-          "</h3>" +
-          "<p>" +
-          p.meta +
-          "</p>" +
-          progressHtml(p.status) +
-          '<div class="JobFoot"><span class="eta">' +
-          (p.note || p.chipLabel) +
-          "</span></div>" +
-          "</div>" +
-          chevron;
-        list.appendChild(a);
-      });
-      empty.hidden = shown > 0;
-      empty.textContent = q ? "No pickups match your search." : "No active pickups.";
-    }
-
-    search.addEventListener("input", render);
-    render();
-  </script>
 </body>
 </html>

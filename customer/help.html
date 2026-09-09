@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Customer - Help and FAQ - Green Kabadi</title>
+  <title>Customer - Help and FAQ - GreenकBadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
 </head>
 <body>
   <div class="phone-stage">
@@ -18,30 +19,53 @@
           <h1 class="HeaderTitle">Help &amp; FAQ</h1>
         </header>
         <div class="ScreenScroll stack">
-          <div class="Card">
-            <strong>How is price decided?</strong>
-            <p class="muted" style="margin:8px 0 0;">The app shows an estimate. Final pay uses verified weight x rate at pickup.</p>
+          <label class="SearchField SearchField-soft HelpSearch">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" id="q" placeholder="Search help topics…" autocomplete="off" />
+          </label>
+
+          <div class="faq-list" id="list">
+            <div class="Card" data-q="how to post scrap">
+              <strong>How to post scrap?</strong>
+              <p class="muted" style="margin:8px 0 0;">Tap + Post Scrap, add photos, choose category, then confirm pickup address.</p>
+            </div>
+            <div class="Card" data-q="accepted materials plastic paper metal e-waste">
+              <strong>What materials are accepted?</strong>
+              <p class="muted" style="margin:8px 0 0;">Plastic, paper, metal, e-waste and other recyclables listed in the app catalog.</p>
+            </div>
+            <div class="Card" data-q="how pickup works assigned collector">
+              <strong>How does pickup work?</strong>
+              <p class="muted" style="margin:8px 0 0;">Admin assigns a collector. You get status updates: Waiting → Assigned → On the way → Completed.</p>
+            </div>
+            <div class="Card" data-q="payments receipts price">
+              <strong>Payments &amp; receipts</strong>
+              <p class="muted" style="margin:8px 0 0;">Final pay uses verified weight × rate. Digital receipt appears in History for both you and admin.</p>
+            </div>
+            <div class="Card" data-q="change address">
+              <strong>Can I change my address?</strong>
+              <p class="muted" style="margin:8px 0 0;">Yes. Open Profile → Saved addresses, or Change from the Home address bar.</p>
+            </div>
           </div>
-          <div class="Card">
-            <strong>Can I change my address?</strong>
-            <p class="muted" style="margin:8px 0 0;">Yes. Open Profile → Saved addresses, or change address from Home header.</p>
+
+          <div class="HelpContact">
+            <strong>Still need help?</strong>
+            <p>Our support team replies within 1–2 business days.</p>
+            <a class="Btn Btn-primary Btn-block" href="contact.html">Contact Us</a>
           </div>
-          <div class="Card">
-            <strong>Where is my Order ID?</strong>
-            <p class="muted" style="margin:8px 0 0;">On Home cards (short form) and full Order ID on pickup detail / payment receipt.</p>
-          </div>
-          <div class="Card">
-            <strong>Where do I see how much I was paid?</strong>
-            <p class="muted" style="margin:8px 0 0;">After pickup, open History or Done on Home → Payment. You see the same “Paid to you” amount the collector recorded.</p>
-          </div>
-          <div class="Card">
-            <strong>How do I message the collector?</strong>
-            <p class="muted" style="margin:8px 0 0;">Open the order detail and tap Message after a collector is assigned. After the pickup is completed, chat and contact are closed for both sides.</p>
-          </div>
-          <a class="Btn Btn-primary Btn-block" href="contact.html">Still need help?</a>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    var q = document.getElementById("q");
+    var cards = document.querySelectorAll("#list .Card");
+    q.addEventListener("input", function () {
+      var v = (q.value || "").toLowerCase().trim();
+      cards.forEach(function (c) {
+        var hay = (c.getAttribute("data-q") + " " + c.textContent).toLowerCase();
+        c.hidden = !!(v && hay.indexOf(v) < 0);
+      });
+    });
+  </script>
 </body>
 </html>

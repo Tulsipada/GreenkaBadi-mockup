@@ -2,7 +2,7 @@
 
 .cred-home .Screen {
   background:
-    radial-gradient(120% 60% at 0% 0%, rgba(27, 107, 74, 0.08), transparent 55%),
+    radial-gradient(120% 60% at 0% 0%, rgba(22, 163, 74, 0.08), transparent 55%),
     radial-gradient(90% 50% at 100% 8%, rgba(37, 99, 235, 0.06), transparent 50%),
     var(--gk-bg);
 }
@@ -47,7 +47,7 @@
   background: var(--gk-white);
   border-radius: 16px;
   padding: 14px 16px;
-  border: 1px solid rgba(27, 107, 74, 0.07);
+  border: 1px solid rgba(22, 163, 74, 0.07);
   box-shadow: var(--gk-shadow);
   animation: gk-fade-up 0.5s var(--gk-ease-out) both;
 }
@@ -98,7 +98,7 @@
   padding: 16px 14px;
   background: rgba(255, 255, 255, 0.92);
   border-radius: 18px;
-  border: 1px solid rgba(27, 107, 74, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.06);
   box-shadow: none;
   text-decoration: none;
   color: inherit;
@@ -171,9 +171,9 @@
 }
 
 .auth-brand img {
-  width: 160px;
+  width: min(240px, 86%);
   height: auto;
-  max-height: 160px;
+  max-height: 120px;
   border-radius: 0;
   background: transparent;
   padding: 0;
@@ -256,8 +256,8 @@
 /* —— Modern feed (jobs / pickups) —— */
 .feed-page .Screen {
   background:
-    radial-gradient(100% 55% at 0% -10%, rgba(27, 107, 74, 0.1), transparent 55%),
-    radial-gradient(80% 40% at 100% 0%, rgba(15, 61, 44, 0.05), transparent 45%),
+    radial-gradient(100% 55% at 0% -10%, rgba(22, 163, 74, 0.1), transparent 55%),
+    radial-gradient(80% 40% at 100% 0%, rgba(20, 83, 45, 0.05), transparent 45%),
     #eef3f0;
 }
 
@@ -274,7 +274,7 @@
   gap: 4px;
   padding: 4px;
   background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(27, 107, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.08);
   border-radius: 14px;
   backdrop-filter: blur(8px);
 }
@@ -294,7 +294,7 @@
 .SegControl .seg.active {
   background: var(--gk-white);
   color: var(--gk-green-900);
-  box-shadow: 0 1px 0 rgba(15, 61, 44, 0.04);
+  box-shadow: 0 1px 0 rgba(20, 83, 45, 0.04);
 }
 .SegControl .seg:active { transform: scale(0.98); }
 
@@ -303,11 +303,11 @@
   border: none;
   background: rgba(255, 255, 255, 0.78);
   border-radius: 14px;
-  box-shadow: inset 0 0 0 1px rgba(27, 107, 74, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(22, 163, 74, 0.06);
 }
 .SearchField.SearchField-soft:focus-within {
   background: var(--gk-white);
-  box-shadow: inset 0 0 0 1.5px rgba(27, 107, 74, 0.28);
+  box-shadow: inset 0 0 0 1.5px rgba(22, 163, 74, 0.28);
 }
 
 .JobFeed {
@@ -324,7 +324,7 @@
   align-items: center;
   padding: 16px 14px;
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(27, 107, 74, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.06);
   border-radius: 18px;
   text-decoration: none;
   color: inherit;
@@ -395,7 +395,7 @@
   align-items: center;
   justify-content: center;
   color: var(--gk-muted);
-  background: rgba(27, 107, 74, 0.06);
+  background: rgba(22, 163, 74, 0.06);
   flex-shrink: 0;
 }
 .JobGo svg {
@@ -413,7 +413,7 @@
 }
 .HomeInsightCard {
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(27, 107, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.08);
   border-radius: 16px;
   padding: 12px 14px;
   min-width: 0;
@@ -445,7 +445,7 @@
 }
 .HomeInsightCard.is-live {
   background: linear-gradient(145deg, #e8f6ef 0%, #fff 70%);
-  border-color: rgba(27, 107, 74, 0.14);
+  border-color: rgba(22, 163, 74, 0.14);
 }
 .SegControl .seg .count {
   display: inline-flex;
@@ -456,7 +456,7 @@
   margin-left: 6px;
   padding: 0 5px;
   border-radius: 999px;
-  background: rgba(27, 107, 74, 0.1);
+  background: rgba(22, 163, 74, 0.1);
   color: var(--gk-green-800);
   font-size: 10px;
   font-weight: 800;
@@ -491,7 +491,7 @@
   margin-top: 10px;
   height: 4px;
   border-radius: 999px;
-  background: rgba(27, 107, 74, 0.12);
+  background: rgba(22, 163, 74, 0.12);
   overflow: hidden;
 }
 .JobProgress > i {
@@ -518,7 +518,7 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--gk-green-800);
-  background: rgba(27, 107, 74, 0.08);
+  background: rgba(22, 163, 74, 0.08);
   border-radius: 999px;
   padding: 4px 8px;
 }
@@ -535,7 +535,7 @@
 /* —— Messages inbox (distinct from Job rows) —— */
 .ConvoSheet {
   background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(27, 107, 74, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.06);
   border-radius: 22px;
   overflow: hidden;
   box-shadow: none;
@@ -549,7 +549,7 @@
   padding: 14px 16px;
   text-decoration: none;
   color: inherit;
-  border-bottom: 1px solid rgba(27, 107, 74, 0.06);
+  border-bottom: 1px solid rgba(22, 163, 74, 0.06);
   transition: background 0.15s ease;
   animation: gk-fade-up 0.4s var(--gk-ease-out) both;
 }
@@ -557,10 +557,10 @@
 .ConvoRow:nth-child(2) { animation-delay: 0.1s; }
 .ConvoRow:nth-child(3) { animation-delay: 0.16s; }
 .ConvoRow:last-child { border-bottom: none; }
-.ConvoRow:active { background: rgba(27, 107, 74, 0.04); }
+.ConvoRow:active { background: rgba(22, 163, 74, 0.04); }
 .ConvoRow.is-closed { opacity: 0.7; }
 .ConvoRow.is-link {
-  background: rgba(27, 107, 74, 0.03);
+  background: rgba(22, 163, 74, 0.03);
 }
 
 .ConvoAvatar {
@@ -578,7 +578,7 @@
   background: linear-gradient(160deg, #e7f5ee 0%, #e8eef8 100%);
 }
 .ConvoAvatar.is-icon {
-  background: rgba(27, 107, 74, 0.08);
+  background: rgba(22, 163, 74, 0.08);
   color: var(--gk-muted);
 }
 .ConvoAvatar.is-icon svg {
@@ -640,7 +640,7 @@
   margin-top: 6px;
   padding: 2px 8px;
   border-radius: 999px;
-  background: rgba(27, 107, 74, 0.06);
+  background: rgba(22, 163, 74, 0.06);
   color: var(--gk-muted);
   font-size: 10px;
   font-weight: 700;
@@ -700,7 +700,7 @@
 }
 .profile-main::-webkit-scrollbar { width: 5px; }
 .profile-main::-webkit-scrollbar-thumb {
-  background: rgba(27, 107, 74, 0.35);
+  background: rgba(22, 163, 74, 0.35);
   border-radius: 8px;
 }
 
@@ -713,7 +713,7 @@
   padding: 22px 16px 18px;
   margin-bottom: 14px;
   background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(27, 107, 74, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.06);
   border-radius: 24px;
   animation: gk-fade-up 0.4s var(--gk-ease-out) both;
 }
@@ -762,7 +762,7 @@
   padding: 0 14px;
   border-radius: 999px;
   border: none;
-  background: rgba(27, 107, 74, 0.08);
+  background: rgba(22, 163, 74, 0.08);
   color: var(--gk-green-700);
   text-decoration: none;
   font-size: 12px;
@@ -776,7 +776,7 @@
 }
 .ProfileHeroActions a:active {
   transform: scale(0.96);
-  background: rgba(27, 107, 74, 0.14);
+  background: rgba(22, 163, 74, 0.14);
 }
 .ProfileHeroActions svg {
   width: 15px;
@@ -796,7 +796,7 @@
 
 .ProfileSheet {
   background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(27, 107, 74, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.06);
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 12px;
@@ -810,11 +810,11 @@
   padding: 13px 14px;
   text-decoration: none;
   color: inherit;
-  border-bottom: 1px solid rgba(27, 107, 74, 0.06);
+  border-bottom: 1px solid rgba(22, 163, 74, 0.06);
   transition: background 0.15s ease;
 }
 .ProfileLink:last-child { border-bottom: none; }
-.ProfileLink:active { background: rgba(27, 107, 74, 0.04); }
+.ProfileLink:active { background: rgba(22, 163, 74, 0.04); }
 .ProfileLinkIco {
   width: 36px;
   height: 36px;
@@ -822,7 +822,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(27, 107, 74, 0.07);
+  background: rgba(22, 163, 74, 0.07);
   color: var(--gk-green-700);
   flex-shrink: 0;
 }
@@ -896,4 +896,328 @@
 }
 .phone-frame.profile-page .Footer .fab-wrap {
   margin-top: -24px;
+}
+
+/* �� Reference design system helpers �� */
+.StatRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.StatRow-4 { grid-template-columns: repeat(2, 1fr); }
+.StatCard {
+  background: #fff;
+  border: 1px solid var(--gk-border);
+  border-radius: 14px;
+  padding: 12px;
+  text-align: center;
+}
+.StatCard strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gk-green-600);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.StatCard span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gk-muted);
+}
+.StatCard.is-blue strong { color: var(--gk-blue-600); }
+.StatCard.is-teal strong { color: var(--gk-status-active); }
+
+.CatScroll {
+  display: flex;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  align-items: flex-start;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 4px 2px 8px;
+  min-height: 92px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.CatScroll::-webkit-scrollbar { display: none; }
+.CatTile {
+  flex: 0 0 72px;
+  width: 72px;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.CatTile .ico {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 8px;
+  border-radius: 14px;
+  border: 1px solid var(--gk-border);
+  background: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.CatTile .ico.is-plastic { background: #ecfdf5; color: #0d9488; }
+.CatTile .ico.is-paper { background: var(--gk-blue-50); color: var(--gk-blue-600); }
+.CatTile .ico.is-metal { background: #eef2ff; color: #4338ca; }
+.CatTile .ico.is-ewaste { background: #f5f3ff; color: #7c3aed; }
+.CatTile .ico.is-other { background: var(--gk-green-50); color: var(--gk-green-600); }
+.CatTile strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gk-text);
+  line-height: 1.2;
+}
+
+.SectionLabel {
+  flex: 0 0 auto;
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--gk-green-900);
+}
+
+.PromoBanner {
+  display: block;
+  border-radius: 16px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 55%, #2563eb 140%);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.22);
+}
+.PromoBanner strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.PromoBanner span {
+  font-size: 12px;
+  opacity: 0.92;
+  line-height: 1.4;
+}
+
+.PickupCard {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--gk-border);
+  border-radius: 14px;
+  padding: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+.PickupCard .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.PickupCard .oid {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gk-muted);
+  font-variant-numeric: tabular-nums;
+}
+.PickupCard h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 800;
+}
+.PickupCard p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--gk-muted);
+  line-height: 1.4;
+}
+.PickupCard .amt {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--gk-green-600);
+}
+
+.StaffJobCard {
+  background: #fff;
+  border: 1px solid var(--gk-border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.StaffJobCard .top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.StaffJobCard h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.StaffJobCard .meta { margin: 0; font-size: 12px; color: var(--gk-muted); line-height: 1.45; }
+.StaffJobCard .facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gk-text);
+}
+
+.AddrBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid var(--gk-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.06);
+  min-height: 64px;
+}
+.AddrBar .pin {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--gk-green-50);
+  color: var(--gk-green-600);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.AddrBar .pin svg {
+  width: 18px;
+  height: 18px;
+}
+.AddrBar .grow {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+.AddrBar .label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gk-muted);
+  line-height: 1.2;
+}
+.AddrBar .value {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--gk-text);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.AddrBar .change {
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: 4px;
+  padding: 8px 4px 8px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gk-blue-600);
+  line-height: 1;
+}
+
+.MenuList {
+  background: #fff;
+  border: 1px solid var(--gk-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.MenuList a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid var(--gk-border);
+  font-size: 14px;
+  font-weight: 600;
+}
+.MenuList a:last-child { border-bottom: none; }
+.MenuList .ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--gk-green-50);
+  color: var(--gk-green-600);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.MenuList .chev { margin-left: auto; color: var(--gk-muted); font-weight: 400; }
+
+.HelpContact {
+  background: var(--gk-green-50);
+  border: 1px solid var(--gk-green-100);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+}
+.HelpContact p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--gk-muted);
+}
+.HelpContact strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--gk-green-900);
+  font-size: 14px;
+}
+
+.AdminStatGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.AdminStatCard {
+  background: #fff;
+  border: 1px solid var(--gk-border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: var(--gk-shadow);
+}
+.AdminStatCard .label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gk-muted);
+  margin-bottom: 8px;
+}
+.AdminStatCard .value {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--gk-green-900);
+}
+.AdminStatCard.is-new .value { color: var(--gk-status-waiting); }
+.AdminStatCard.is-progress .value { color: var(--gk-blue-600); }
+.AdminStatCard.is-done .value { color: var(--gk-green-600); }
+
+@media (max-width: 900px) {
+  .AdminStatGrid { grid-template-columns: repeat(2, 1fr); }
 }

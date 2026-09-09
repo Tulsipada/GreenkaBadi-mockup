@@ -36,7 +36,7 @@
   align-items: center;
   padding: 14px;
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(27, 107, 74, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.06);
   border-radius: 18px;
 }
 .PersonRow .avatar {
@@ -95,7 +95,7 @@
 }
 .PersonRow .StaffToggle {
   appearance: none;
-  border: 1px solid rgba(27, 107, 74, 0.2);
+  border: 1px solid rgba(22, 163, 74, 0.2);
   background: #fff;
   color: var(--gk-green-800);
   font-family: inherit;
@@ -129,7 +129,7 @@
 }
 .TotalPaid {
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(27, 107, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.08);
   border-radius: 16px;
   padding: 14px 16px;
   display: flex;
@@ -160,7 +160,7 @@
   gap: 8px;
   padding: 16px 14px;
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(27, 107, 74, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.06);
   border-radius: 18px;
   text-decoration: none;
   color: inherit;
