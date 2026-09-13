@@ -61,29 +61,50 @@
           </div>
         </div>
         <div class="hero-visual">
-          <div class="floating-chip c1" data-i18n="hero.chip1">✓ Assigned · Karim</div>
-          <div class="floating-chip c2" data-i18n="hero.chip2">Receipt saved</div>
-          <div class="hero-card">
-            <div class="mock-phone">
-              <div class="mock-screen">
-                <p style="margin:0 0 12px;font-size:11px;font-weight:700;color:var(--gk-muted);" data-i18n="hero.mockApp">Customer App</p>
-                <div class="mock-job">
-                  <div class="status" data-i18n="hero.job1.status">On the way</div>
-                  <h4 data-i18n="hero.job1.title">Old fridge · Electronics</h4>
-                  <p data-i18n="hero.job1.meta">Salt Lake Sec 2 · Collector Karim</p>
-                </div>
-                <div class="mock-job">
-                  <div class="status" style="color:var(--gk-status-waiting);" data-i18n="hero.job2.status">Waiting</div>
-                  <h4 data-i18n="hero.job2.title">Paper cartons</h4>
-                  <p data-i18n="hero.job2.meta">Champasari · Awaiting assign</p>
-                </div>
-                <div class="mock-job">
-                  <div class="status" style="color:var(--gk-status-done);" data-i18n="hero.job3.status">Completed</div>
-                  <h4 data-i18n="hero.job3.title">Metal scrap bag</h4>
-                  <p data-i18n="hero.job3.meta">Receipt saved</p>
-                </div>
+          <div class="app-phone" aria-hidden="true">
+            <div class="app-notch">9:41</div>
+            <header class="app-head">
+              <img src="../assets/logo-mark-transparent.png" alt="" width="28" height="28" />
+              <div>
+                <strong><span class="g">Green</span><span class="ka">क</span>Badi</strong>
+                <small data-i18n="hero.mockHello">Hello, Rina</small>
+              </div>
+            </header>
+            <div class="app-scroll">
+              <div class="app-addr">
+                <span class="pin">📍</span>
+                <span>
+                  <em data-i18n="hero.mockAddrLabel">Your pickup address</em>
+                  <b>Salt Lake, 700091</b>
+                </span>
+              </div>
+              <div class="app-post" data-i18n="hero.mockPost">+ Post Scrap</div>
+              <p class="app-label" data-i18n="mat.kicker">Materials</p>
+              <div class="app-cats">
+                <span><i>🧴</i>Plastic</span>
+                <span><i>📄</i>Paper</span>
+                <span><i>⚙️</i>Metal</span>
+                <span><i>📺</i>E-waste</span>
+              </div>
+              <p class="app-label" data-i18n="hero.mockRecent">Recent pickup</p>
+              <div class="app-card">
+                <div class="row"><small>#c4e2a91b</small><span class="chip wait" data-i18n="hero.job2.status">Waiting</span></div>
+                <strong data-i18n="hero.job1.title">Old fridge</strong>
+                <p>Electronics · Salt Lake Sec 2</p>
+              </div>
+              <div class="app-card">
+                <div class="row"><small>#b1d9e704</small><span class="chip way" data-i18n="hero.job1.status">On the way</span></div>
+                <strong>LED TV 32"</strong>
+                <p>Karim · Champasari</p>
               </div>
             </div>
+            <nav class="app-tabs">
+              <span class="on">Home</span>
+              <span>History</span>
+              <span class="fab">+</span>
+              <span>Chat</span>
+              <span>Profile</span>
+            </nav>
           </div>
         </div>
       </div>
