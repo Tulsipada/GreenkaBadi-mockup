@@ -34,7 +34,6 @@
             <option value="ne">नेपाली</option>
           </select>
         </label>
-        <a class="btn btn-primary btn-sm" href="#download" data-i18n="nav.download">Download App</a>
         <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="siteNav">☰</button>
       </div>
     </div>
@@ -44,21 +43,15 @@
     <section class="hero" id="home">
       <div class="container hero-grid">
         <div>
-          <div class="hero-badge">🌿 <span data-i18n="hero.badge">Kolkata & West Bengal · Phase 1</span></div>
-          <img class="hero-logo" src="../assets/logo-full-transparent.png" alt="GreenकBadi" style="width:min(360px,100%);margin:0 0 18px;height:auto;" />
+          <div class="hero-badge">🌿 <span data-i18n="hero.badge">Siliguri</span></div>
+          <img class="hero-logo" src="../assets/logo-full-transparent.png" alt="GreenकBadi" />
           <h1>
             <span class="tagline-hi" data-i18n="hero.tagline">Responsible scrap pickup - fair price, digital receipt</span>
             <span class="hero-sub" data-i18n="hero.subtitle">Your scrap, handled right</span>
           </h1>
           <p class="lead" data-i18n="hero.lead">GreenकBadi picks up metal, electronics, paper and plastic from homes, shops and hospitals. Book on the app - collector assigned, payment and receipt in one place.</p>
           <div class="hero-cta">
-            <a class="store-badge" href="#download" id="androidDownloadHero">
-              <svg class="play-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3 20.5V3.5c0-.8.5-1.2 1.1-.9l14.6 8.4c.6.4.6 1 0 1.3L4.1 21.4c-.6.3-1.1-.1-1.1-.9z"/><path fill="#4285F4" d="M16.6 8.1 4.1 15.4l13.6 7.9c.5.3 1.1.1 1.4-.4l4.2-7.2c.3-.5.1-1.2-.4-1.5L16.6 8.1z" opacity=".35"/><path fill="#FBBC04" d="M3.6 3.1 14.2 12 3.6 20.9z" opacity=".4"/><path fill="#EA4335" d="M17.5 7.5 3.6 3.1l.5-.3c.6-.3 1.1.1 1.1.9v.2L17.5 7.5z" opacity=".5"/></svg>
-              <span class="lines">
-                <small data-i18n="download.soon">Coming soon on Google Play</small>
-                <strong data-i18n="download.play">Get it on Google Play</strong>
-              </span>
-            </a>
+            <a class="btn btn-primary" href="#how" data-i18n="nav.how">How it Works</a>
             <a class="btn btn-secondary" href="#rates" data-i18n="hero.cta2">See today's rates</a>
           </div>
           <div class="hero-stats">
@@ -69,7 +62,7 @@
         </div>
         <div class="hero-visual">
           <div class="floating-chip c1" data-i18n="hero.chip1">✓ Assigned · Karim</div>
-          <div class="floating-chip c2" data-i18n="hero.chip2">₹420 paid</div>
+          <div class="floating-chip c2" data-i18n="hero.chip2">Receipt saved</div>
           <div class="hero-card">
             <div class="mock-phone">
               <div class="mock-screen">
@@ -87,7 +80,7 @@
                 <div class="mock-job">
                   <div class="status" style="color:var(--gk-status-done);" data-i18n="hero.job3.status">Completed</div>
                   <h4 data-i18n="hero.job3.title">Metal scrap bag</h4>
-                  <p data-i18n="hero.job3.meta">Paid ₹420 · Receipt saved</p>
+                  <p data-i18n="hero.job3.meta">Receipt saved</p>
                 </div>
               </div>
             </div>
@@ -174,14 +167,10 @@
               </div>
             </li>
           </ol>
-          <p style="margin:20px 0 0;">
-            <a class="btn btn-primary" href="#download" data-i18n="book.try">Download Android app</a>
-          </p>
         </div>
         <div class="book-visual">
-          <h3 data-i18n="book.side.title">Get the Android app</h3>
-          <p data-i18n="book.side.desc">This website is view-only. To book a pickup, download the customer app for Android.</p>
-          <a class="btn" href="#download" data-i18n="book.side.btn">Download for Android</a>
+          <h3 data-i18n="book.side.title">Book from the customer app</h3>
+          <p data-i18n="book.side.desc">Post scrap, track pickup and get a digital receipt in the customer app.</p>
         </div>
       </div>
     </section>
@@ -191,24 +180,23 @@
         <div class="section-head">
           <span class="section-kicker" data-i18n="how.kicker">Process</span>
           <h2 data-i18n="how.title">How GreenकBadi Works</h2>
-          <p data-i18n="how.desc">From your doorstep to verified payment - transparent at every step.</p>
         </div>
         <div class="steps">
           <article class="step-card">
             <h3 data-i18n="how.s1.title">Request</h3>
-            <p data-i18n="how.s1.desc">Customer posts scrap with photos. Request lands in admin inbox.</p>
+            <p data-i18n="how.s1.desc">Customer posts scrap with photos and pickup details.</p>
           </article>
           <article class="step-card">
             <h3 data-i18n="how.s2.title">Assign</h3>
-            <p data-i18n="how.s2.desc">Admin assigns an active collector. Customer gets notification.</p>
+            <p data-i18n="how.s2.desc">Admin team reviews the request and assigns a collector.</p>
           </article>
           <article class="step-card">
-            <h3 data-i18n="how.s3.title">Pickup</h3>
-            <p data-i18n="how.s3.desc">Collector marks on the way, verifies items, weighs and pays.</p>
+            <h3 data-i18n="how.s3.title">Pickup &amp; Verify</h3>
+            <p data-i18n="how.s3.desc">Collector visits, verifies the material, weighs it and applies the applicable rate.</p>
           </article>
           <article class="step-card">
-            <h3 data-i18n="how.s4.title">Receipt</h3>
-            <p data-i18n="how.s4.desc">Digital receipt for customer &amp; admin. History and transactions synced.</p>
+            <h3 data-i18n="how.s4.title">Payment &amp; Receipt</h3>
+            <p data-i18n="how.s4.desc">Payment is recorded and the customer receives a digital transaction record/receipt.</p>
           </article>
         </div>
       </div>
@@ -269,7 +257,7 @@
             </thead>
             <tbody id="rateBody"></tbody>
           </table>
-          <p class="rates-note" data-i18n="rates.note">* Rates are mock data for demo. Admin can edit categories in the dashboard. Customer sees ⓘ instructions when posting scrap.</p>
+          <p class="rates-note" data-i18n="rates.note">* Rates are indicative. Final amount depends on quality, weight and market.</p>
         </div>
       </div>
     </section>
@@ -279,19 +267,17 @@
         <div class="section-head">
           <span class="section-kicker" data-i18n="about.kicker">About</span>
           <h2 data-i18n="about.title">About GreenकBadi</h2>
-          <p data-i18n="about.desc">Making scrap pickup fair, traceable and dignified - for households and institutions alike.</p>
         </div>
         <div class="about-grid">
           <div class="about-story">
-            <p data-i18n="about.p1">GreenकBadi means your scrap is not just picked up - it is handled with fair price, clean process and digital records.</p>
-            <p data-i18n="about.p2">We are building a connected platform: customers book from the app, collectors get assigned jobs with clear instructions, and admins manage rates, staff and transactions from web or mobile admin.</p>
-            <p data-i18n="about.p3">Phase 1 focuses on Kolkata &amp; surrounding areas - metal, electronics, paper and plastic - with Hindi, English and Bengali support.</p>
+            <p data-i18n="about.p1">GreenकBadi is a technology-enabled recycling and scrap collection platform built to make scrap collection simple, convenient, transparent and organised.</p>
+            <p data-i18n="about.p2">Our connected platform brings customers, collectors and the Admin team together - from pickup requests and collector assignment to material verification, weighing, payment and digital transaction records.</p>
+            <p data-i18n="about.p3">Phase 1 starts in Siliguri, with Metal, Electronics, Paper and Plastic, and support for English, Hindi, Bengali and Nepali.</p>
           </div>
           <article class="founder-card">
             <div class="founder-avatar">GK</div>
-            <h4 data-i18n="about.f1.title">Founder</h4>
-            <p class="role" data-i18n="about.f1.role">Operations &amp; Product</p>
-            <p data-i18n="about.f1.desc">Building GreenकBadi with on-ground collectors and transparent pricing for every pickup.</p>
+            <h4 data-i18n="about.f1.title">Founder Message</h4>
+            <p data-i18n="about.f1.desc">Building GreenकBadi with a focus on transparent processes, efficient operations, technology and a simple customer experience.</p>
           </article>
         </div>
       </div>
@@ -302,7 +288,7 @@
         <div class="section-head">
           <span class="section-kicker" data-i18n="download.kicker">Get the app</span>
           <h2 data-i18n="download.title">Download the customer app</h2>
-          <p data-i18n="download.desc">Book pickups, track your collector and get digital receipts on Android. This website is for information only.</p>
+          <p data-i18n="download.desc">Book pickups, track your collector and get digital receipts on Android.</p>
         </div>
         <div class="download-panel">
           <div>
@@ -310,7 +296,7 @@
               <a class="store-badge" href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" id="androidDownload">
                 <svg class="play-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3 20.5V3.5c0-.8.5-1.2 1.1-.9l14.6 8.4c.6.4.6 1 0 1.3L4.1 21.4c-.6.3-1.1-.1-1.1-.9z"/></svg>
                 <span class="lines">
-                  <small data-i18n="download.soon">Coming soon on Google Play</small>
+                  <small data-i18n="download.soon">Available on Google Play</small>
                   <strong data-i18n="download.play">Get it on Google Play</strong>
                 </span>
               </a>
@@ -359,8 +345,7 @@
         </div>
         <div class="receipt-preview">
           <h4 data-i18n="pay.receipt">GreenकBadi Receipt</h4>
-          <p class="amt">₹420</p>
-          <p data-i18n-html="pay.receiptMeta">Metal scrap · Order #a3f1c8e2<br />Paid to Amit Das · Collector Karim<br />24 Aug 2026</p>
+          <p data-i18n-html="pay.receiptMeta">Metal scrap · Digital receipt<br />Paid to Amit Das · Collector Karim<br />24 Aug 2026</p>
         </div>
       </div>
     </section>
@@ -400,10 +385,10 @@
         <div class="section-head">
           <span class="section-kicker" data-i18n="contact.kicker">Contact</span>
           <h2 data-i18n="contact.title">Get in Touch</h2>
-          <p data-i18n="contact.desc">Reach us by email or phone. This website is view-only.</p>
+          <p data-i18n="contact.desc">Reach us by email or phone.</p>
         </div>
         <div class="contact-static">
-          <p class="hint" data-i18n="contact.viewNote">No form submit here - use email, phone, or the Android app.</p>
+          <p class="hint" data-i18n="contact.viewNote">Write to us by email or phone, or use the Android app.</p>
           <div class="contact-info">
             <div class="contact-item">
               <div class="ico">📧</div>
@@ -423,14 +408,7 @@
               <div class="ico">📍</div>
               <div>
                 <strong data-i18n="contact.area">Service area</strong>
-                <span data-i18n="contact.areaVal">Kolkata &amp; West Bengal - expanding</span>
-              </div>
-            </div>
-            <div class="contact-item">
-              <div class="ico">📱</div>
-              <div>
-                <strong data-i18n="download.hi">Android app</strong>
-                <a href="#download" data-i18n="download.play">Get it on Google Play</a>
+                <span data-i18n="contact.areaVal">Siliguri</span>
               </div>
             </div>
           </div>
@@ -458,7 +436,6 @@
         </div>
         <div class="footer-col">
           <h5 data-i18n="foot.legal">Legal</h5>
-          <a href="#download" data-i18n="foot.download">Download Android</a>
           <a href="#contact" data-i18n="nav.contact">Contact</a>
           <a href="privacy.html" data-i18n="foot.privacy">Privacy policy</a>
           <a href="terms.html" data-i18n="foot.terms">Terms of service</a>
@@ -466,7 +443,7 @@
       </div>
       <div class="footer-bottom">
         <span data-i18n="foot.copy">© 2026 GreenकBadi. All rights reserved.</span>
-        <span data-i18n="foot.phase">Marketing website · view only</span>
+        <span data-i18n="foot.phase">Siliguri</span>
       </div>
     </div>
   </footer>
