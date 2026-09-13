@@ -44,7 +44,6 @@
       <div class="container hero-grid">
         <div>
           <div class="hero-badge">🌿 <span data-i18n="hero.badge">Siliguri</span></div>
-          <img class="hero-logo" src="../assets/logo-full-transparent.png" alt="GreenकBadi" />
           <h1>
             <span class="tagline-hi" data-i18n="hero.tagline">Responsible scrap pickup - fair price, digital receipt</span>
             <span class="hero-sub" data-i18n="hero.subtitle">Your scrap, handled right</span>
@@ -55,14 +54,15 @@
             <a class="btn btn-secondary" href="#rates" data-i18n="hero.cta2">See today's rates</a>
           </div>
           <div class="hero-stats">
-            <div><strong>4+</strong><span data-i18n="hero.stat1">Material categories</span></div>
-            <div><strong>₹</strong><span data-i18n="hero.stat2">Instant digital receipt</span></div>
-            <div><strong>3</strong><span data-i18n="hero.stat3">Apps - Customer · Staff · Admin</span></div>
+            <div class="stat-card"><strong>4+</strong><span data-i18n="hero.stat1">Material categories</span></div>
+            <div class="stat-card"><strong>₹</strong><span data-i18n="hero.stat2">Instant digital receipt</span></div>
+            <div class="stat-card"><strong>3</strong><span data-i18n="hero.stat3">Languages</span></div>
           </div>
         </div>
         <div class="hero-visual">
+          <div class="app-stage">
           <div class="app-phone" aria-hidden="true">
-            <div class="app-notch">9:41</div>
+            <div class="app-notch"><span>9:41</span></div>
             <header class="app-head">
               <img src="../assets/logo-mark-transparent.png" alt="" width="28" height="28" />
               <div>
@@ -99,12 +99,25 @@
               </div>
             </div>
             <nav class="app-tabs">
-              <span class="on">Home</span>
-              <span>History</span>
-              <span class="fab">+</span>
-              <span>Chat</span>
-              <span>Profile</span>
+              <span class="on">
+                <i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 10.5 12 3l8 7.5"/><path d="M6 9.5V21h12V9.5"/><path d="M10 21v-6h4v6"/></svg></i>
+                Home
+              </span>
+              <span>
+                <i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i>
+                History
+              </span>
+              <span class="fab-wrap"><span class="fab" aria-hidden="true"></span></span>
+              <span>
+                <i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4V6.5z"/></svg></i>
+                Chat
+              </span>
+              <span>
+                <i class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19.5c1.6-3.2 4-4.75 6.5-4.75s4.9 1.55 6.5 4.75"/></svg></i>
+                Profile
+              </span>
             </nav>
+          </div>
           </div>
         </div>
       </div>
