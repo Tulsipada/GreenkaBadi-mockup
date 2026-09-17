@@ -1,9 +1,11 @@
-/* Light mock i18n - EN / HI / BN (ASCII-safe labels in UI cards; strings below for data-i18n) */
+/* Light mock i18n - EN / HI / BN / NE (shared gk_lang) */
 (function () {
   var dict = {
     en: {
       "app.name": "Green Kabadi",
       "splash.tag": "Sell scrap. Track pickup. Get paid at your door.",
+      "splash.lead": "Sell your scrap from your doorstep.",
+      "splash.sub": "Book a pickup, track your collector and get paid with a digital receipt.",
       "splash.login": "Log in",
       "splash.create": "Create account",
       "lang.title": "Choose your language",
@@ -34,6 +36,8 @@
     hi: {
       "app.name": "Green Kabadi",
       "splash.tag": "Scrap bechen. Pickup track karein. Ghar par payment.",
+      "splash.lead": "Apna scrap ghar ke darwaze se bechein.",
+      "splash.sub": "Pickup book karein, collector track karein aur digital receipt ke saath payment paayein.",
       "splash.login": "Log in",
       "splash.create": "Account banayein",
       "lang.title": "Bhasha chunein",
@@ -64,6 +68,8 @@
     bn: {
       "app.name": "Green Kabadi",
       "splash.tag": "Scrap bikri. Pickup track. Dore payment.",
+      "splash.lead": "Nijer scrap dorer theke bikri korun.",
+      "splash.sub": "Pickup book korun, collector track korun ebong digital receipt soho payment paan.",
       "splash.login": "Log in",
       "splash.create": "Account create",
       "lang.title": "Bhasha beche nin",
@@ -90,6 +96,38 @@
       "settings.language.hint": "App display language",
       "profile.settings": "Settings",
       "profile.logout": "Log out"
+    },
+    ne: {
+      "app.name": "Green Kabadi",
+      "splash.tag": "स्क्र्याप बेच्नुहोस्। पिकअप ट्र्याक गर्नुहोस्। घरैमा भुक्तानी पाउनुहोस्।",
+      "splash.lead": "आफ्नो स्क्र्याप ढोकामैबाट बेच्नुहोस्।",
+      "splash.sub": "पिकअप बुक गर्नुहोस्, कलेक्टर ट्र्याक गर्नुहोस् र डिजिटल रसिदसहित भुक्तानी पाउनुहोस्।",
+      "splash.login": "लग इन",
+      "splash.create": "खाता बनाउनुहोस्",
+      "lang.title": "भाषा छान्नुहोस्",
+      "lang.sub": "पछि सेटिङ्सबाट परिवर्तन गर्न सकिन्छ।",
+      "lang.continue": "जारी राख्नुहोस्",
+      "login.title": "फेरि स्वागत छ",
+      "login.email": "इमेल",
+      "login.password": "पासवर्ड",
+      "login.submit": "लग इन",
+      "signup.title": "खाता बनाउनुहोस्",
+      "signup.name": "पूरा नाम",
+      "signup.phone": "मोबाइल नम्बर",
+      "signup.submit": "साइन अप",
+      "home.hi": "नमस्ते",
+      "home.title": "रिसाइकल गर्न तयार?",
+      "home.sub": "स्क्र्याप पोस्ट · पिकअप ट्र्याक · घरैमा भुक्तानी",
+      "tab.home": "होम",
+      "tab.history": "इतिहास",
+      "tab.messages": "सन्देश",
+      "tab.profile": "प्रोफाइल",
+      "tab.jobs": "जब्स",
+      "settings.title": "सेटिङ्स",
+      "settings.language": "भाषा",
+      "settings.language.hint": "एप प्रदर्शन भाषा",
+      "profile.settings": "सेटिङ्स",
+      "profile.logout": "लग आउट"
     }
   };
 
@@ -102,6 +140,7 @@
   }
 
   function setLang(code) {
+    if (!dict[code]) return;
     try {
       localStorage.setItem("gk_lang", code);
     } catch (e) {}
