@@ -15,20 +15,34 @@
       overflow: hidden;
     }
     .splash-screen .auth-wrap {
-      justify-content: center;
       position: relative;
       z-index: 1;
-      padding-bottom: 100px;
-      gap: 14px;
+      flex: 1;
+      min-height: 0;
+      justify-content: space-between;
+      align-items: center;
+      padding: 36px 24px 96px;
+      gap: 0;
+    }
+    .splash-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 28px;
+    }
+    .splash-screen .auth-brand {
+      margin: 0;
     }
     .splash-screen .auth-brand img {
-      width: min(300px, 90%);
+      width: min(260px, 78%);
       max-height: none;
     }
     .splash-pitch {
-      margin: 4px 0 8px;
+      margin: 22px 0 0;
       text-align: center;
       max-width: 300px;
+      padding: 0 4px;
     }
     .splash-pitch .lead {
       margin: 0 0 8px;
@@ -44,6 +58,14 @@
       font-weight: 600;
       line-height: 1.45;
       color: var(--gk-muted);
+    }
+    .splash-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 340px;
+      margin-bottom: 8px;
     }
     .splash-foot {
       position: absolute;
@@ -76,15 +98,19 @@
       <div class="phone-notch">9:41</div>
       <div class="Screen splash-screen">
         <div class="auth-wrap">
-          <div class="auth-brand">
-            <img src="../assets/logo-full-transparent.png" alt="GreenकBadi" />
+          <div class="splash-hero">
+            <div class="auth-brand">
+              <img src="../assets/logo-full-transparent.png" alt="GreenकBadi" />
+            </div>
+            <div class="splash-pitch">
+              <p class="lead" data-i18n="splash.lead">Sell your scrap from your doorstep.</p>
+              <p class="sub" data-i18n="splash.sub">Book a pickup, track your collector and get paid with a digital receipt.</p>
+            </div>
           </div>
-          <div class="splash-pitch">
-            <p class="lead" data-i18n="splash.lead">Sell your scrap from your doorstep.</p>
-            <p class="sub" data-i18n="splash.sub">Book a pickup, track your collector and get paid with a digital receipt.</p>
+          <div class="splash-actions">
+            <a class="Btn Btn-primary Btn-block" href="language.html" data-i18n="splash.create">Create account</a>
+            <a class="Btn Btn-outline Btn-block" href="login.html" data-i18n="splash.login">Log in</a>
           </div>
-          <a class="Btn Btn-primary Btn-block" href="language.html" data-i18n="splash.create">Create account</a>
-          <a class="Btn Btn-outline Btn-block" href="login.html" data-i18n="splash.login">Log in</a>
         </div>
         <p class="splash-foot">A Cleaner Today, A Better Tomorrow</p>
         <div class="splash-landscape" aria-hidden="true">
