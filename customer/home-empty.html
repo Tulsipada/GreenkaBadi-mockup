@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
+  <link rel="stylesheet" href="../shared/card-app.css" />
 </head>
 <body>
   <div class="phone-stage">
@@ -20,7 +21,15 @@
           <div class="big">♻️</div>
           <h3>No pickups yet</h3>
           <p>Post your first scrap item to get an Order ID.</p>
-          <a class="Btn Btn-primary" href="post.html" style="margin-top:12px;">Post scrap</a>
+          <a class="SellPrompt" href="post.html" style="margin-top:12px;max-width:280px;">
+            <span class="SellPrompt-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </span>
+            <span class="SellPrompt-text">
+              <strong>What do you want to sell today?</strong>
+              <small>Start a pickup</small>
+            </span>
+          </a>
         </div>
         <nav class="Footer">
           <a href="home.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5"/><path d="M6 9.5V21h12V9.5"/><path d="M10 21v-6h4v6"/></svg></span><span data-i18n="tab.home">Home</span></a>

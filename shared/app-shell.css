@@ -64,6 +64,10 @@
   gap: var(--s-3);
   scrollbar-gutter: stable;
 }
+/* Scroll area children must not shrink — otherwise cards/CTAs collapse & overlap */
+.ScreenScroll > * {
+  flex-shrink: 0;
+}
 
 .ScreenScroll.pad-tab {
   padding-bottom: 36px;

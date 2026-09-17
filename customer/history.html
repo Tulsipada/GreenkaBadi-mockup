@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -154,7 +154,7 @@
           tab === "active" ? "No active pickups." : "No completed pickups yet.";
         if (tab === "done" && !all.filter(isDone).length) {
           empty.innerHTML =
-            'No history yet.<br /><a class="Btn Btn-primary" href="post.html" style="margin-top:12px;display:inline-flex;">Post scrap</a>';
+            'No history yet.<br /><a class="SellPrompt" href="post.html" style="margin-top:12px;"><span class="SellPrompt-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span class="SellPrompt-text"><strong>What do you want to sell today?</strong><small>Start a pickup</small></span></a>';
         }
       } else if (!shown) {
         empty.textContent = "No pickups match your search.";

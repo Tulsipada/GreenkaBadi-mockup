@@ -842,14 +842,50 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .mini-head .ka { color: var(--gk-blue-600); }
 .mini-head small { font-size: 10px; color: var(--lp-soft); font-weight: 600; }
 .mini-post {
-  background: var(--lp-forest);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--gk-green-600), var(--lp-forest));
   color: #fff;
-  text-align: center;
-  font-weight: 800;
-  font-size: 13px;
+  text-align: left;
   padding: 12px;
   border-radius: 12px;
   margin-bottom: 14px;
+  text-decoration: none;
+}
+.mini-post-go {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+.mini-post-go svg {
+  display: block;
+}
+.mini-post-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.mini-post-copy strong {
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.mini-post-copy small {
+  font-size: 9px;
+  font-weight: 600;
+  opacity: 0.85;
 }
 .mini-cats {
   display: grid;
