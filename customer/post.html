@@ -130,7 +130,7 @@
 
           <div class="Card" id="estimateCard" style="background:var(--gk-green-50);border-color:rgba(27,107,74,0.2);">
             <span class="muted" style="font-size:12px;font-weight:700;">Estimated price (indication only)</span>
-            <div style="font-size:28px;font-weight:800;color:var(--gk-green-700);margin-top:4px;" id="estimateAmt">Rs. 0</div>
+            <div style="font-size:28px;font-weight:800;color:var(--gk-green-700);margin-top:4px;" id="estimateAmt">Rs. 500</div>
             <p class="muted" style="margin:6px 0 0;font-size:12px;" id="estimateHint">Select category, sub category and enter weight</p>
           </div>
 
@@ -251,7 +251,7 @@
       var rate = currentRate();
       var ready = subcategory.value && !isNaN(w) && w > 0 && rate > 0;
       if (!ready) {
-        document.getElementById("estimateAmt").textContent = "Rs. 0";
+        document.getElementById("estimateAmt").textContent = "Rs. 500";
         document.getElementById("estimateHint").textContent =
           "Select category, sub category and enter weight";
         return;
@@ -333,6 +333,16 @@
     });
 
     weight.addEventListener("input", updateEstimate);
+
+    function applyCategoryFromUrl() {
+      var cat = new URLSearchParams(window.location.search).get("cat");
+      if (!cat || !labels[cat]) return;
+      category.value = cat;
+      category.dispatchEvent(new Event("change"));
+    }
+
+    applyCategoryFromUrl();
+    updateEstimate();
   </script>
 </body>
 </html>
