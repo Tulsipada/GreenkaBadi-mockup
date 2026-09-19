@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Staffs · GreenकBadi</title>
+  <title>Admin - Staffs · GreenकBadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
@@ -101,8 +101,8 @@
         var tr = document.createElement("tr");
         tr.innerHTML =
           "<td><strong>" + s.name + "</strong></td>" +
-          "<td>" + (s.phone || "—") + "</td>" +
-          "<td>" + (s.login || s.email || "—") + "</td>" +
+          "<td>" + (s.phone || "-") + "</td>" +
+          "<td>" + (s.login || s.email || "-") + "</td>" +
           "<td>" + (s.jobs != null ? s.jobs : 0) + "</td>" +
           "<td>" + chip(active ? "Active" : "Inactive") + "</td>" +
           '<td><button type="button" class="Btn Btn-secondary" data-id="' +

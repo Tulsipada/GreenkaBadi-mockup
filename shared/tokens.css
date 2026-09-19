@@ -1,8 +1,8 @@
-/* GreenकBadi design tokens — RN-ready · ref: Clean | Simple | Professional */
+/* GreenकBadi design tokens - RN-ready · ref: Clean | Simple | Professional */
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 :root {
-  /* Brand — Primary Green #16A34A · Secondary Blue #2563EB */
+  /* Brand - Primary Green #16A34A · Secondary Blue #2563EB */
   --gk-green-900: #14532d;
   --gk-green-800: #166534;
   --gk-green-700: #15803d;

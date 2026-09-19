@@ -10,7 +10,7 @@
         description: "Ferrous and non-ferrous scrap",
         active: true,
         subs: [
-          { id: "copper", name: "Copper", rate: 450, unit: "kg", active: true, note: "", instruction: "Clean copper only — remove plastic coating and mixed metals. Wet or painted copper may be paid at a lower rate." },
+          { id: "copper", name: "Copper", rate: 450, unit: "kg", active: true, note: "", instruction: "Clean copper only - remove plastic coating and mixed metals. Wet or painted copper may be paid at a lower rate." },
           { id: "iron", name: "Iron", rate: 25, unit: "kg", active: true, note: "", instruction: "Separate heavy iron from light tin. Remove wood, rubber, and concrete attached to scrap." },
           { id: "aluminium", name: "Aluminium", rate: 120, unit: "kg", active: true, note: "", instruction: "Keep cast and sheet aluminium separate if possible. Remove steel screws and plastic parts." },
           { id: "steel", name: "Steel", rate: 30, unit: "kg", active: true, note: "", instruction: "No sealed cylinders or pressurised containers. Drain oil from machine parts before pickup." }
@@ -22,8 +22,8 @@
         description: "Appliances and e-waste",
         active: true,
         subs: [
-          { id: "fridge", name: "Fridge / AC", rate: 8, unit: "kg", active: true, note: "", instruction: "Empty food and water. Gas must remain sealed — do not cut pipes. Keep unit upright if possible." },
-          { id: "tv", name: "TV / Monitor", rate: 10, unit: "kg", active: true, note: "", instruction: "Include remote and stand if available. Broken screens are accepted — wrap glass for safe handling." },
+          { id: "fridge", name: "Fridge / AC", rate: 8, unit: "kg", active: true, note: "", instruction: "Empty food and water. Gas must remain sealed - do not cut pipes. Keep unit upright if possible." },
+          { id: "tv", name: "TV / Monitor", rate: 10, unit: "kg", active: true, note: "", instruction: "Include remote and stand if available. Broken screens are accepted - wrap glass for safe handling." },
           { id: "laptop", name: "Laptop / PC", rate: 40, unit: "kg", active: true, note: "", instruction: "Remove personal data if you can. Batteries and chargers can be included with the device." },
           { id: "mixed", name: "Mixed e-waste", rate: 8, unit: "kg", active: true, note: "", instruction: "No wet batteries or leaking cells. Bag small parts together so nothing is lost in transit." }
         ]

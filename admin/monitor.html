@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Transactions · GreenकBadi</title>
+  <title>Admin - Transactions · GreenकBadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
@@ -201,8 +201,8 @@
             id: t.id,
             short: t.short || ("#" + String(t.id || "").replace(/-/g, "").slice(0, 8)),
             item: t.item || t.title || "Pickup",
-            customer: t.customer || "—",
-            collector: t.collector || t.staff || "—",
+            customer: t.customer || "-",
+            collector: t.collector || t.staff || "-",
             status: t.status || "completed",
             paid: t.paid != null ? t.paid : null,
             date: t.date || todayISO(),
@@ -338,7 +338,7 @@
         var chip = chipMap[t.status] || chipMap.assigned;
         var paidHtml =
           t.paid == null
-            ? "—"
+            ? "-"
             : t.mismatch
               ? '<span style="color:var(--gk-warning);font-weight:700;">₹' + t.paid + " ⚠</span>"
               : "₹" + t.paid;

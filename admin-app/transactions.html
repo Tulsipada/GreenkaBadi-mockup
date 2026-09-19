@@ -99,8 +99,8 @@
         short: pick(t, ["short"], seed && seed.short) ||
           ("#" + id.replace(/-/g, "").slice(0, 8)),
         item: pick(t, ["item", "title", "name", "material"], seed && seed.item) || "Pickup",
-        customer: pick(t, ["customer", "customerName", "user"], seed && seed.customer) || "—",
-        collector: pick(t, ["collector", "staff", "staffName"], seed && seed.collector) || "—",
+        customer: pick(t, ["customer", "customerName", "user"], seed && seed.customer) || "-",
+        collector: pick(t, ["collector", "staff", "staffName"], seed && seed.collector) || "-",
         status: pick(t, ["status"], "completed") || "completed",
         paid: t.paid != null && t.paid !== "" ? Number(t.paid) || 0 : (seed ? seed.paid : 0),
         date: pick(t, ["date"], todayStr()) || todayStr()
@@ -126,7 +126,7 @@
 
     var staffNames = [];
     all.forEach(function (t) {
-      if (t.collector && t.collector !== "—" && staffNames.indexOf(t.collector) < 0) {
+      if (t.collector && t.collector !== "-" && staffNames.indexOf(t.collector) < 0) {
         staffNames.push(t.collector);
       }
     });
@@ -162,7 +162,7 @@
       list.innerHTML = "";
       rows.forEach(function (t) {
         var itemLabel = t.item || "Pickup";
-        var who = (t.customer || "—") + " · " + (t.collector || "—");
+        var who = (t.customer || "-") + " · " + (t.collector || "-");
         var a = document.createElement("a");
         a.className = "JobRow";
         a.href = "transaction-edit.html?id=" + encodeURIComponent(t.id);

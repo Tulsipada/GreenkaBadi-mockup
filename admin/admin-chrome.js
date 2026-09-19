@@ -1,4 +1,4 @@
-/* Admin sidebar badges — Inbox (pending) + Notifications (unread) */
+/* Admin sidebar badges - Inbox (pending) + Notifications (unread) */
 (function () {
   function notifUnread() {
     try {

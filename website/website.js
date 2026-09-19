@@ -46,7 +46,7 @@
     });
   }
 
-  /* FAQ: only one open per column feel — allow multiple, but close siblings on same side optional.
+  /* FAQ: only one open per column feel - allow multiple, but close siblings on same side optional.
      Keep native <details> behavior. */
 
   /* Indicative rates (mockup-style list; can be expanded later) */

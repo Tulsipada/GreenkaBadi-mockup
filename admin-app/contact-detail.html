@@ -43,7 +43,7 @@
     document.getElementById("name").textContent = item.name;
     document.getElementById("email").textContent = item.email;
     document.getElementById("message").textContent = item.message;
-    var subject = encodeURIComponent("Re: Green Kabadi contact — " + item.name);
+    var subject = encodeURIComponent("Re: Green Kabadi contact - " + item.name);
     var body = encodeURIComponent("Hi " + item.name + ",\n\nThanks for contacting Green Kabadi.\n\n---\nYour message:\n" + item.message);
     document.getElementById("replyBtn").href = "mailto:" + item.email + "?subject=" + subject + "&body=" + body;
   </script>

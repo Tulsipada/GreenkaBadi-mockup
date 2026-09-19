@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -8,25 +8,6 @@
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
   <link rel="stylesheet" href="../shared/card-app.css" />
-  <style>
-    @media print {
-      body { background: #fff !important; }
-      .phone-stage { padding: 0 !important; background: #fff !important; }
-      .phone-frame {
-        width: 100% !important;
-        max-width: none !important;
-        height: auto !important;
-        border: none !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-      }
-      .phone-notch,
-      .HeaderBack,
-      .no-print { display: none !important; }
-      .Screen { height: auto !important; }
-      .ScreenScroll { overflow: visible !important; padding: 0 !important; }
-    }
-  </style>
 </head>
 <body>
   <div class="phone-stage">
@@ -138,7 +119,7 @@
     document.getElementById("paidAmt").textContent = rs(receipt.amountPaid);
     document.getElementById("paidHint").textContent =
       (receipt.mode || "Cash") + " · " + (receipt.paidAt || "");
-    document.getElementById("rMaterial").textContent = receipt.material || "—";
+    document.getElementById("rMaterial").textContent = receipt.material || "-";
     document.getElementById("rWeight").textContent = (receipt.weight || 0) + " kg";
     document.getElementById("rRate").textContent = rs(receipt.rate) + " / kg";
     document.getElementById("rFinal").textContent = rs(receipt.finalAmount);

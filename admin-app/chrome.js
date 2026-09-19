@@ -1,4 +1,4 @@
-/* Shared admin mobile chrome — footer badges */
+/* Shared admin mobile chrome - footer badges */
 (function () {
   function pending() {
     try {

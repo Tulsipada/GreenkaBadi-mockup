@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Contact details · GreenकBadi</title>
+  <title>Admin - Contact details · GreenकBadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
@@ -40,7 +40,7 @@
             <div class="Card" style="padding:20px;gap:14px;">
               <div class="row" style="justify-content:space-between;align-items:flex-start;gap:12px;">
                 <div>
-                  <h2 id="name" style="margin:0;font-size:18px;color:var(--gk-green-900);">—</h2>
+                  <h2 id="name" style="margin:0;font-size:18px;color:var(--gk-green-900);">-</h2>
                   <p class="muted" id="role" style="margin:4px 0 0;"></p>
                 </div>
                 <span class="Chip Chip-waiting" id="when"></span>
@@ -107,7 +107,7 @@
     }
 
     function mailtoHref(item) {
-      var subject = encodeURIComponent("Re: GreenकBadi contact — " + (item.name || ""));
+      var subject = encodeURIComponent("Re: GreenकBadi contact - " + (item.name || ""));
       var body = encodeURIComponent(
         "Hi " + (item.name || "") + ",\n\nThanks for contacting GreenकBadi.\n\n---\nYour message:\n" +
         (item.message || "") +
@@ -121,7 +121,7 @@
     if (!item) {
       location.href = "contacts.html";
     }
-    document.getElementById("name").textContent = item.name || "—";
+    document.getElementById("name").textContent = item.name || "-";
     document.getElementById("role").textContent = item.role || "User";
     document.getElementById("when").textContent = item.at || "";
     document.getElementById("message").textContent = item.message || "";

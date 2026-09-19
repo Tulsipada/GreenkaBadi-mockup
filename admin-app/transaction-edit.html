@@ -50,8 +50,8 @@
     if (!item) location.href = "transactions.html";
 
     var label = item.item || item.title || "Transaction";
-    var customer = item.customer || "—";
-    var collector = item.collector || item.staff || "—";
+    var customer = item.customer || "-";
+    var collector = item.collector || item.staff || "-";
     document.getElementById("title").textContent = label;
     document.getElementById("meta").textContent =
       customer + " · " + collector + " · Completed";

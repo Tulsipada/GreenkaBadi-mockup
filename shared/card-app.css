@@ -312,7 +312,7 @@
   font-weight: 600;
 }
 
-/* —— Modern feed (jobs / pickups) —— */
+/* -- Modern feed (jobs / pickups) -- */
 .feed-page .Screen {
   background:
     radial-gradient(100% 55% at 0% -10%, rgba(22, 163, 74, 0.1), transparent 55%),
@@ -463,7 +463,7 @@
   display: block;
 }
 
-/* —— Customer home advanced feed —— */
+/* -- Customer home advanced feed -- */
 .HomeInsight {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
@@ -591,7 +591,7 @@
   align-self: center;
 }
 
-/* —— Messages inbox (distinct from Job rows) —— */
+/* -- Messages inbox (distinct from Job rows) -- */
 .ConvoSheet {
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(22, 163, 74, 0.06);
@@ -741,7 +741,7 @@
   letter-spacing: 0.04em;
 }
 
-/* —— Profile (identity + menu sheets) —— */
+/* -- Profile (identity + menu sheets) -- */
 .profile-main {
   position: absolute;
   left: 0;
@@ -1214,7 +1214,7 @@
   line-height: 1;
 }
 
-/* Home sell CTA — + leading, text trailing (compact) */
+/* Home sell CTA - + leading, text trailing (compact) */
 .SellPrompt {
   display: flex;
   flex-direction: row;

@@ -1,4 +1,4 @@
-/* Phone + admin shells — Flexbox only */
+/* Phone + admin shells - Flexbox only */
 
 .phone-stage {
   min-height: 100vh;
@@ -64,7 +64,7 @@
   gap: var(--s-3);
   scrollbar-gutter: stable;
 }
-/* Scroll area children must not shrink — otherwise cards/CTAs collapse & overlap */
+/* Scroll area children must not shrink - otherwise cards/CTAs collapse & overlap */
 .ScreenScroll > * {
   flex-shrink: 0;
 }
@@ -287,4 +287,83 @@
   .admin-nav a span:not(.admin-nav-badge) { display: none; }
   .admin-logout { font-size: 10px; padding: 10px 4px; text-align: center; }
   .admin-nav-badge { margin-left: 0; }
+}
+
+/* Print / Save as PDF - flatten phone mockup (no top empty space / extra page) */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .phone-stage {
+    min-height: 0 !important;
+    height: auto !important;
+    display: block !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #fff !important;
+  }
+
+  .phone-frame {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  .phone-notch,
+  .TabBar,
+  .no-print {
+    display: none !important;
+  }
+
+  .Screen {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    background: #fff !important;
+  }
+
+  .ScreenScroll {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    flex: none !important;
+    padding: 0 !important;
+    gap: 10px !important;
+  }
+
+  .Header {
+    padding-top: 0 !important;
+    margin: 0 0 10px !important;
+    box-shadow: none !important;
+  }
+
+  .HeaderBack {
+    display: none !important;
+  }
+
+  .stack {
+    gap: 10px !important;
+  }
 }

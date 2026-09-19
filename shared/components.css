@@ -1,4 +1,4 @@
-/* Reusable UI — maps to RN View/Text/Pressable/TextInput */
+/* Reusable UI - maps to RN View/Text/Pressable/TextInput */
 
 .Header {
   display: flex;
@@ -701,7 +701,7 @@
 }
 .MsgChevron svg { width: 16px; height: 16px; }
 
-/* Order ID — modern short display */
+/* Order ID - modern short display */
 .OrderId {
   display: inline-flex;
   align-items: center;

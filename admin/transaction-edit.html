@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Edit paid amount · GreenकBadi</title>
+  <title>Admin - Edit paid amount · GreenकBadi</title>
   <link rel="stylesheet" href="../shared/tokens.css" />
   <link rel="stylesheet" href="../shared/app-shell.css" />
   <link rel="stylesheet" href="../shared/components.css" />
@@ -39,20 +39,20 @@
           <div class="admin-content">
             <div class="Card" style="padding:20px;gap:14px;">
               <div>
-                <h2 id="itemTitle" style="margin:0;font-size:18px;color:var(--gk-green-900);">—</h2>
+                <h2 id="itemTitle" style="margin:0;font-size:18px;color:var(--gk-green-900);">-</h2>
                 <p class="muted" id="meta" style="margin:6px 0 0;"></p>
               </div>
               <div class="row" style="justify-content:space-between;">
                 <span class="muted">Order</span>
-                <strong id="orderId">—</strong>
+                <strong id="orderId">-</strong>
               </div>
               <div class="row" style="justify-content:space-between;">
                 <span class="muted">Collector</span>
-                <strong id="collector">—</strong>
+                <strong id="collector">-</strong>
               </div>
               <div class="row" style="justify-content:space-between;">
                 <span class="muted">Date</span>
-                <strong id="dateLabel">—</strong>
+                <strong id="dateLabel">-</strong>
               </div>
               <form class="stack" id="form" style="margin-top:8px;">
                 <div class="Field">
@@ -82,10 +82,10 @@
 
     document.getElementById("itemTitle").textContent = item.item || "Transaction";
     document.getElementById("meta").textContent =
-      (item.customer || "—") + " · Completed";
+      (item.customer || "-") + " · Completed";
     document.getElementById("orderId").textContent = item.short || item.id;
-    document.getElementById("collector").textContent = item.collector || "—";
-    document.getElementById("dateLabel").textContent = item.date || "—";
+    document.getElementById("collector").textContent = item.collector || "-";
+    document.getElementById("dateLabel").textContent = item.date || "-";
     document.getElementById("paid").value = item.paid != null ? item.paid : 0;
 
     document.getElementById("form").addEventListener("submit", function (e) {
