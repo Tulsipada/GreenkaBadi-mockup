@@ -63,7 +63,7 @@
                 <span data-i18n="settings.language">Language</span><br />
                 <span class="hint" data-i18n="settings.language.hint">App display language</span>
               </span>
-              <span class="chev" id="langHint">EN</span>
+              <span class="chev" id="langHint">English</span>
             </a>
             <div class="SettingsRow">
               <span class="SettingsIco" aria-hidden="true">
@@ -89,8 +89,8 @@
   </div>
   <script src="../shared/i18n.js"></script>
   <script>
-    var map = { en: "EN", hi: "HI", bn: "BN" };
-    document.getElementById("langHint").textContent = map[GK_I18N.getLang()] || "EN";
+    var map = { en: "English", hi: "हिन्दी", bn: "বাংলা", ne: "नेपाली" };
+    document.getElementById("langHint").textContent = map[GK_I18N.getLang()] || "English";
 
     var toggle = document.getElementById("notifToggle");
     try {
