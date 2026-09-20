@@ -134,7 +134,7 @@
               area: inboxItem.area,
               collector: "",
               status: "waiting",
-              statusLabel: "Waiting",
+              statusLabel: "Request received",
               meta: inboxItem.meta || "",
               date: "Today",
               tab: "active"
@@ -144,7 +144,7 @@
           if (job) {
             job.collector = collector;
             job.status = "assigned";
-            job.statusLabel = "Assigned";
+            job.statusLabel = "Collector assigned";
             job.tab = "active";
             GK_ADMIN_JOBS.save(jobList);
           }

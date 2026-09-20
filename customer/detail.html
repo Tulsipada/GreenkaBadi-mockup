@@ -20,7 +20,7 @@
             <h1 class="HeaderTitle" id="itemTitle">Old fridge</h1>
             <span class="HeaderSub">Pickup detail</span>
           </div>
-          <span class="Chip" id="statusChip">On the way</span>
+          <span class="Chip" id="statusChip">Request received</span>
         </header>
         <div class="ScreenScroll stack">
           <div class="OrderIdBar" id="orderBar">
@@ -39,7 +39,7 @@
             <div class="MsgAvatar" style="width:44px;height:44px;border-radius:14px;font-size:15px;">K<span class="MsgDot" id="collectorDot"></span></div>
             <div class="grow" style="min-width:0;">
               <strong style="display:block;font-size:14px;">Karim</strong>
-              <span class="muted" style="font-size:12px;" id="collectorSub">Collector · On the way</span>
+              <span class="muted" style="font-size:12px;" id="collectorSub">Collector · Request received</span>
             </div>
             <a class="Btn Btn-secondary" id="msgLink" href="chat.html" style="min-height:40px;padding:0 14px;font-size:13px;width:auto;">Message</a>
             <span class="ChatClosedLabel" id="msgClosed" hidden>Chat closed</span>
@@ -79,11 +79,11 @@
     if (status) item = Object.assign({}, item, { status: status });
 
     var chipMap = {
-      waiting: { cls: "Chip-waiting", label: "Waiting" },
-      assigned: { cls: "Chip-assigned", label: "Assigned" },
-      enroute: { cls: "Chip-enroute", label: "On the way" },
-      collected: { cls: "Chip-assigned", label: "Collected" },
-      completed: { cls: "Chip-done", label: "Completed" }
+      waiting: { cls: "Chip-waiting", label: "Request received" },
+      assigned: { cls: "Chip-assigned", label: "Collector assigned" },
+      enroute: { cls: "Chip-enroute", label: "Collector on the way" },
+      collected: { cls: "Chip-assigned", label: "Materials verified" },
+      completed: { cls: "Chip-done", label: "Payment completed" }
     };
     var chip = chipMap[item.status] || chipMap.waiting;
     var isDone = item.status === "completed";
@@ -101,11 +101,11 @@
     document.getElementById("collectorDot").style.display = isDone ? "none" : "";
 
     var steps = [
-      { key: "waiting", label: "Waiting", note: "Posted" },
-      { key: "assigned", label: "Assigned", note: "Collector Karim" },
-      { key: "enroute", label: "On the way", note: "Collector heading to you" },
-      { key: "collected", label: "Collected", note: "Verified at door" },
-      { key: "completed", label: "Completed", note: "Payment done" }
+      { key: "waiting", label: "Request received", note: "Posted" },
+      { key: "assigned", label: "Collector assigned", note: "Collector Karim" },
+      { key: "enroute", label: "Collector on the way", note: "Heading to you" },
+      { key: "collected", label: "Materials verified", note: "Checked at door" },
+      { key: "completed", label: "Payment completed", note: "Paid" }
     ];
     var orderKeys = ["waiting", "assigned", "enroute", "collected", "completed"];
     var idx = orderKeys.indexOf(item.status);

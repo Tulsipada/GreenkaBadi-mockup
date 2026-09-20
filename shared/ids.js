@@ -72,7 +72,7 @@
             {
               orderId: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
               title: "Old fridge",
-              status: "Waiting",
+              status: "Request received",
               amount: "-",
               date: "Today",
               chip: "waiting"
@@ -80,7 +80,7 @@
             {
               orderId: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
               title: "LED TV 32\"",
-              status: "On the way",
+              status: "Collector on the way",
               amount: "-",
               date: "Today",
               chip: "enroute"
@@ -95,7 +95,7 @@
       {
         orderId: "c4e2a91b-7f03-4d88-a1e6-5b2c9d0e8f14",
         title: "Old fridge",
-        status: "Waiting",
+        status: "Request received",
         amount: "-",
         date: "Today",
         chip: "waiting"
@@ -103,7 +103,7 @@
       {
         orderId: "b1d9e704-2a6c-4f15-9e8b-3c7a0d1f2e45",
         title: "LED TV 32\"",
-        status: "On the way",
+        status: "Collector on the way",
         amount: "-",
         date: "Today",
         chip: "enroute"
@@ -111,7 +111,7 @@
       {
         orderId: "a3f1c8e2-9b4d-4e71-8c2a-1f6d0e9b3a47",
         title: "Metal scrap bag",
-        status: "Completed",
+        status: "Payment completed",
         amount: "Rs. 420",
         date: "24 Aug 2026",
         chip: "done"
@@ -119,7 +119,7 @@
       {
         orderId: "6d2e4b91-0c5a-4f38-b7e1-88a2c4d5f013",
         title: "Paper cartons",
-        status: "Completed",
+        status: "Payment completed",
         amount: "Rs. 180",
         date: "20 Aug 2026",
         chip: "done"
@@ -144,7 +144,7 @@
     var item = {
       orderId: partial.orderId || uuidv4(),
       title: partial.title || "Pickup",
-      status: partial.status || "Waiting",
+      status: partial.status || "Request received",
       amount: partial.amount || "-",
       date: partial.date || new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
       chip: partial.chip || "waiting"

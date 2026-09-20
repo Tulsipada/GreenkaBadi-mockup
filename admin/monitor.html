@@ -239,9 +239,9 @@
     dateEl.value = todayISO();
 
     var chipMap = {
-      completed: { cls: "Chip-done", label: "Completed" },
-      enroute: { cls: "Chip-enroute", label: "On the way" },
-      assigned: { cls: "Chip-assigned", label: "Assigned" }
+      completed: { cls: "Chip-done", label: "Payment completed" },
+      enroute: { cls: "Chip-enroute", label: "Collector on the way" },
+      assigned: { cls: "Chip-assigned", label: "Collector assigned" }
     };
 
     var editIcon =
@@ -267,9 +267,9 @@
     function downloadCsv() {
       var rows = filtered();
       var statusLabel = {
-        completed: "Completed",
-        enroute: "On the way",
-        assigned: "Assigned"
+        completed: "Payment completed",
+        enroute: "Collector on the way",
+        assigned: "Collector assigned"
       };
       var total = 0;
       rows.forEach(function (t) {

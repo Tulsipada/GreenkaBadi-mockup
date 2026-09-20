@@ -16,7 +16,7 @@
         area: "Salt Lake Sec 2",
         collector: "",
         status: "waiting",
-        statusLabel: "Waiting",
+        statusLabel: "Request received",
         meta: "Electronics · ~40 kg",
         date: todayLabel(),
         tab: "active"
@@ -29,7 +29,7 @@
         area: "Champasari",
         collector: "Karim",
         status: "enroute",
-        statusLabel: "On the way",
+        statusLabel: "Collector on the way",
         meta: "Electronics · assigned",
         date: todayLabel(),
         tab: "active"
@@ -42,7 +42,7 @@
         area: "Bidhannagar",
         collector: "Suman",
         status: "assigned",
-        statusLabel: "Assigned",
+        statusLabel: "Collector assigned",
         meta: "Metal · ~8 kg",
         date: todayLabel(),
         tab: "active"
@@ -55,7 +55,7 @@
         area: "Champasari",
         collector: "Karim",
         status: "completed",
-        statusLabel: "Completed",
+        statusLabel: "Payment completed",
         meta: "Paid · Rs. 420",
         date: "24 Aug 2026",
         tab: "done"
@@ -68,7 +68,7 @@
         area: "Bidhannagar",
         collector: "Suman",
         status: "completed",
-        statusLabel: "Completed",
+        statusLabel: "Payment completed",
         meta: "Paid · Rs. 180",
         date: "20 Aug 2026",
         tab: "done"

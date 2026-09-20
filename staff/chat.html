@@ -67,7 +67,7 @@
       ' · <span class="OrderId OrderId-sm" style="display:inline-flex;vertical-align:middle;">' +
       GK_IDS.short(order) +
       "</span> · " +
-      (isClosed ? "Completed" : item.status === "assigned" ? "Assigned" : "On the way");
+      (isClosed ? "Payment completed" : item.status === "assigned" ? "Collector assigned" : "Collector on the way");
     document.getElementById("detailLink").href =
       "job-detail.html?order=" +
       encodeURIComponent(order) +

@@ -245,9 +245,10 @@
     var isEnroute = item.status === "enroute";
 
     var chipMap = {
-      assigned: { cls: "Chip-assigned", label: "Assigned" },
-      enroute: { cls: "Chip-enroute", label: "On the way" },
-      completed: { cls: "Chip-done", label: "Completed" }
+      assigned: { cls: "Chip-assigned", label: "Collector assigned" },
+      enroute: { cls: "Chip-enroute", label: "Collector on the way" },
+      collected: { cls: "Chip-assigned", label: "Materials verified" },
+      completed: { cls: "Chip-done", label: "Payment completed" }
     };
     var chip = chipMap[item.status] || chipMap.assigned;
 
